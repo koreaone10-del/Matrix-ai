@@ -40,8 +40,16 @@
   --safe-b: env(safe-area-inset-bottom, 0px);
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; margin: 0; }
+* { 
+  box-sizing: border-box; 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+}
+
 body {
   background: var(--bg);
   color: var(--mint);
@@ -52,6 +60,7 @@ body {
   width: 100%;
   transition: direction 0.3s ease;
 }
+
 ::selection { background: var(--green-soft); color: #fff; }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 6px; }
@@ -63,20 +72,41 @@ button, select, input, textarea { font-family: inherit; color: inherit; }
 /* ==========================================================================
    BACKGROUND EFFECTS
 ========================================================================== */
-#matrixCanvas { position: fixed; inset: 0; z-index: 0; opacity: 0.5; pointer-events: none; }
+#matrixCanvas { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 0; 
+  opacity: 0.5; 
+  pointer-events: none; 
+}
+
 #scanline {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  position: fixed; 
+  inset: 0; 
+  z-index: 1; 
+  pointer-events: none;
   background: repeating-linear-gradient(0deg, rgba(0,255,156,0.03) 0px, rgba(0,255,156,0.03) 1px, transparent 2px, transparent 3px);
   mix-blend-mode: overlay;
 }
+
 #vignette {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  position: fixed; 
+  inset: 0; 
+  z-index: 1; 
+  pointer-events: none;
   background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%);
 }
-#app { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; }
+
+#app { 
+  position: relative; 
+  z-index: 2; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
+}
 
 /* ==========================================================================
-   TOPBAR (HEADER) - FIXED LAYOUT
+   TOPBAR (HEADER)
 ========================================================================== */
 .topbar {
   display: flex;
@@ -88,8 +118,8 @@ button, select, input, textarea { font-family: inherit; color: inherit; }
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(6px);
   flex-shrink: 0;
-  flex-wrap: nowrap;
 }
+
 .icon-btn {
   width: 38px;
   height: 38px;
@@ -104,7 +134,9 @@ button, select, input, textarea { font-family: inherit; color: inherit; }
   cursor: pointer;
   flex-shrink: 0;
 }
+
 .icon-btn:active { background: var(--bg-elev2); }
+
 .brand {
   display: flex;
   align-items: center;
@@ -113,53 +145,83 @@ button, select, input, textarea { font-family: inherit; color: inherit; }
   font-weight: 700;
   letter-spacing: 0.5px;
   flex: 1;
-  min-width: 0; /* Prevents overflow pushing other items */
+  min-width: 0;
 }
+
 .brand-logo-img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   border: 1px solid var(--green-dim);
-  background: var(--bg-elev2);
+  background: #000;
   object-fit: cover;
   flex-shrink: 0;
 }
+
 .brand-text {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--mint);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .pill-btn {
   border: 1px solid var(--green-soft);
   background: var(--bg-elev);
   color: var(--green);
   border-radius: 999px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   cursor: pointer;
   white-space: nowrap;
   flex-shrink: 0;
-  max-width: 130px;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ==========================================================================
    DRAWER (SIDE MENU)
 ========================================================================== */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 30; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-.overlay.show { opacity: 1; pointer-events: auto; }
-.drawer {
-  position: fixed; top: 0; bottom: 0; right: 0;
-  width: 82%; max-width: 340px; z-index: 31;
-  background: var(--bg-elev); border-left: 1px solid var(--line);
-  transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.2,0.8,0.2,1);
-  display: flex; flex-direction: column; padding: calc(14px + var(--safe-t)) 14px 14px;
+.overlay { 
+  position: fixed; 
+  inset: 0; 
+  background: rgba(0,0,0,0.55); 
+  z-index: 30; 
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity 0.25s; 
 }
-html[dir="ltr"] .drawer { right: auto; left: 0; border-left: none; border-right: 1px solid var(--line); transform: translateX(-100%); }
+
+.overlay.show { 
+  opacity: 1; 
+  pointer-events: auto; 
+}
+
+.drawer {
+  position: fixed; 
+  top: 0; 
+  bottom: 0; 
+  right: 0;
+  width: 82%; 
+  max-width: 340px; 
+  z-index: 31;
+  background: var(--bg-elev); 
+  border-left: 1px solid var(--line);
+  transform: translateX(100%); 
+  transition: transform 0.28s cubic-bezier(0.2,0.8,0.2,1);
+  display: flex; 
+  flex-direction: column; 
+  padding: calc(14px + var(--safe-t)) 14px 14px;
+}
+
+html[dir="ltr"] .drawer { 
+  right: auto; 
+  left: 0; 
+  border-left: none; 
+  border-right: 1px solid var(--line); 
+  transform: translateX(-100%); 
+}
+
 .drawer.open { transform: translateX(0); }
 .drawer-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .drawer-head h2 { font-size: 16px; margin: 0; color: var(--green); }
@@ -172,19 +234,61 @@ html[dir="ltr"] .drawer { right: auto; left: 0; border-left: none; border-right:
 .session-item .sdel:active { color: var(--danger); }
 
 /* ==========================================================================
-   UI COMPONENTS (BUTTONS, INPUTS, ROWS)
+   UI COMPONENTS (BUTTONS, INPUTS, FORMS)
 ========================================================================== */
-.btn-primary { background: linear-gradient(180deg,#0fdc82,#00b568); color: #022014; border: none; border-radius: var(--radius-sm); padding: 11px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 0 16px rgba(0,255,156,0.25); }
+.btn-primary { 
+  background: linear-gradient(180deg,#0fdc82,#00b568); 
+  color: #022014; 
+  border: none; 
+  border-radius: var(--radius-sm); 
+  padding: 11px; 
+  font-weight: 700; 
+  font-size: 14px; 
+  cursor: pointer; 
+  box-shadow: 0 0 16px rgba(0,255,156,0.25); 
+}
 .btn-primary.full { width: 100%; }
-.btn-ghost { background: var(--bg-elev2); border: 1px solid var(--line); color: var(--mint); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13px; cursor: pointer; }
-.btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; font-size: 13px; }
-input[type=text], input[type=password], input[type=number], input[type=url], textarea, select { width: 100%; background: var(--bg); border: 1px solid var(--line); color: var(--mint); border-radius: var(--radius-sm); padding: 10px; font-size: 13.5px; }
+
+.btn-ghost { 
+  background: var(--bg-elev2); 
+  border: 1px solid var(--line); 
+  color: var(--mint); 
+  border-radius: var(--radius-sm); 
+  padding: 9px 12px; 
+  font-size: 13px; 
+  cursor: pointer; 
+}
+.btn-ghost.full { width: 100%; }
+
+.btn-danger { 
+  background: transparent; 
+  border: 1px solid var(--danger); 
+  color: var(--danger); 
+  border-radius: var(--radius-sm); 
+  padding: 9px 12px; 
+  cursor: pointer; 
+  font-size: 13px; 
+}
+.btn-danger.full { width: 100%; }
+
+input[type=text], input[type=password], input[type=number], input[type=url], textarea, select { 
+  width: 100%; 
+  background: var(--bg); 
+  border: 1px solid var(--line); 
+  color: var(--mint); 
+  border-radius: var(--radius-sm); 
+  padding: 10px; 
+  font-size: 13.5px; 
+}
 select { -webkit-appearance: none; appearance: none; }
 label.field { display: block; font-size: 12px; color: var(--mint-dim); margin: 10px 0 4px; }
-.row { display: flex; gap: 8px; } .row > * { flex: 1; }
+
+.row { display: flex; gap: 8px; } 
+.row > * { flex: 1; }
 .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
 .switch-row:last-child { border-bottom: none; }
-.switch-row .label { font-size: 13.5px; } .switch-row .sub { font-size: 11px; color: var(--mint-faint); margin-top: 2px; }
+.switch-row .label { font-size: 13.5px; } 
+.switch-row .sub { font-size: 11px; color: var(--mint-faint); margin-top: 2px; }
 
 /* ==========================================================================
    VIEWS CONTAINER
@@ -192,35 +296,81 @@ label.field { display: block; font-size: 12px; color: var(--mint-dim); margin: 1
 #views { flex: 1; overflow: hidden; position: relative; }
 .view { position: absolute; inset: 0; display: none; flex-direction: column; overflow: hidden; }
 .view.active { display: flex; }
-.scroll { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
-.pad { padding: 14px; }
+.scroll { overflow-y: auto; flex: 1; padding: 14px; -webkit-overflow-scrolling: touch; }
 
 /* ==========================================================================
    CHAT VIEW
 ========================================================================== */
-.model-strip { display: flex; gap: 6px; padding: 8px 10px; overflow-x: auto; border-bottom: 1px solid var(--line-soft); flex-shrink: 0; }
-.chip-select { flex: 0 0 auto; width: auto; max-width: 140px; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: 11.5px; color: var(--mint); }
-.switch-chip { display: flex; align-items: center; gap: 5px; flex: 0 0 auto; background: var(--bg-elev); border: 1px solid var(--line); border-radius: 999px; padding: 6px 10px; font-size: 11.5px; white-space: nowrap; }
+.model-strip { 
+  display: flex; 
+  gap: 6px; 
+  padding: 8px 10px; 
+  overflow-x: auto; 
+  border-bottom: 1px solid var(--line-soft); 
+  flex-shrink: 0; 
+}
+.chip-select { 
+  flex: 0 0 auto; 
+  width: auto; 
+  max-width: 140px; 
+  background: var(--bg-elev); 
+  border: 1px solid var(--line); 
+  border-radius: 999px; 
+  padding: 6px 10px; 
+  font-size: 11.5px; 
+  color: var(--mint); 
+}
+.switch-chip { 
+  display: flex; 
+  align-items: center; 
+  gap: 5px; 
+  flex: 0 0 auto; 
+  background: var(--bg-elev); 
+  border: 1px solid var(--line); 
+  border-radius: 999px; 
+  padding: 6px 10px; 
+  font-size: 11.5px; 
+  white-space: nowrap; 
+}
 .switch-chip input { accent-color: var(--green); }
+
 .context-bar { position: relative; height: 3px; background: var(--line-soft); flex-shrink: 0; }
 .context-fill { height: 100%; width: 0%; background: linear-gradient(90deg,var(--green-dim),var(--green)); transition: width 0.3s; }
 #contextLabel { position: absolute; left: 8px; top: 4px; font-size: 9.5px; font-family: var(--font-mono); color: var(--mint-faint); }
 html[dir="ltr"] #contextLabel { left: auto; right: 8px; }
 
-.messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
+.messages { 
+  flex: 1; 
+  overflow-y: auto; 
+  padding: 14px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  -webkit-overflow-scrolling: touch; 
+}
+
 .msg { max-width: 84%; display: flex; flex-direction: column; gap: 4px; }
 .msg.user { margin-inline-end: auto; }
 .msg.ai { margin-inline-start: auto; }
-.msg .bubble { padding: 11px 14px; border-radius: var(--radius); font-size: 14px; line-height: 1.65; white-space: normal; }
+
+.msg .bubble { 
+  padding: 11px 14px; 
+  border-radius: var(--radius); 
+  font-size: 14px; 
+  line-height: 1.65; 
+  white-space: normal; 
+}
 .msg.user .bubble { background: linear-gradient(180deg,#0d3a24,#0a2b1b); border: 1px solid var(--green-soft); border-bottom-inline-start-radius: 4px; }
 .msg.ai .bubble { background: var(--bg-elev); border: 1px solid var(--line); border-bottom-inline-end-radius: 4px; }
 .msg.system .bubble { background: transparent; border: 1px dashed var(--line); color: var(--mint-faint); font-size: 12px; text-align: center; }
 .msg .meta { font-size: 10px; color: var(--mint-faint); font-family: var(--font-mono); padding: 0 4px; }
 .msg img.att { max-width: 100%; border-radius: 10px; margin-bottom: 6px; display: block; cursor: pointer; }
-.bubble p { margin: 0 0 8px; } .bubble p:last-child { margin-bottom: 0; }
+
+/* Markdown & Code Blocks */
+.bubble p { margin: 0 0 8px; } 
+.bubble p:last-child { margin-bottom: 0; }
 .bubble code { font-family: var(--font-mono); background: rgba(0,255,156,0.08); padding: 2px 5px; border-radius: 5px; font-size: 12.5px; }
 
-/* Code Blocks */
 .code-block { margin: 8px 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; direction: ltr; }
 .code-head { display: flex; justify-content: space-between; align-items: center; background: var(--bg-elev2); padding: 6px 10px; font-family: var(--font-mono); font-size: 10.5px; color: var(--mint-faint); }
 .copy-btn { background: none; border: 1px solid var(--line); color: var(--mint-dim); border-radius: 6px; padding: 3px 8px; font-size: 10.5px; cursor: pointer; }
@@ -229,25 +379,46 @@ html[dir="ltr"] #contextLabel { left: auto; right: 8px; }
 
 /* Thinking UI */
 .temp-thinking {
-  font-size: 11px;
-  opacity: 0.5;
+  font-size: 11.5px;
+  opacity: 0.6;
   font-family: var(--font-mono);
   white-space: pre-wrap;
   margin-bottom: 8px;
-  border-left: 2px solid var(--green-soft);
-  padding-left: 8px;
+  border-inline-start: 2px solid var(--green-soft);
+  padding: 0 8px;
 }
-html[dir="rtl"] .temp-thinking { border-left: none; border-right: 2px solid var(--green-soft); padding-left: 0; padding-right: 8px; }
+
 .typing-dots span { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--green); margin: 0 2px; animation: blink 1.2s infinite; }
 .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
 .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes blink { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
 
-/* Composer */
-.composer { display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px calc(10px + var(--safe-b)); border-top: 1px solid var(--line); background: var(--bg-elev); flex-shrink: 0; }
+/* Composer & Attachments */
+.composer { 
+  display: flex; 
+  align-items: flex-end; 
+  gap: 8px; 
+  padding: 10px 12px calc(10px + var(--safe-b)); 
+  border-top: 1px solid var(--line); 
+  background: var(--bg-elev); 
+  flex-shrink: 0; 
+}
 .composer textarea { resize: none; max-height: 120px; min-height: 42px; border-radius: 20px; padding: 11px 16px; }
-.send-btn { width: 42px; height: 42px; border-radius: 50%; border: none; flex-shrink: 0; cursor: pointer; background: linear-gradient(180deg,#0fdc82,#00b568); color: #022014; font-size: 16px; box-shadow: 0 0 14px rgba(0,255,156,0.35); }
+
+.send-btn { 
+  width: 42px; 
+  height: 42px; 
+  border-radius: 50%; 
+  border: none; 
+  flex-shrink: 0; 
+  cursor: pointer; 
+  background: linear-gradient(180deg,#0fdc82,#00b568); 
+  color: #022014; 
+  font-size: 16px; 
+  box-shadow: 0 0 14px rgba(0,255,156,0.35); 
+}
 .send-btn.stop { background: linear-gradient(180deg,#ff6b7a,#e0304a); color: #fff; }
+
 .attach-preview { display: flex; gap: 8px; padding: 0 12px; flex-wrap: wrap; }
 .attach-preview img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
 .attach-preview .rm { position: relative; margin-bottom: 6px; }
@@ -255,19 +426,17 @@ html[dir="rtl"] .temp-thinking { border-left: none; border-right: 2px solid var(
 html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
 
 /* ==========================================================================
-   ARENA MODE (حلبة التنافس) - RESPONSIVE
+   ARENA MODE (حلبة التنافس)
 ========================================================================== */
 .arena-header { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .arena-results-grid {
   display: flex;
-  flex-direction: column; /* Stacks vertically on mobile for better width */
+  flex-direction: column; 
   gap: 10px;
   flex: 1;
   overflow-y: auto;
 }
-@media (min-width: 768px) {
-  .arena-results-grid { flex-direction: row; }
-}
+@media (min-width: 768px) { .arena-results-grid { flex-direction: row; } }
 .arena-col {
   flex: 1;
   display: flex;
@@ -276,7 +445,7 @@ html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
   border-radius: var(--radius);
   background: var(--bg-elev);
   overflow: hidden;
-  min-height: 250px; /* Minimum height for scrolling inside */
+  min-height: 250px; 
 }
 .arena-col-head {
   background: var(--bg-elev2);
@@ -290,12 +459,7 @@ html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.arena-col-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-  font-size: 13.5px;
-}
+.arena-col-body { flex: 1; overflow-y: auto; padding: 10px; font-size: 13.5px; }
 
 /* ==========================================================================
    IMAGE & VIDEO GENERATION
@@ -304,10 +468,12 @@ html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
 .gen-controls textarea { min-height: 60px; }
 .gen-row { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
 .gen-row select, .gen-row input { width: auto; flex: 1; min-width: 90px; font-size: 12.5px; padding: 8px; }
+
 .progress-wrap { display: none; align-items: center; gap: 8px; margin-top: 8px; font-family: var(--font-mono); font-size: 11px; }
 .progress-wrap.show { display: flex; }
 .progress-track { flex: 1; height: 6px; background: var(--line-soft); border-radius: 4px; overflow: hidden; }
 .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg,var(--green-dim),var(--green)); transition: width 0.2s; }
+
 .gallery { flex: 1; overflow-y: auto; padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .gallery-item { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg-elev); position: relative; }
 .gallery-item img, .gallery-item video { width: 100%; height: 150px; object-fit: cover; display: block; cursor: pointer; }
@@ -316,7 +482,7 @@ html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
 .gallery-empty { grid-column: 1/-1; text-align: center; color: var(--mint-faint); padding: 40px 10px; font-size: 13px; }
 
 /* ==========================================================================
-   SETTINGS & KEYS
+   KEYS & SETTINGS
 ========================================================================== */
 .provider-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; margin-bottom: 10px; background: var(--bg-elev); }
 .provider-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
@@ -326,15 +492,16 @@ html[dir="ltr"] .attach-preview .rm button { left: auto; right: -6px; }
 .status-dot.error { background: var(--danger); }
 .status-dot.needs-key { background: var(--warn); }
 .status-dot.checking { background: var(--cyan); animation: pulse 1s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
 .provider-note { font-size: 11px; color: var(--mint-faint); margin-bottom: 8px; line-height: 1.6; }
 .provider-actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
 .provider-actions button, .provider-actions a { font-size: 11.5px; padding: 7px 10px; }
+
 .keybox { position: relative; }
 .keybox button { position: absolute; left: 6px; top: 6px; background: none; border: none; color: var(--mint-faint); font-size: 14px; cursor: pointer; }
 html[dir="ltr"] .keybox button { left: auto; right: 6px; }
-.keybox input { padding-left: 32px; }
-html[dir="ltr"] .keybox input { padding-left: 10px; padding-right: 32px; }
+.keybox input { padding-inline-start: 32px; }
+
 .section-title { font-size: 12px; color: var(--green); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 8px; }
 details.settings-block { border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; background: var(--bg-elev); }
 details.settings-block summary { padding: 12px 14px; cursor: pointer; font-weight: 700; font-size: 13.5px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
@@ -361,16 +528,19 @@ details.settings-block[open] summary:after { content: '˄'; }
 .modal-box h3 { margin: 0 0 10px; color: var(--green); font-size: 16px; }
 .modal-actions { display: flex; gap: 8px; margin-top: 14px; }
 .modal-actions > * { flex: 1; }
+
 #lightbox { background: rgba(0,0,0,0.92); }
 #lightbox img, #lightbox video { max-width: 100%; max-height: 80vh; border-radius: 8px; }
 #lightbox .lb-close { position: absolute; top: calc(16px + var(--safe-t)); left: 16px; background: rgba(255,255,255,0.1); border: none; color: #fff; width: 38px; height: 38px; border-radius: 50%; font-size: 18px; }
 html[dir="ltr"] #lightbox .lb-close { left: auto; right: 16px; }
 #lightbox .lb-dl { position: absolute; top: calc(16px + var(--safe-t)); right: 16px; background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 12px; text-decoration: none; }
 html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
+
 .usage-row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 8px 0; border-bottom: 1px solid var(--line-soft); }
 .usage-row b { color: var(--green); font-family: var(--font-mono); }
 .usage-bar-track { height: 5px; background: var(--line-soft); border-radius: 4px; margin-top: 5px; overflow: hidden; }
 .usage-bar-fill { height: 100%; background: var(--green-dim); }
+
 .toast {
   position: fixed; bottom: calc(90px + var(--safe-b)); left: 50%; transform: translateX(-50%) translateY(20px);
   background: var(--bg-elev2); border: 1px solid var(--line); color: var(--mint);
@@ -381,24 +551,27 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
 </style>
 </head>
 <body>
+<!-- Matrix Rain Background -->
 <canvas id="matrixCanvas" aria-hidden="true"></canvas>
 <div id="scanline" aria-hidden="true"></div>
 <div id="vignette" aria-hidden="true"></div>
 
 <div id="app">
+  <!-- TOPBAR -->
   <header class="topbar">
     <button id="btnSessions" class="icon-btn" aria-label="الجلسات">☰</button>
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/koreaone10-del/Matrix-ai/main/file_00000000126471f4ae0493b88487bb3c.png" 
+      <img src="https://raw.githubusercontent.com/koreaone10-del/Matrix-ai/main/logo.png" 
            onerror="this.src='https://ui-avatars.com/api/?name=CL&background=00ff9c&color=000'" 
            class="brand-logo-img" alt="Logo">
-      <span class="brand-text" data-i18n="appName">Chibani AI 🇩🇿</span>
+      <span class="brand-text" data-i18n="appName">Chibani Lotfi AI 🇩🇿</span>
     </div>
     <button id="btnLangToggle" class="icon-btn" style="font-size:12px; font-weight:bold;">EN</button>
     <button id="btnUsage" class="pill-btn" aria-label="الاستخدام"><span id="tokenPillText">0 Tkn · $0.0</span></button>
   </header>
 
   <main id="views">
+    <!-- CHAT VIEW -->
     <section id="view-chat" class="view active">
       <div class="model-strip">
         <select id="chatProviderSelect" class="chip-select" aria-label="المزوّد"></select>
@@ -408,16 +581,22 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
         <span class="switch-chip" style="color:var(--mint-dim);" data-i18n="autoTuneInfo">⚡ ضبط آلي للحرارة</span>
       </div>
       <div class="context-bar"><div id="contextFill" class="context-fill"></div><span id="contextLabel">0%</span></div>
+      
       <div id="chatMessages" class="messages"></div>
+      
       <div id="attachPreview" class="attach-preview"></div>
+      
       <div class="composer">
-        <button id="btnAttach" class="icon-btn" title="إرفاق صورة" aria-label="إرفاق صورة">📎</button>
+        <!-- Native file input attached to a label for universal mobile support -->
+        <label for="fileInput" class="icon-btn" style="margin:0; flex-shrink:0; cursor:pointer;" title="إرفاق صورة">📎</label>
+        <input type="file" id="fileInput" accept="image/*" style="display:none;">
+        
         <textarea id="chatInput" rows="1" data-i18n-ph="chatPlaceholder" placeholder="اكتب رسالتك... (Enter للإرسال)"></textarea>
         <button id="btnSend" class="send-btn" aria-label="إرسال">➤</button>
       </div>
-      <input type="file" id="fileInput" accept="image/*" hidden>
     </section>
 
+    <!-- ARENA VIEW -->
     <section id="view-arena" class="view">
       <div class="pad" style="display:flex; flex-direction:column; height:100%;">
         <div class="arena-header">
@@ -442,6 +621,7 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
       </div>
     </section>
 
+    <!-- IMAGE VIEW -->
     <section id="view-image" class="view">
       <div class="gen-controls">
         <textarea id="imgPrompt" data-i18n-ph="imgPlaceholder" placeholder="صف الصورة التي تريد توليدها..."></textarea>
@@ -459,6 +639,7 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
       <div id="imgGallery" class="gallery"><div class="gallery-empty" data-i18n="emptyGallery">لا توجد صور بعد ✨</div></div>
     </section>
 
+    <!-- VIDEO VIEW -->
     <section id="view-video" class="view">
       <div class="gen-controls">
         <textarea id="vidPrompt" data-i18n-ph="vidPlaceholder" placeholder="صف الفيديو الذي تريد توليده..."></textarea>
@@ -470,22 +651,23 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
           </select>
           <select id="vidAspect"><option value="16:9">أفقي 16:9</option><option value="9:16">عمودي 9:16</option></select>
         </div>
-        <label class="switch-chip" style="margin-top:8px; width:fit-content;"><input type="checkbox" id="vidAudio"> <span data-i18n="withAudio">صوت مرافق</span></label>
         <div class="gen-row"><button id="btnGenVideo" class="btn-primary full" data-i18n="genVideoBtn">🎬 توليد الفيديو</button></div>
         <div class="progress-wrap" id="vidProgressWrap"><div class="progress-track"><div class="progress-fill" id="vidProgressFill"></div></div><span id="vidProgressLabel">0%</span></div>
-        <div class="provider-note" data-i18n="videoNote">⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — نزّلها إذا أردت الاحتفاظ بها.</div>
+        <div class="provider-note" data-i18n="videoNote" style="margin-top:10px;">⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — نزّلها إذا أردت الاحتفاظ بها.</div>
       </div>
       <div id="vidGallery" class="gallery"><div class="gallery-empty" data-i18n="emptyVideo">لا توجد فيديوهات بعد ✨</div></div>
     </section>
 
+    <!-- KEYS VIEW -->
     <section id="view-keys" class="view">
       <div class="scroll pad">
-        <div class="provider-note" style="margin-bottom:10px; font-size:12px;" data-i18n="corsNote">⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات (مثل Nvidia و HF) لتتمكن من استخدامها من المتصفح مباشرة.</div>
+        <div class="provider-note" style="margin-bottom:10px; font-size:12px;" data-i18n="corsNote">⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات لتتمكن من استخدامها من المتصفح مباشرة.</div>
         <div id="providersList"></div>
         <button id="btnAddCustomProvider" class="btn-ghost full" style="margin-top:6px;" data-i18n="addCustomProv">+ إضافة مزوّد مخصّص</button>
       </div>
     </section>
 
+    <!-- SETTINGS VIEW -->
     <section id="view-settings" class="view">
       <div class="scroll pad">
         <details class="settings-block" open>
@@ -535,13 +717,14 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
         <details class="settings-block">
           <summary data-i18n="aboutLbl">ℹ️ حول</summary>
           <div class="settings-body about-box">
-            <p><b>Chibani AI:</b> منصة متكاملة للذكاء الاصطناعي مع دعم CORS مدمج وحلبة تنافس للنماذج.</p>
+            <p><b>Chibani Lotfi AI:</b> منصة متكاملة للذكاء الاصطناعي مع دعم CORS مدمج وحلبة تنافس للنماذج.</p>
           </div>
         </details>
       </div>
     </section>
   </main>
 
+  <!-- BOTTOM NAV -->
   <nav class="bottomnav">
     <button class="nav-btn active" data-view="chat">💬<span data-i18n="navChat">دردشة</span></button>
     <button class="nav-btn" data-view="arena">⚔️<span data-i18n="navArena">حلبة</span></button>
@@ -552,6 +735,7 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
   </nav>
 </div>
 
+<!-- DRAWER OVERLAY & MENU -->
 <div id="drawerOverlay" class="overlay"></div>
 <aside id="sessionsDrawer" class="drawer">
   <div class="drawer-head"><h2 data-i18n="drawerTitle">الجلسات</h2><button id="btnCloseSessions" class="icon-btn">✕</button></div>
@@ -559,6 +743,7 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
   <div id="sessionsList" class="sessions-list"></div>
 </aside>
 
+<!-- MODALS -->
 <div id="lightbox" class="modal">
   <button class="lb-close" id="lbClose">✕</button>
   <a class="lb-dl" id="lbDownload" download>⬇ تنزيل</a>
@@ -604,9 +789,9 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
 
 <div id="welcomeModal" class="modal">
   <div class="modal-box">
-    <h3>⌗ أهلاً بك في Chibani AI</h3>
+    <h3>⌗ أهلاً بك في Chibani Lotfi AI</h3>
     <div class="about-box">
-      <p>هذا التطبيق يعمل <b>بمفاتيحك الخاصة (BYOK)</b> مع نظام وكيل مدمج لتشغيل كل النماذج.</p>
+      <p>هذا التطبيق يعمل <b>بمفاتيحك الخاصة (BYOK)</b> مع نظام وكيل مدمج لتشغيل كل النماذج بأمان.</p>
       <p>1) افتح تبويب <b>🔑 مفاتيح</b><br>2) اختر مزوّداً (Pollinations يعمل مجاناً)<br>3) الصق المفتاح (إن وجد) واضغط "اختبار الاتصال"</p>
     </div>
     <div class="modal-actions"><button class="btn-primary full" id="welcomeOk">فهمت، لنبدأ</button></div>
@@ -615,12 +800,16 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
 
 <div id="toast" class="toast"></div>
 
+<!-- ==========================================================================
+     MAIN JAVASCRIPT LOGIC
+========================================================================== -->
 <script>
 'use strict';
 
 /* ---------- Matrix rain background ---------- */
 (function initMatrixRain(){
-  var canvas = document.getElementById('matrixCanvas'); var ctx = canvas.getContext('2d');
+  var canvas = document.getElementById('matrixCanvas'); 
+  var ctx = canvas.getContext('2d');
   var w, h, cols, drops, fontSize = 15;
   var glyphs = ('アイウエオカキクケコサシスセソタチツテト0123456789' + 'ابجدهوزحطيكلمنسعفصقرشتثخذضظغأإةى').split('');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -660,32 +849,33 @@ html[dir="ltr"] #lightbox .lb-dl { right: auto; left: 16px; }
 /* ---------- Translation System (EN/AR) ---------- */
 const i18n = {
   ar: {
-    appName: "Chibani AI 🇩🇿", navChat: "دردشة", navArena: "حلبة", navImages: "صور", navVideo: "فيديو", navKeys: "مفاتيح", navSettings: "إعدادات",
+    appName: "Chibani Lotfi AI 🇩🇿", navChat: "دردشة", navArena: "حلبة", navImages: "صور", navVideo: "فيديو", navKeys: "مفاتيح", navSettings: "إعدادات",
     autoSwitch: "تبديل تلقائي", autoSwitchSub: "ينتقل تلقائياً لمزوّد آخر عند تعطل الحالي", thinking: "تفكير", autoTuneInfo: "⚡ ضبط آلي للحرارة",
     chatPlaceholder: "اكتب رسالتك... (Enter للإرسال)", arenaPlaceholder: "اطرح سؤالاً لتشاهد تنافس النموذجين...", waitingForArena: "بانتظار الإرسال...",
     imgPlaceholder: "صف الصورة التي تريد توليدها...", genImageBtn: "🎨 توليد الصورة", emptyGallery: "لا توجد صور بعد ✨",
-    vidPlaceholder: "صف الفيديو الذي تريد توليده...", withAudio: "صوت مرافق", genVideoBtn: "🎬 توليد الفيديو", emptyVideo: "لا توجد فيديوهات بعد ✨", videoNote: "⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق.",
+    vidPlaceholder: "صف الفيديو الذي تريد توليده...", genVideoBtn: "🎬 توليد الفيديو", emptyVideo: "لا توجد فيديوهات بعد ✨", videoNote: "⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق.",
     drawerTitle: "الجلسات", newSession: "+ جلسة جديدة", sysSettings: "⚙️ إعدادات النظام", periodicCheckLbl: "فحص المزودين دورياً",
     corsProxyLbl: "رابط وكيل CORS (للمزودات المحمية)", fallbackOrderLbl: "ترتيب التبديل التلقائي", remoteUpdates: "🔄 التحديث المستمر", remoteJsonLbl: "رابط ملف الإعدادات عن بُعد (JSON)",
     fetchNow: "جلب الآن", pricingEst: "💰 تسعير تقديري", dataManage: "🗑️ البيانات", exportSessions: "تصدير كل الجلسات (JSON)", clearDead: "مسح المزودين المعطّلين مؤقتاً",
     deleteAll: "حذف كل البيانات المحلية", aboutLbl: "ℹ️ حول", addCustomProv: "+ إضافة مزوّد مخصّص", usageTitle: "📊 الاستخدام والتوكنز",
     closeBtn: "إغلاق", cancelBtn: "إلغاء", confirmBtn: "تأكيد", saveBtn: "حفظ",
-    corsNote: "⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات (مثل Nvidia و HF) لتتمكن من استخدامها من المتصفح مباشرة."
+    corsNote: "⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات لتتمكن من استخدامها من المتصفح مباشرة."
   },
   en: {
-    appName: "Chibani AI 🇩🇿", navChat: "Chat", navArena: "Arena", navImages: "Images", navVideo: "Video", navKeys: "Keys", navSettings: "Settings",
+    appName: "Chibani Lotfi AI 🇩🇿", navChat: "Chat", navArena: "Arena", navImages: "Images", navVideo: "Video", navKeys: "Keys", navSettings: "Settings",
     autoSwitch: "Auto Fallback", autoSwitchSub: "Switches automatically if provider fails", thinking: "Think", autoTuneInfo: "⚡ Auto Temp Tuning",
     chatPlaceholder: "Type your message... (Enter to send)", arenaPlaceholder: "Ask a question to see models compete...", waitingForArena: "Waiting for prompt...",
     imgPlaceholder: "Describe the image to generate...", genImageBtn: "🎨 Generate Image", emptyGallery: "No images yet ✨",
-    vidPlaceholder: "Describe the video to generate...", withAudio: "Include Audio", genVideoBtn: "🎬 Generate Video", emptyVideo: "No videos yet ✨", videoNote: "⚠️ Videos are not saved locally after app closes.",
+    vidPlaceholder: "Describe the video to generate...", genVideoBtn: "🎬 Generate Video", emptyVideo: "No videos yet ✨", videoNote: "⚠️ Videos are not saved locally after app closes.",
     drawerTitle: "Sessions", newSession: "+ New Session", sysSettings: "⚙️ System Settings", periodicCheckLbl: "Periodic Provider Check",
     corsProxyLbl: "CORS Proxy URL (for protected APIs)", fallbackOrderLbl: "Fallback Order", remoteUpdates: "🔄 Remote Updates", remoteJsonLbl: "Remote Config URL (JSON)",
     fetchNow: "Fetch Now", pricingEst: "💰 Estimated Pricing", dataManage: "🗑️ Data Management", exportSessions: "Export All Sessions (JSON)", clearDead: "Clear Temporarily Disabled Providers",
     deleteAll: "Delete All Local Data", aboutLbl: "ℹ️ About", addCustomProv: "+ Add Custom Provider", usageTitle: "📊 Usage & Tokens",
     closeBtn: "Close", cancelBtn: "Cancel", confirmBtn: "Confirm", saveBtn: "Save",
-    corsNote: "⚠️ <b>CORS Proxy System:</b> App includes a silent proxy to bypass restrictions for providers like Nvidia & HF directly from browser."
+    corsNote: "⚠️ <b>CORS Proxy System:</b> App includes a silent proxy to bypass restrictions for protected providers directly from browser."
   }
 };
+
 let currentLang = 'ar';
 
 function translateUI() {
@@ -708,8 +898,8 @@ function qsa(sel, root){ return Array.prototype.slice.call((root||document).quer
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function nowStr(){ return new Date().toLocaleTimeString(currentLang, {hour:'2-digit', minute:'2-digit'}); }
-var toastTimer = null;
 
+var toastTimer = null;
 function toast(msg, ms){ 
     var t = $('toast'); 
     t.textContent = msg; 
@@ -717,10 +907,7 @@ function toast(msg, ms){
     clearTimeout(toastTimer); 
     toastTimer = setTimeout(()=>t.classList.remove('show'), ms||3200); 
 }
-
-function fmtNum(n){ 
-    return Number(n||0).toLocaleString('en-US'); 
-}
+function fmtNum(n){ return Number(n||0).toLocaleString('en-US'); }
 
 /* ---------- Auto-Tuning Logic (Smart Sensing) ---------- */
 function getAutoTuningParams(promptText) {
@@ -734,8 +921,7 @@ function getAutoTuningParams(promptText) {
 }
 
 /* ---------- Provider registry ---------- */
-// Updated default models to point to the newest and best working endpoints.
-var DEFAULT_PROVIDERS = [
+const DEFAULT_PROVIDERS = [
   { id:'pollinations', name:'Pollinations', kind:'openai-compat', baseUrl:'https://text.pollinations.ai/openai', chatPath:'', modelsPath:'', keyless:true, signupUrl:'https://pollinations.ai', signupNote:'يعمل مجاناً وبدون مفتاح.', defaultModel:'openai', staticModels: ['openai', 'qwen', 'llama', 'mistral', 'claude', 'deepseek', 'deepseek-reasoner'], supportsImage:true, supportsVideo:true },
   { id:'groq', name:'Groq', kind:'openai-compat', baseUrl:'https://api.groq.com/openai/v1', chatPath:'/chat/completions', modelsPath:'/models', keyless:false, signupUrl:'https://console.groq.com/keys', signupNote:'تسجيل بالإيميل. استدلال فائق السرعة.', defaultModel:'llama-3.3-70b-versatile' },
   { id:'nvidia', name:'Nvidia NIM', kind:'openai-compat', baseUrl:'https://integrate.api.nvidia.com/v1', chatPath:'/chat/completions', modelsPath:'', keyless:false, needsCors:true, signupUrl:'https://build.nvidia.com/', signupNote:'يحتاج مفتاح يبدأ بـ nvapi-. يتطلب تفعيل CORS Proxy.', defaultModel:'meta/llama-3.1-70b-instruct', staticModels:['meta/llama-3.1-70b-instruct', 'nvidia/nemotron-4-340b-instruct'] },
@@ -746,9 +932,9 @@ var DEFAULT_PROVIDERS = [
   { id:'gemini', name:'Google Gemini', kind:'openai-compat', baseUrl:'https://generativelanguage.googleapis.com/v1beta/openai', chatPath:'/chat/completions', modelsPath:'/models', keyless:false, signupUrl:'https://aistudio.google.com/apikey', signupNote:'تسجيل بحساب Google فقط.', defaultModel:'gemini-2.5-flash', staticModels:['gemini-2.5-flash','gemini-2.5-flash-lite','gemini-2.0-flash','gemma-3-27b-it'], supportsImage:true }
 ];
 
-/* ---------- State & DeadMap ---------- */
-var LS_KEY = 'matrixAI_state_v1';
-var LS_DEAD = 'matrixAI_deadmap_v1';
+/* ---------- State & DeadMap (USING V3 TO FORCE RESET) ---------- */
+var LS_KEY = 'CL_AI_STATE_V3';
+var LS_DEAD = 'CL_AI_DEADMAP_V3';
 var state = null; 
 var deadMap = {};
 
@@ -806,25 +992,15 @@ function loadState(){
 }
 
 function saveState(){ 
-    try { 
-        localStorage.setItem(LS_KEY, JSON.stringify(state)); 
-    } catch(e) { 
-        toast('⚠️ تعذر حفظ البيانات'); 
-    } 
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch(e) { toast('⚠️ تعذر حفظ البيانات'); } 
 }
 
 function loadDeadMap(){ 
-    try { 
-        return JSON.parse(localStorage.getItem(LS_DEAD) || '{}'); 
-    } catch(e) { 
-        return {}; 
-    } 
+    try { return JSON.parse(localStorage.getItem(LS_DEAD) || '{}'); } catch(e) { return {}; } 
 }
 
 function saveDeadMap(){ 
-    try { 
-        localStorage.setItem(LS_DEAD, JSON.stringify(deadMap)); 
-    } catch(e) {} 
+    try { localStorage.setItem(LS_DEAD, JSON.stringify(deadMap)); } catch(e) {} 
 }
 
 function allProviders(){ return state.providers.concat(state.customProviders); }
@@ -1066,7 +1242,6 @@ function buildMessageEl(m){
   var html = '';
   if (m.image) html += `<img class="att" src="${m.image}">`;
   
-  // Render completed message (no temporary thinking UI here, only final logic if saved)
   html += renderMarkdown(m.content||''); 
   
   bubble.innerHTML = html; 
@@ -1099,14 +1274,8 @@ function updateContextBar(){
 }
 
 function renderMarkdown(text){
-  // Handle `<think>` tags internally by hiding them completely if they are closed, 
-  // or stripping them if we want a clean output.
   var html = text;
-  
-  // Strip <think> tags completely in final render to satisfy user request.
-  // The streaming logic will handle the temporary UI.
   html = html.replace(/<think>[\s\S]*?(?:<\/think>|$)/g, '');
-  
   html = escapeHtml(html.trim());
   html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, (m, lang, code) => {
     var id = 'code_' + uid();
@@ -1293,8 +1462,6 @@ async function sendChatMessage(){
           accReasoning += delta;
         }
         
-        // --- SMART UI LOGIC FOR THINKING ---
-        // If there's an explicit <think> tag generated in content, parse it.
         let displayHtml = accText;
         let thinkMatch = accText.match(/<think>([\s\S]*?)(?:<\/think>|$)/);
         
@@ -1303,16 +1470,13 @@ async function sendChatMessage(){
             let afterThink = accText.replace(/<think>[\s\S]*?(?:<\/think>|$)/, '').trim();
             
             if (afterThink.length > 0) {
-               // We have real answer content after thinking, so completely hide the thinking!
                displayHtml = afterThink;
             } else {
-               // Still thinking, show the temporary transparent UI
-               displayHtml = `<div class="temp-thinking">🧠 يفكر...\n${escapeHtml(thinkContent)}</div>`;
+               displayHtml = `<div class="temp-thinking">🧠 ${currentLang==='ar'?'يفكر...':'Thinking...'}\n${escapeHtml(thinkContent)}</div>`;
             }
         } 
         else if (accReasoning.length > 0 && accText.length === 0) {
-            // Native reasoning (via 'reasoning' delta)
-            displayHtml = `<div class="temp-thinking">🧠 يفكر...\n${escapeHtml(accReasoning)}</div>`;
+            displayHtml = `<div class="temp-thinking">🧠 ${currentLang==='ar'?'يفكر...':'Thinking...'}\n${escapeHtml(accReasoning)}</div>`;
         }
         
         aiBubbleInner.innerHTML = renderMarkdown(displayHtml);
@@ -1322,7 +1486,6 @@ async function sendChatMessage(){
         var tOut = usage && usage.completion_tokens ? usage.completion_tokens : estimateTokens(fullText);
         var tIn = usage && usage.prompt_tokens ? usage.prompt_tokens : tokensInEstimate;
         
-        // Save the final message without the temporary UI logic
         session.messages.push({role:'assistant', content:fullText, reasoning:reasoningText||null, time:nowStr(), providerId:provider.id, model:model});
         addUsage(session, provider.id, tIn, tOut); 
         updateContextBar();
@@ -1340,14 +1503,14 @@ async function sendChatMessage(){
       
     } catch(err) {
       if (err.name === 'AbortError'){ 
-          aiBubbleInner.innerHTML += ' <em style="color:var(--mint-faint)">(أوقفه المستخدم)</em>'; 
+          aiBubbleInner.innerHTML += ` <em style="color:var(--mint-faint)">(${currentLang==='ar'?'أوقفه المستخدم':'Stopped by user'})</em>`; 
           isStreaming = false; 
           setSendButtonState(false); 
           return; 
       }
       markDead(provider.id, model, err); 
       aiBubbleWrap.remove();
-      appendMessage('system', '⚠️ فشل '+(provider.name||provider.id)+'/'+model+': '+err.message+' — '+(i<chain.length-1?'جارٍ تجربة مزوّد آخر...':'لا مزوّد آخر متاح.'));
+      appendMessage('system', `⚠️ فشل ${provider.name||provider.id}/${model}: ${err.message} — ${i<chain.length-1?'جارٍ تجربة مزوّد آخر...':'لا مزوّد آخر متاح.'}`);
     }
   }
   isStreaming = false; 
@@ -1376,6 +1539,18 @@ function autoGrow(el){
     el.style.height='auto'; 
     el.style.height=Math.min(el.scrollHeight,120)+'px'; 
 }
+
+$('fileInput').addEventListener('change', (e) => {
+    var file = e.target.files[0]; 
+    if (!file) return;
+    var reader = new FileReader(); 
+    reader.onload = () => { 
+        pendingAttachment = reader.result; 
+        $('attachPreview').innerHTML = `<div class="rm"><img src="${reader.result}"><button id="rmAttach">✕</button></div>`; 
+        $('rmAttach').addEventListener('click', clearAttachment); 
+    }; 
+    reader.readAsDataURL(file);
+});
 
 /* ---------- ARENA MODE (حلبة التنافس) ---------- */
 async function startArenaBattle(){
@@ -1908,19 +2083,6 @@ function initEvents(){
           isStreaming=false; 
           setSendButtonState(false); 
       } else sendChatMessage(); 
-  });
-  
-  $('btnAttach').addEventListener('click', () => $('fileInput').click());
-  $('fileInput').addEventListener('change', (e) => {
-    var file = e.target.files[0]; 
-    if (!file) return;
-    var reader = new FileReader(); 
-    reader.onload = () => { 
-        pendingAttachment = reader.result; 
-        $('attachPreview').innerHTML = `<div class="rm"><img src="${reader.result}"><button id="rmAttach">✕</button></div>`; 
-        $('rmAttach').addEventListener('click', clearAttachment); 
-    }; 
-    reader.readAsDataURL(file);
   });
   
   $('chatProviderSelect').addEventListener('change', async (e) => { 
