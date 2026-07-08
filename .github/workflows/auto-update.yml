@@ -1,0 +1,34 @@
+name: بوت التحديث التلقائي للمزودين
+
+on:
+  schedule:
+    # سيقوم البوت بالعمل تلقائياً كل يوم الساعة 12 منتصف الليل
+    - cron: '0 0 * * *'
+  workflow_dispatch: {} # يتيح لك تشغيله يدوياً بضغطة زر إذا أردت
+
+permissions:
+  contents: write # إذن للسماح للبوت بالكتابة وتحديث الملف في مستودعك
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: جلب الملفات من المستودع
+        uses: actions/checkout@v4
+
+      - name: إعداد لغة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: تشغيل سكربت جلب النماذج الذكي
+        run: python update_models.py
+
+      - name: حفظ التغييرات ورفعها إلى GitHub تلقائياً
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "MatrixAI-Bot"
+          git add config.json
+          # لن يقوم بالرفع إلا إذا وُجد تحديث حقيقي في النماذج منعاً للإزعاج
+          git diff-index --quiet HEAD || git commit -m "🔄 تحديث تلقائي للنماذج والمزودين المستقرة والمجانية"
+          git push
