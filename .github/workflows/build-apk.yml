@@ -1,0 +1,159 @@
+# =========================================================================
+# بناء MATRIX AI كـ APK أندرويد — تلقائياً عبر GitHub Actions
+# =========================================================================
+# طريقة الاستخدام:
+#   1) ضع ملف matrix-ai.html في جذر المستودع (repo root).
+#   2) ضع هذا الملف في: .github/workflows/build-apk.yml
+#   3) ادفع (push) — سيبني تلقائياً APK "Debug" يعمل فوراً بدون أي إعداد.
+#
+# كل push يبني ملف APK جديد ويحدّث Release باسم "latest" — رابط التنزيل
+# ثابت دائماً، تفتحه من هاتفك وتضغط تثبيت.
+#
+# --- لتفعيل توقيع Release (اختياري، لاحقاً) ---
+# أضف 4 أسرار في: الإعدادات (Settings) > Secrets and variables > Actions
+#   ANDROID_KEYSTORE_BASE64   → ناتج: openssl base64 -A -in your.keystore
+#   ANDROID_KEYSTORE_PASSWORD
+#   ANDROID_KEY_ALIAS
+#   ANDROID_KEY_PASSWORD
+# لإنشاء keystore جديد إن لم يكن لديك واحد (من Termux مثلاً):
+#   keytool -genkeypair -v -keystore release.keystore -alias matrixai \
+#     -keyalg RSA -keysize 2048 -validity 10000
+# بمجرد إضافة الأسرار، ستظهر نسخة "release-signed" تلقائياً في كل بناء
+# القادم — بدون أي تعديل على هذا الملف.
+# =========================================================================
+
+name: بناء MATRIX AI (APK)
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'matrix-ai.html'
+      - '.github/workflows/build-apk.yml'
+  workflow_dispatch: {}
+
+env:
+  SOURCE_HTML: matrix-ai.html          # غيّر هذا إن أعدت تسمية الملف
+  APP_NAME: "MATRIX AI"                # الاسم الظاهر تحت أيقونة التطبيق
+  APP_ID: com.chibanilotfi.matrixai    # معرّف الحزمة (لا تغيّره بعد أول تثبيت)
+
+permissions:
+  contents: write   # مطلوب لإنشاء/تحديث Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HAS_SIGNING: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # يضمن قبول تراخيص Android SDK تلقائياً — هذا بالضبط ما سبب مشاكل
+      # سابقاً عند الإعداد اليدوي، فنستخدم أداة مخصصة له بدل الاعتماد
+      # على أن صورة الـ runner جاهزة مسبقاً.
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic   # مفتوح المصدر بالكامل، بدون قيود ترخيص
+
+      - name: تجهيز ملفات الويب
+        run: |
+          if [ ! -f "$SOURCE_HTML" ]; then
+            echo "::error::لم يتم العثور على $SOURCE_HTML في جذر المستودع"
+            exit 1
+          fi
+          mkdir -p www
+          cp "$SOURCE_HTML" www/index.html
+
+      - name: تثبيت Capacitor
+        run: |
+          [ -f package.json ] || npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+
+      - name: تهيئة مشروع Capacitor
+        run: npx cap init "$APP_NAME" "$APP_ID" --web-dir www
+
+      - name: إضافة منصّة أندرويد
+        run: npx cap add android
+
+      - name: مزامنة ملفات الويب داخل مشروع أندرويد
+        run: npx cap sync android
+
+      # كل تشغيل يُنشئ مشروع أندرويد من الصفر (لا نحفظه في المستودع)، لذا
+      # نجعل رقم الإصدار يزيد تلقائياً حتى تستطيع تثبيت نسخة فوق أخرى
+      # بدون الحاجة لإزالة القديمة أولاً في كل مرة.
+      - name: ترقيم الإصدار تلقائياً
+        working-directory: android
+        run: |
+          sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/" app/build.gradle
+          sed -i "s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" app/build.gradle
+
+      - name: بناء Debug APK (يعمل فوراً بدون توقيع خاص)
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: بناء Release APK (غير موقّع)
+        if: env.HAS_SIGNING == 'true'
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: توقيع Release APK
+        if: env.HAS_SIGNING == 'true'
+        id: sign_app
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: android/app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "36.0.0"   # يطابق compileSdk 36 المستخدم حالياً
+
+      - name: تجميع ملفات APK النهائية
+        run: |
+          mkdir -p release-apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk \
+             "release-apk/MatrixAI-debug-build${{ github.run_number }}.apk"
+          if [ "${HAS_SIGNING}" = "true" ]; then
+            cp "${{ steps.sign_app.outputs.signedReleaseFile }}" \
+               "release-apk/MatrixAI-release-signed-build${{ github.run_number }}.apk"
+          fi
+
+      - name: رفع كنتاج بناء (Artifact) — سجل تاريخي
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-ai-apk-build${{ github.run_number }}
+          path: release-apk/*.apk
+          retention-days: 30
+
+      - name: نشر/تحديث GitHub Release (رابط تنزيل ثابت)
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: latest
+          name: "MATRIX AI — أحدث بناء (#${{ github.run_number }})"
+          body: |
+            🔄 بناء تلقائي رقم ${{ github.run_number }} عبر GitHub Actions.
+
+            📲 حمّل ملف الـ APK بالأسفل وثبّته على هاتفك (فعّل "السماح بالتثبيت
+            من مصادر غير معروفة" إن طلب أندرويد ذلك أول مرة).
+            - ملف "debug": يعمل فوراً، بدون أي إعداد إضافي.
+            - ملف "release-signed" (إن وُجد): موقّع بمفتاحك الخاص، مناسب للاستخدام الدائم/النشر.
+          files: release-apk/*.apk
