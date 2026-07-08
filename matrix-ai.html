@@ -8,8 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <title>Chibani Lotfi ai 🇩🇿</title>
+    <title>Chibani Lotfi AI 🇩🇿</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,64 +16,65 @@
     
     <style>
         /* ==========================================================================
-           CSS VARIABLES & GLOBAL STYLES
+           1. CSS VARIABLES & CORE SETUP
         ========================================================================== */
         :root {
-            --bg: #030705; 
-            --bg-elev: #081410; 
-            --bg-elev2: #0d1c15; 
+            --bg: #030705;
+            --bg-elev: #081410;
+            --bg-elev2: #0d1c15;
             --bg-elev3: #112b20;
-            --line: #123a26; 
+            --line: #123a26;
             --line-soft: #0a2118;
-            --green: #00ff9c; 
-            --green-dim: #0d7a3e; 
+            --green: #00ff9c;
+            --green-dim: #0d7a3e;
             --green-soft: #0a5c30;
-            --mint: #cdf7dd; 
-            --mint-dim: #7fac93; 
+            --mint: #cdf7dd;
+            --mint-dim: #7fac93;
             --mint-faint: #4d6c5c;
-            --cyan: #39e6ff; 
-            --danger: #ff4d6a; 
+            --cyan: #39e6ff;
+            --danger: #ff4d6a;
             --warn: #ffc24a;
             --font-ar: 'Cairo', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
-            --radius: 16px; 
+            --radius: 16px;
             --radius-sm: 10px;
-            --safe-t: env(safe-area-inset-top, 0px); 
+            --safe-t: env(safe-area-inset-top, 0px);
             --safe-b: env(safe-area-inset-bottom, 0px);
         }
 
         * {
-            box-sizing: border-box; 
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
         html, body {
-            height: 100%; 
+            height: 100%;
             margin: 0;
+            padding: 0;
         }
 
-        body { 
-            background: var(--bg); 
-            color: var(--mint); 
-            font-family: var(--font-ar); 
-            overflow: hidden; 
-            position: fixed; 
-            inset: 0; 
-            width: 100%; 
+        body {
+            background: var(--bg);
+            color: var(--mint);
+            font-family: var(--font-ar);
+            overflow: hidden;
+            position: fixed;
+            inset: 0;
+            width: 100%;
         }
 
         ::selection {
-            background: var(--green-soft); 
+            background: var(--green-soft);
             color: #fff;
         }
 
         ::-webkit-scrollbar {
-            width: 6px; 
+            width: 6px;
             height: 6px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--line); 
+            background: var(--line);
             border-radius: 6px;
         }
 
@@ -84,81 +84,82 @@
 
         a {
             color: var(--cyan);
+            text-decoration: none;
         }
 
         button, select, input, textarea {
-            font-family: inherit; 
+            font-family: inherit;
             color: inherit;
         }
 
         :focus-visible {
-            outline: 2px solid var(--green); 
+            outline: 2px solid var(--green);
             outline-offset: 2px;
         }
 
         /* ==========================================================================
-           MATRIX CANVAS & OVERLAYS
+           2. MATRIX BACKGROUND EFFECTS
         ========================================================================== */
         #matrixCanvas {
-            position: fixed; 
-            inset: 0; 
-            z-index: 0; 
-            opacity: 0.5; 
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.5;
             pointer-events: none;
         }
 
         #scanline {
-            position: fixed; 
-            inset: 0; 
-            z-index: 1; 
-            pointer-events: none; 
-            background: repeating-linear-gradient(0deg, rgba(0,255,156,0.03) 0px, rgba(0,255,156,0.03) 1px, transparent 2px, transparent 3px); 
-            mix-blend-mode: overlay; 
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(0,255,156,0.03) 0px, rgba(0,255,156,0.03) 1px, transparent 2px, transparent 3px);
+            mix-blend-mode: overlay;
         }
 
         #vignette {
-            position: fixed; 
-            inset: 0; 
-            z-index: 1; 
-            pointer-events: none; 
-            background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.55) 100%); 
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.55) 100%);
         }
 
         #app {
-            position: relative; 
-            z-index: 2; 
-            height: 100%; 
-            display: flex; 
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
             flex-direction: column;
         }
 
         /* ==========================================================================
-           TOPBAR
+           3. TOPBAR (HEADER)
         ========================================================================== */
-        .topbar { 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            gap: 8px; 
-            padding: calc(10px + var(--safe-t)) 14px 10px; 
-            background: linear-gradient(180deg, rgba(8,20,16,.96), rgba(8,20,16,.85)); 
-            border-bottom: 1px solid var(--line); 
-            backdrop-filter: blur(6px); 
-            flex-shrink: 0; 
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: calc(10px + var(--safe-t)) 14px 10px;
+            background: linear-gradient(180deg, rgba(8,20,16,.96), rgba(8,20,16,.85));
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(6px);
+            flex-shrink: 0;
         }
 
-        .icon-btn { 
-            width: 38px; 
-            height: 38px; 
-            border-radius: var(--radius-sm); 
-            border: 1px solid var(--line); 
-            background: var(--bg-elev); 
-            color: var(--mint); 
-            font-size: 17px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line);
+            background: var(--bg-elev);
+            color: var(--mint);
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
         .icon-btn:active {
@@ -166,71 +167,78 @@
         }
 
         .brand {
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
-            font-family: var(--font-mono); 
-            font-weight: 700; 
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-weight: 700;
             letter-spacing: .5px;
         }
 
-        /* تم التعديل: تصغير الاسم وإزالة اللوغو */
+        .brand-logo {
+            color: var(--green);
+            text-shadow: 0 0 12px var(--green);
+            font-size: 19px;
+        }
+
+        /* التعديل الأول: تصغير الاسم وإزالة اللوغو الداخلي بناء على طلبك */
         .brand-text {
-            font-size: 13.5px; 
+            font-size: 14px;
             font-weight: bold;
             color: var(--mint);
+            letter-spacing: 1px;
         }
 
         .brand-accent {
-            color: var(--green); 
+            color: var(--green);
             text-shadow: 0 0 8px var(--green-dim);
         }
 
-        .pill-btn { 
-            border: 1px solid var(--green-soft); 
-            background: var(--bg-elev); 
-            color: var(--green); 
-            border-radius: 999px; 
-            padding: 7px 12px; 
-            font-family: var(--font-mono); 
-            font-size: 11.5px; 
-            cursor: pointer; 
-            white-space: nowrap; 
+        .pill-btn {
+            border: 1px solid var(--green-soft);
+            background: var(--bg-elev);
+            color: var(--green);
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-family: var(--font-mono);
+            font-size: 11.5px;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
         /* ==========================================================================
-           DRAWER (SIDE MENU)
+           4. DRAWER (SIDE MENU)
         ========================================================================== */
         .overlay {
-            position: fixed; 
-            inset: 0; 
-            background: rgba(0,0,0,.55); 
-            z-index: 30; 
-            opacity: 0; 
-            pointer-events: none; 
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            z-index: 30;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity .25s;
         }
 
         .overlay.show {
-            opacity: 1; 
+            opacity: 1;
             pointer-events: auto;
         }
 
-        .drawer { 
-            position: fixed; 
-            top: 0; 
-            bottom: 0; 
-            right: 0; 
-            width: 82%; 
-            max-width: 340px; 
-            z-index: 31; 
-            background: var(--bg-elev); 
-            border-left: 1px solid var(--line); 
-            transform: translateX(100%); 
-            transition: transform .28s cubic-bezier(.2,.8,.2,1); 
-            display: flex; 
-            flex-direction: column; 
-            padding: calc(14px + var(--safe-t)) 14px 14px; 
+        .drawer {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 82%;
+            max-width: 340px;
+            z-index: 31;
+            background: var(--bg-elev);
+            border-left: 1px solid var(--line);
+            transform: translateX(100%);
+            transition: transform .28s cubic-bezier(.2,.8,.2,1);
+            display: flex;
+            flex-direction: column;
+            padding: calc(14px + var(--safe-t)) 14px 14px;
         }
 
         .drawer.open {
@@ -238,63 +246,63 @@
         }
 
         .drawer-head {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 12px;
         }
 
         .drawer-head h2 {
-            font-size: 16px; 
-            margin: 0; 
+            font-size: 16px;
+            margin: 0;
             color: var(--green);
         }
 
         .sessions-list {
-            overflow-y: auto; 
-            margin-top: 12px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 6px; 
+            overflow-y: auto;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             flex: 1;
         }
 
-        .session-item { 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            padding: 10px; 
-            border-radius: var(--radius-sm); 
-            border: 1px solid var(--line-soft); 
-            background: var(--bg-elev2); 
-            cursor: pointer; 
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--line-soft);
+            background: var(--bg-elev2);
+            cursor: pointer;
         }
 
         .session-item.active {
-            border-color: var(--green-dim); 
+            border-color: var(--green-dim);
             box-shadow: 0 0 0 1px var(--green-dim) inset;
         }
 
         .session-item .stitle {
-            flex: 1; 
-            font-size: 13.5px; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
+            flex: 1;
+            font-size: 13.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
         }
 
         .session-item .smeta {
-            font-size: 10.5px; 
-            color: var(--mint-faint); 
+            font-size: 10.5px;
+            color: var(--mint-faint);
             font-family: var(--font-mono);
         }
 
         .session-item .sdel {
-            background: none; 
-            border: none; 
-            color: var(--mint-faint); 
-            font-size: 15px; 
-            cursor: pointer; 
+            background: none;
+            border: none;
+            color: var(--mint-faint);
+            font-size: 15px;
+            cursor: pointer;
             padding: 4px;
         }
 
@@ -303,68 +311,68 @@
         }
 
         /* ==========================================================================
-           BUTTONS & INPUTS
+           5. BUTTONS / FORMS
         ========================================================================== */
-        .btn-primary { 
-            background: linear-gradient(180deg,#0fdc82,#00b568); 
-            color: #022014; 
-            border: none; 
-            border-radius: var(--radius-sm); 
-            padding: 11px; 
-            font-weight: 700; 
-            font-size: 14px; 
-            cursor: pointer; 
-            box-shadow: 0 0 16px rgba(0,255,156,.25); 
+        .btn-primary {
+            background: linear-gradient(180deg,#0fdc82,#00b568);
+            color: #022014;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 11px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 0 16px rgba(0,255,156,.25);
         }
 
         .btn-primary.full {
             width: 100%;
         }
 
-        .btn-ghost { 
-            background: var(--bg-elev2); 
-            border: 1px solid var(--line); 
-            color: var(--mint); 
-            border-radius: var(--radius-sm); 
-            padding: 9px 12px; 
-            font-size: 13px; 
-            cursor: pointer; 
+        .btn-ghost {
+            background: var(--bg-elev2);
+            border: 1px solid var(--line);
+            color: var(--mint);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         .btn-danger {
-            background: transparent; 
-            border: 1px solid var(--danger); 
-            color: var(--danger); 
-            border-radius: var(--radius-sm); 
-            padding: 9px 12px; 
-            cursor: pointer; 
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            cursor: pointer;
             font-size: 13px;
         }
 
-        input[type=text], input[type=password], input[type=number], input[type=url], textarea, select { 
-            width: 100%; 
-            background: var(--bg); 
-            border: 1px solid var(--line); 
-            color: var(--mint); 
-            border-radius: var(--radius-sm); 
-            padding: 10px; 
-            font-size: 13.5px; 
+        input[type=text], input[type=password], input[type=number], input[type=url], textarea, select {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            color: var(--mint);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            font-size: 13.5px;
         }
 
-        select { 
-            -webkit-appearance: none; 
-            appearance: none; 
+        select {
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         label.field {
-            display: block; 
-            font-size: 12px; 
-            color: var(--mint-dim); 
+            display: block;
+            font-size: 12px;
+            color: var(--mint-dim);
             margin: 10px 0 4px;
         }
 
         .row {
-            display: flex; 
+            display: flex;
             gap: 8px;
         }
 
@@ -373,10 +381,10 @@
         }
 
         .switch-row {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 10px 0; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
             border-bottom: 1px solid var(--line-soft);
         }
 
@@ -389,25 +397,25 @@
         }
 
         .switch-row .sub {
-            font-size: 11px; 
-            color: var(--mint-faint); 
+            font-size: 11px;
+            color: var(--mint-faint);
             margin-top: 2px;
         }
 
         /* ==========================================================================
-           VIEWS LAYOUT
+           6. VIEWS CONTAINER
         ========================================================================== */
         #views {
-            flex: 1; 
-            overflow: hidden; 
+            flex: 1;
+            overflow: hidden;
             position: relative;
         }
 
         .view {
-            position: absolute; 
-            inset: 0; 
-            display: none; 
-            flex-direction: column; 
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
             overflow: hidden;
         }
 
@@ -416,8 +424,8 @@
         }
 
         .scroll {
-            overflow-y: auto; 
-            flex: 1; 
+            overflow-y: auto;
+            flex: 1;
             -webkit-overflow-scrolling: touch;
         }
 
@@ -426,39 +434,39 @@
         }
 
         /* ==========================================================================
-           CHAT VIEW
+           7. CHAT VIEW
         ========================================================================== */
         .model-strip {
-            display: flex; 
-            gap: 6px; 
-            padding: 8px 10px; 
-            overflow-x: auto; 
-            border-bottom: 1px solid var(--line-soft); 
+            display: flex;
+            gap: 6px;
+            padding: 8px 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--line-soft);
             flex-shrink: 0;
         }
 
-        .chip-select { 
-            flex: 0 0 auto; 
-            width: auto; 
-            max-width: 140px; 
-            background: var(--bg-elev); 
-            border: 1px solid var(--line); 
-            border-radius: 999px; 
-            padding: 6px 10px; 
-            font-size: 11.5px; 
-            color: var(--mint); 
+        .chip-select {
+            flex: 0 0 auto;
+            width: auto;
+            max-width: 140px;
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 11.5px;
+            color: var(--mint);
         }
 
         .switch-chip {
-            display: flex; 
-            align-items: center; 
-            gap: 5px; 
-            flex: 0 0 auto; 
-            background: var(--bg-elev); 
-            border: 1px solid var(--line); 
-            border-radius: 999px; 
-            padding: 6px 10px; 
-            font-size: 11.5px; 
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex: 0 0 auto;
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 11.5px;
             white-space: nowrap;
         }
 
@@ -467,42 +475,42 @@
         }
 
         .context-bar {
-            position: relative; 
-            height: 3px; 
-            background: var(--line-soft); 
+            position: relative;
+            height: 3px;
+            background: var(--line-soft);
             flex-shrink: 0;
         }
 
         .context-fill {
-            height: 100%; 
-            width: 0%; 
-            background: linear-gradient(90deg,var(--green-dim),var(--green)); 
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,var(--green-dim),var(--green));
             transition: width .3s;
         }
 
         #contextLabel {
-            position: absolute; 
-            left: 8px; 
-            top: 4px; 
-            font-size: 9.5px; 
-            font-family: var(--font-mono); 
+            position: absolute;
+            left: 8px;
+            top: 4px;
+            font-size: 9.5px;
+            font-family: var(--font-mono);
             color: var(--mint-faint);
         }
 
         .messages {
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 14px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             -webkit-overflow-scrolling: touch;
         }
 
         .msg {
-            max-width: 84%; 
-            display: flex; 
-            flex-direction: column; 
+            max-width: 84%;
+            display: flex;
+            flex-direction: column;
             gap: 4px;
         }
 
@@ -514,46 +522,46 @@
             margin-inline-start: auto;
         }
 
-        .msg .bubble { 
-            padding: 11px 14px; 
-            border-radius: var(--radius); 
-            font-size: 14px; 
-            line-height: 1.65; 
-            white-space: normal; 
+        .msg .bubble {
+            padding: 11px 14px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            line-height: 1.65;
+            white-space: normal;
         }
 
         .msg.user .bubble {
-            background: linear-gradient(180deg,#0d3a24,#0a2b1b); 
-            border: 1px solid var(--green-soft); 
+            background: linear-gradient(180deg,#0d3a24,#0a2b1b);
+            border: 1px solid var(--green-soft);
             border-bottom-left-radius: 4px;
         }
 
         .msg.ai .bubble {
-            background: var(--bg-elev); 
-            border: 1px solid var(--line); 
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
             border-bottom-right-radius: 4px;
         }
 
         .msg.system .bubble {
-            background: transparent; 
-            border: 1px dashed var(--line); 
-            color: var(--mint-faint); 
-            font-size: 12px; 
+            background: transparent;
+            border: 1px dashed var(--line);
+            color: var(--mint-faint);
+            font-size: 12px;
             text-align: center;
         }
 
         .msg .meta {
-            font-size: 10px; 
-            color: var(--mint-faint); 
-            font-family: var(--font-mono); 
+            font-size: 10px;
+            color: var(--mint-faint);
+            font-family: var(--font-mono);
             padding: 0 4px;
         }
 
         .msg img.att {
-            max-width: 100%; 
-            border-radius: 10px; 
-            margin-bottom: 6px; 
-            display: block; 
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            display: block;
             cursor: pointer;
         }
 
@@ -566,78 +574,78 @@
         }
 
         .bubble code {
-            font-family: var(--font-mono); 
-            background: rgba(0,255,156,.08); 
-            padding: 2px 5px; 
-            border-radius: 5px; 
+            font-family: var(--font-mono);
+            background: rgba(0,255,156,.08);
+            padding: 2px 5px;
+            border-radius: 5px;
             font-size: 12.5px;
         }
 
         .code-block {
-            margin: 8px 0; 
-            border: 1px solid var(--line); 
-            border-radius: 10px; 
-            overflow: hidden; 
+            margin: 8px 0;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            overflow: hidden;
             direction: ltr;
         }
 
         .code-head {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: var(--bg-elev2); 
-            padding: 6px 10px; 
-            font-family: var(--font-mono); 
-            font-size: 10.5px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-elev2);
+            padding: 6px 10px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
             color: var(--mint-faint);
         }
 
         .copy-btn {
-            background: none; 
-            border: 1px solid var(--line); 
-            color: var(--mint-dim); 
-            border-radius: 6px; 
-            padding: 3px 8px; 
-            font-size: 10.5px; 
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--mint-dim);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 10.5px;
             cursor: pointer;
         }
 
         .code-block pre {
-            margin: 0; 
-            padding: 10px; 
-            overflow-x: auto; 
+            margin: 0;
+            padding: 10px;
+            overflow-x: auto;
             background: #020806;
         }
 
         .code-block code {
-            background: none; 
-            padding: 0; 
-            font-size: 12.5px; 
+            background: none;
+            padding: 0;
+            font-size: 12.5px;
             color: var(--green);
         }
 
         .thinking-box {
-            border: 1px dashed var(--green-soft); 
-            border-radius: 10px; 
-            padding: 8px 10px; 
-            margin-bottom: 6px; 
-            font-size: 12px; 
-            color: var(--mint-faint); 
+            border: 1px dashed var(--green-soft);
+            border-radius: 10px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: var(--mint-faint);
             font-family: var(--font-mono);
         }
 
         .thinking-box summary {
-            cursor: pointer; 
+            cursor: pointer;
             color: var(--mint-dim);
         }
 
         .typing-dots span {
-            display: inline-block; 
-            width: 5px; 
-            height: 5px; 
-            border-radius: 50%; 
-            background: var(--green); 
-            margin: 0 2px; 
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+            margin: 0 2px;
             animation: blink 1.2s infinite;
         }
 
@@ -647,92 +655,92 @@
 
         .typing-dots span:nth-child(3) {
             animation-delay: .4s;
-}
+        }
 
         @keyframes blink {
-            0%, 80%, 100% { opacity: .2; } 
+            0%, 80%, 100% { opacity: .2; }
             40% { opacity: 1; }
         }
 
         /* ==========================================================================
-           COMPOSER
+           8. COMPOSER & UPLOADS
         ========================================================================== */
-        .composer { 
-            display: flex; 
-            align-items: flex-end; 
-            gap: 8px; 
-            padding: 10px 12px calc(10px + var(--safe-b)); 
-            border-top: 1px solid var(--line); 
-            background: var(--bg-elev); 
-            flex-shrink: 0; 
+        .composer {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            padding: 10px 12px calc(10px + var(--safe-b));
+            border-top: 1px solid var(--line);
+            background: var(--bg-elev);
+            flex-shrink: 0;
         }
 
         .composer textarea {
-            resize: none; 
-            max-height: 120px; 
-            min-height: 42px; 
-            border-radius: 20px; 
+            resize: none;
+            max-height: 120px;
+            min-height: 42px;
+            border-radius: 20px;
             padding: 11px 16px;
         }
 
-        .send-btn { 
-            width: 42px; 
-            height: 42px; 
-            border-radius: 50%; 
-            border: none; 
-            flex-shrink: 0; 
-            cursor: pointer; 
-            background: linear-gradient(180deg,#0fdc82,#00b568); 
-            color: #022014; 
-            font-size: 16px; 
-            box-shadow: 0 0 14px rgba(0,255,156,.35); 
+        .send-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            flex-shrink: 0;
+            cursor: pointer;
+            background: linear-gradient(180deg,#0fdc82,#00b568);
+            color: #022014;
+            font-size: 16px;
+            box-shadow: 0 0 14px rgba(0,255,156,.35);
         }
 
         .send-btn.stop {
-            background: linear-gradient(180deg,#ff6b7a,#e0304a); 
+            background: linear-gradient(180deg,#ff6b7a,#e0304a);
             color: #fff;
         }
 
         .attach-preview {
-            display: flex; 
-            gap: 8px; 
-            padding: 0 12px; 
+            display: flex;
+            gap: 8px;
+            padding: 0 12px;
             flex-wrap: wrap;
         }
 
         .attach-preview img {
-            width: 56px; 
-            height: 56px; 
-            object-fit: cover; 
-            border-radius: 8px; 
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 8px;
             border: 1px solid var(--line);
         }
 
         .attach-preview .rm {
-            position: relative; 
+            position: relative;
             margin-bottom: 6px;
         }
 
         .attach-preview .rm button {
-            position: absolute; 
-            top: -6px; 
-            left: -6px; 
-            background: var(--danger); 
-            border: none; 
-            color: #fff; 
-            width: 18px; 
-            height: 18px; 
-            border-radius: 50%; 
-            font-size: 11px; 
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            background: var(--danger);
+            border: none;
+            color: #fff;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 11px;
             cursor: pointer;
         }
 
         /* ==========================================================================
-           IMAGE / VIDEO VIEWS
+           9. IMAGE / VIDEO VIEWS
         ========================================================================== */
         .gen-controls {
-            padding: 12px; 
-            border-bottom: 1px solid var(--line-soft); 
+            padding: 12px;
+            border-bottom: 1px solid var(--line-soft);
             flex-shrink: 0;
         }
 
@@ -741,26 +749,26 @@
         }
 
         .gen-row {
-            display: flex; 
-            gap: 8px; 
-            margin-top: 8px; 
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
             flex-wrap: wrap;
         }
 
         .gen-row select, .gen-row input {
-            width: auto; 
-            flex: 1; 
-            min-width: 90px; 
-            font-size: 12.5px; 
+            width: auto;
+            flex: 1;
+            min-width: 90px;
+            font-size: 12.5px;
             padding: 8px;
         }
 
         .progress-wrap {
-            display: none; 
-            align-items: center; 
-            gap: 8px; 
-            margin-top: 8px; 
-            font-family: var(--font-mono); 
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-family: var(--font-mono);
             font-size: 11px;
         }
 
@@ -769,103 +777,103 @@
         }
 
         .progress-track {
-            flex: 1; 
-            height: 6px; 
-            background: var(--line-soft); 
-            border-radius: 4px; 
+            flex: 1;
+            height: 6px;
+            background: var(--line-soft);
+            border-radius: 4px;
             overflow: hidden;
         }
 
         .progress-fill {
-            height: 100%; 
-            width: 0%; 
-            background: linear-gradient(90deg,var(--green-dim),var(--green)); 
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,var(--green-dim),var(--green));
             transition: width .2s;
         }
 
         .gallery {
-            flex: 1; 
-            overflow-y: auto; 
-            padding: 12px; 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
         .gallery-item {
-            border: 1px solid var(--line); 
-            border-radius: 12px; 
-            overflow: hidden; 
-            background: var(--bg-elev); 
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-elev);
             position: relative;
         }
 
         .gallery-item img, .gallery-item video {
-            width: 100%; 
-            height: 150px; 
-            object-fit: cover; 
-            display: block; 
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
             cursor: pointer;
         }
 
         .gallery-item .ginfo {
-            padding: 7px 9px; 
-            font-size: 10.5px; 
+            padding: 7px 9px;
+            font-size: 10.5px;
             color: var(--mint-faint);
         }
 
         .gallery-item .gprompt {
-            font-size: 11px; 
-            color: var(--mint-dim); 
-            white-space: nowrap; 
-            overflow: hidden; 
+            font-size: 11px;
+            color: var(--mint-dim);
+            white-space: nowrap;
+            overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .gallery-empty {
-            grid-column: 1/-1; 
-            text-align: center; 
-            color: var(--mint-faint); 
-            padding: 40px 10px; 
+            grid-column: 1/-1;
+            text-align: center;
+            color: var(--mint-faint);
+            padding: 40px 10px;
             font-size: 13px;
         }
 
         /* ==========================================================================
-           KEYS / SETTINGS
+           10. KEYS / SETTINGS
         ========================================================================== */
         .provider-card {
-            border: 1px solid var(--line); 
-            border-radius: var(--radius); 
-            padding: 12px; 
-            margin-bottom: 10px; 
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 10px;
             background: var(--bg-elev);
         }
 
         .provider-head {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-bottom: 8px;
         }
 
         .provider-name {
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            font-weight: 700; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
             font-size: 14px;
         }
 
         .status-dot {
-            width: 9px; 
-            height: 9px; 
-            border-radius: 50%; 
-            background: var(--mint-faint); 
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--mint-faint);
             flex-shrink: 0;
         }
 
         .status-dot.alive {
-            background: var(--green); 
+            background: var(--green);
             box-shadow: 0 0 6px var(--green);
         }
 
@@ -878,31 +886,31 @@
         }
 
         .status-dot.checking {
-            background: var(--cyan); 
+            background: var(--cyan);
             animation: pulse 1s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; } 
+            0%, 100% { opacity: 1; }
             50% { opacity: .3; }
         }
 
         .provider-note {
-            font-size: 11px; 
-            color: var(--mint-faint); 
-            margin-bottom: 8px; 
+            font-size: 11px;
+            color: var(--mint-faint);
+            margin-bottom: 8px;
             line-height: 1.6;
         }
 
         .provider-actions {
-            display: flex; 
-            gap: 6px; 
-            margin-top: 8px; 
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
             flex-wrap: wrap;
         }
 
         .provider-actions button, .provider-actions a {
-            font-size: 11.5px; 
+            font-size: 11.5px;
             padding: 7px 10px;
         }
 
@@ -911,13 +919,13 @@
         }
 
         .keybox button {
-            position: absolute; 
-            left: 6px; 
-            top: 6px; 
-            background: none; 
-            border: none; 
-            color: var(--mint-faint); 
-            font-size: 14px; 
+            position: absolute;
+            left: 6px;
+            top: 6px;
+            background: none;
+            border: none;
+            color: var(--mint-faint);
+            font-size: 14px;
             cursor: pointer;
         }
 
@@ -926,41 +934,41 @@
         }
 
         .section-title {
-            font-size: 12px; 
-            color: var(--green); 
-            font-family: var(--font-mono); 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
+            font-size: 12px;
+            color: var(--green);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin: 18px 0 8px;
         }
 
         .gh-warning {
-            border: 1px solid var(--warn); 
-            background: rgba(255,194,74,.08); 
-            border-radius: 10px; 
-            padding: 10px; 
-            font-size: 11.5px; 
-            color: var(--warn); 
-            margin-bottom: 10px; 
+            border: 1px solid var(--warn);
+            background: rgba(255,194,74,.08);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 11.5px;
+            color: var(--warn);
+            margin-bottom: 10px;
             line-height: 1.7;
         }
 
         details.settings-block {
-            border: 1px solid var(--line); 
-            border-radius: var(--radius); 
-            margin-bottom: 10px; 
-            overflow: hidden; 
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            overflow: hidden;
             background: var(--bg-elev);
         }
 
         details.settings-block summary {
-            padding: 12px 14px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 13.5px; 
-            list-style: none; 
-            display: flex; 
-            justify-content: space-between; 
+            padding: 12px 14px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13.5px;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
@@ -969,7 +977,7 @@
         }
 
         details.settings-block summary:after {
-            content: '˅'; 
+            content: '˅';
             color: var(--mint-faint);
         }
 
@@ -982,8 +990,8 @@
         }
 
         .about-box {
-            font-size: 12px; 
-            color: var(--mint-dim); 
+            font-size: 12px;
+            color: var(--mint-dim);
             line-height: 1.9;
         }
 
@@ -992,28 +1000,28 @@
         }
 
         /* ==========================================================================
-           BOTTOM NAV
+           11. BOTTOM NAV
         ========================================================================== */
-        .bottomnav { 
-            display: flex; 
-            border-top: 1px solid var(--line); 
-            background: var(--bg-elev); 
-            padding-bottom: var(--safe-b); 
-            flex-shrink: 0; 
+        .bottomnav {
+            display: flex;
+            border-top: 1px solid var(--line);
+            background: var(--bg-elev);
+            padding-bottom: var(--safe-b);
+            flex-shrink: 0;
         }
 
-        .nav-btn { 
-            flex: 1; 
-            background: none; 
-            border: none; 
-            color: var(--mint-faint); 
-            padding: 9px 4px 7px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 3px; 
-            font-size: 9.5px; 
-            cursor: pointer; 
+        .nav-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--mint-faint);
+            padding: 9px 4px 7px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            font-size: 9.5px;
+            cursor: pointer;
         }
 
         .nav-btn span {
@@ -1021,21 +1029,21 @@
         }
 
         .nav-btn.active {
-            color: var(--green); 
+            color: var(--green);
             text-shadow: 0 0 8px rgba(0,255,156,.4);
         }
 
         /* ==========================================================================
-           MODALS
+           12. MODALS
         ========================================================================== */
         .modal {
-            position: fixed; 
-            inset: 0; 
-            z-index: 50; 
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            background: rgba(0,0,0,.75); 
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,.75);
             padding: 16px;
         }
 
@@ -1044,25 +1052,25 @@
         }
 
         .modal-box {
-            background: var(--bg-elev); 
-            border: 1px solid var(--line); 
-            border-radius: var(--radius); 
-            max-width: 420px; 
-            width: 100%; 
-            max-height: 85vh; 
-            overflow-y: auto; 
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            max-width: 420px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
             padding: 18px;
         }
 
         .modal-box h3 {
-            margin: 0 0 10px; 
-            color: var(--green); 
+            margin: 0 0 10px;
+            color: var(--green);
             font-size: 16px;
         }
 
         .modal-actions {
-            display: flex; 
-            gap: 8px; 
+            display: flex;
+            gap: 8px;
             margin-top: 14px;
         }
 
@@ -1075,89 +1083,92 @@
         }
 
         #lightbox img, #lightbox video {
-            max-width: 100%; 
-            max-height: 80vh; 
+            max-width: 100%;
+            max-height: 80vh;
             border-radius: 8px;
         }
 
         #lightbox .lb-close {
-            position: absolute; 
-            top: calc(16px + var(--safe-t)); 
-            left: 16px; 
-            background: rgba(255,255,255,.1); 
-            border: none; 
-            color: #fff; 
-            width: 38px; 
-            height: 38px; 
-            border-radius: 50%; 
+            position: absolute;
+            top: calc(16px + var(--safe-t));
+            left: 16px;
+            background: rgba(255,255,255,.1);
+            border: none;
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
             font-size: 18px;
         }
 
         #lightbox .lb-dl {
-            position: absolute; 
-            top: calc(16px + var(--safe-t)); 
-            right: 16px; 
-            background: rgba(255,255,255,.1); 
-            border: none; 
-            color: #fff; 
-            padding: 8px 14px; 
-            border-radius: 20px; 
-            font-size: 12px; 
+            position: absolute;
+            top: calc(16px + var(--safe-t));
+            right: 16px;
+            background: rgba(255,255,255,.1);
+            border: none;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
             text-decoration: none;
         }
 
         .usage-row {
-            display: flex; 
-            justify-content: space-between; 
-            font-size: 12.5px; 
-            padding: 8px 0; 
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            padding: 8px 0;
             border-bottom: 1px solid var(--line-soft);
         }
 
         .usage-row b {
-            color: var(--green); 
+            color: var(--green);
             font-family: var(--font-mono);
         }
 
         .usage-bar-track {
-            height: 5px; 
-            background: var(--line-soft); 
-            border-radius: 4px; 
-            margin-top: 5px; 
+            height: 5px;
+            background: var(--line-soft);
+            border-radius: 4px;
+            margin-top: 5px;
             overflow: hidden;
         }
 
         .usage-bar-fill {
-            height: 100%; 
+            height: 100%;
             background: var(--green-dim);
         }
 
-        .toast { 
-            position: fixed; 
-            bottom: calc(90px + var(--safe-b)); 
-            left: 50%; 
-            transform: translateX(-50%) translateY(20px); 
-            background: var(--bg-elev2); 
-            border: 1px solid var(--line); 
-            color: var(--mint); 
-            padding: 10px 16px; 
-            border-radius: 999px; 
-            font-size: 12.5px; 
-            z-index: 60; 
-            opacity: 0; 
-            transition: all .3s; 
-            pointer-events: none; 
-            max-width: 88%; 
-            text-align: center; 
+        .toast {
+            position: fixed;
+            bottom: calc(90px + var(--safe-b));
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-elev2);
+            border: 1px solid var(--line);
+            color: var(--mint);
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 12.5px;
+            z-index: 60;
+            opacity: 0;
+            transition: all .3s;
+            pointer-events: none;
+            max-width: 88%;
+            text-align: center;
         }
 
         .toast.show {
-            opacity: 1; 
+            opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
 
-        @media (prefers-reduced-motion: reduce){ 
-            * { animation-duration: .001ms !important; transition-duration: .001ms !important; } 
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: .001ms !important;
+                transition-duration: .001ms !important;
+            }
         }
     </style>
 </head>
@@ -1168,22 +1179,28 @@
 <div id="vignette" aria-hidden="true"></div>
 
 <div id="app">
-    
     <header class="topbar">
         <button id="btnSessions" class="icon-btn" aria-label="الجلسات">☰</button>
         <div class="brand">
-            <span class="brand-text" style="font-size: 13.5px; font-weight: bold;">Chibani Lotfi ai 🇩🇿</span>
+            <span class="brand-text" style="font-size: 14px;">Chibani Lotfi AI 🇩🇿</span>
         </div>
-        <button id="btnUsage" class="pill-btn" aria-label="الاستخدام"><span id="tokenPillText">0 توكن · $0.00</span></button>
+        <button id="btnUsage" class="pill-btn" aria-label="الاستخدام">
+            <span id="tokenPillText">0 توكن · $0.00</span>
+        </button>
     </header>
 
     <main id="views">
+        
         <section id="view-chat" class="view active">
             <div class="model-strip">
                 <select id="chatProviderSelect" class="chip-select" aria-label="المزوّد"></select>
                 <select id="chatModelSelect" class="chip-select" aria-label="النموذج"></select>
-                <label class="switch-chip"><input type="checkbox" id="autoFallback" checked> تبديل تلقائي</label>
-                <label class="switch-chip"><input type="checkbox" id="thinkToggle"> 🧠 تفكير</label>
+                <label class="switch-chip">
+                    <input type="checkbox" id="autoFallback" checked> تبديل تلقائي
+                </label>
+                <label class="switch-chip">
+                    <input type="checkbox" id="thinkToggle"> 🧠 تفكير
+                </label>
             </div>
             
             <div class="context-bar">
@@ -1196,12 +1213,13 @@
             <div id="attachPreview" class="attach-preview"></div>
             
             <div class="composer">
-                <label for="fileInput" id="btnAttach" class="icon-btn" title="إرفاق صورة" aria-label="إرفاق صورة" style="margin:0; cursor:pointer;">📎</label>
-                <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                <label for="fileInput" id="btnAttach" class="icon-btn" title="إرفاق صورة" aria-label="إرفاق صورة" style="margin:0; cursor:pointer; display:flex; align-items:center; justify-content:center;">📎</label>
                 
                 <textarea id="chatInput" rows="1" placeholder="اكتب رسالتك... (Enter للإرسال، Shift+Enter لسطر جديد)"></textarea>
                 <button id="btnSend" class="send-btn" aria-label="إرسال">➤</button>
             </div>
+            
+            <input type="file" id="fileInput" accept="image/*" style="display:none;">
         </section>
 
         <section id="view-image" class="view">
@@ -1368,7 +1386,9 @@
     <div class="modal-box">
         <h3>📊 الاستخدام والتوكنز</h3>
         <div id="usageContent"></div>
-        <div class="modal-actions"><button class="btn-ghost full" id="btnCloseUsage">إغلاق</button></div>
+        <div class="modal-actions">
+            <button class="btn-ghost full" id="btnCloseUsage">إغلاق</button>
+        </div>
     </div>
 </div>
 
@@ -1406,7 +1426,7 @@
         <h3>⌗ أهلاً بك في MATRIX AI</h3>
         <div class="about-box">
             <p>هذا التطبيق يعمل <b>بمفاتيحك الخاصة (BYOK)</b>. لتبدأ:</p>
-            <p>1) افتح تبويب <b>🔑 مفاتيح</b><br>2) اختر مزوّداً (يُنصح بـ Pollinations أولاً — تسجيل فوري بحساب GitHub)<br>3) الصق المفتاح واضغط "اختبار الاتصال"</p>
+            <p>1) افتح تبويب <b>🔑 مفاتيح</b><br>2) اختر مزوّداً (يُنصح بـ Pollinations أولاً — لا يحتاج مفتاح للأساسيات)<br>3) الصق المفتاح (إن وجد) واضغط "اختبار الاتصال"</p>
             <p style="color:var(--mint-faint);">جميع المفاتيح تُحفظ على جهازك فقط (localStorage) ولا تُرسل لأي خادم غير مزوّدها.</p>
         </div>
         <div class="modal-actions">
@@ -1419,72 +1439,92 @@
 
 <script>
 'use strict';
+
 /* =========================================================
- MATRIX AI — single-file multi-provider AI app
+   MATRIX AI — single-file multi-provider AI app (Fixed)
 ========================================================= */
 
 /* ---------- Matrix rain background ---------- */
 (function initMatrixRain(){
-    var canvas = document.getElementById('matrixCanvas');
-    var ctx = canvas.getContext('2d');
-    var w, h, cols, drops, fontSize = 15;
-    var glyphs = ('アイウエオカキクケコサシスセソタチツテト0123456789' + 'ابجدهوزحطيكلمنسعفصقرشتثخذضظغأإةى').split('');
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('matrixCanvas');
+  var ctx = canvas.getContext('2d');
+  var w, h, cols, drops, fontSize = 15;
+  var glyphs = ('アイウエオカキクケコサシスセソタチツテト0123456789' + 'ابجدهوزحطيكلمنسعفصقرشتثخذضظغأإةى').split('');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.floor(w / fontSize);
+    drops = new Array(cols).fill(0).map(function(){ return Math.random() * -100; });
+  }
+  
+  resize(); 
+  window.addEventListener('resize', resize);
+  
+  function draw(){
+    ctx.fillStyle = 'rgba(3,7,5,0.09)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = fontSize + 'px "JetBrains Mono", monospace';
     
-    function resize(){
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-        cols = Math.floor(w / fontSize);
-        drops = new Array(cols).fill(0).map(function(){ return Math.random() * -100; });
+    for (var i = 0; i < cols; i++){
+      var ch = glyphs[Math.floor(Math.random() * glyphs.length)];
+      var x = i * fontSize;
+      var y = drops[i] * fontSize;
+      var r = Math.random();
+      
+      ctx.fillStyle = r > 0.975 ? '#eafff2' : (r > 0.88 ? '#00ff9c' : '#0d7a3e');
+      ctx.fillText(ch, x, y);
+      
+      if (y > h && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
     }
-    
-    resize(); 
-    window.addEventListener('resize', resize);
-    
-    function draw(){
-        ctx.fillStyle = 'rgba(3,7,5,0.09)';
-        ctx.fillRect(0, 0, w, h);
-        ctx.font = fontSize + 'px "JetBrains Mono", monospace';
-        
-        for (var i = 0; i < cols; i++){
-            var ch = glyphs[Math.floor(Math.random() * glyphs.length)];
-            var x = i * fontSize;
-            var y = drops[i] * fontSize;
-            var r = Math.random();
-            
-            ctx.fillStyle = r > 0.975 ? '#eafff2' : (r > 0.88 ? '#00ff9c' : '#0d7a3e');
-            ctx.fillText(ch, x, y);
-            
-            if (y > h && Math.random() > 0.975) drops[i] = 0;
-            drops[i]++;
-        }
-    }
-    
-    if (!reduceMotion){
-        setInterval(draw, 55);
-    } else {
-        ctx.fillStyle = '#040a07';
-        ctx.fillRect(0, 0, w, h);
-    }
+  }
+  
+  if (!reduceMotion) {
+      setInterval(draw, 55);
+  } else { 
+      ctx.fillStyle = '#040a07'; 
+      ctx.fillRect(0, 0, w, h); 
+  }
 })();
 
 /* ---------- Utils ---------- */
-function $(id){ return document.getElementById(id); }
-function qs(sel, root){ return (root||document).querySelector(sel); }
-function qsa(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
-function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
-function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function nowStr(){ var d = new Date(); return d.toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}); }
+function $(id){ 
+    return document.getElementById(id); 
+}
+
+function qs(sel, root){ 
+    return (root||document).querySelector(sel); 
+}
+
+function qsa(sel, root){ 
+    return Array.prototype.slice.call((root||document).querySelectorAll(sel)); 
+}
+
+function uid(){ 
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); 
+}
+
+function escapeHtml(s){ 
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); 
+}
+
+function nowStr(){ 
+    var d = new Date(); 
+    return d.toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}); 
+}
 
 var toastTimer = null;
 function toast(msg, ms){
-    var t = $('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){
-        t.classList.remove('show');
-    }, ms || 3200);
+  var t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ 
+      t.classList.remove('show'); 
+  }, ms || 3200);
 }
 
 function fmtNum(n){ 
@@ -1493,192 +1533,148 @@ function fmtNum(n){
 
 /* ---------- Provider registry ---------- */
 var DEFAULT_PROVIDERS = [
-    { 
-        id:'pollinations', 
-        name:'Pollinations', 
-        kind:'openai-compat', 
-        baseUrl:'https://gen.pollinations.ai', 
-        chatPath:'/v1/chat/completions', 
-        modelsPath:'/v1/models', 
-        keyless:true, 
-        signupUrl:'https://enter.pollinations.ai', 
-        signupNote:'سجّل دخول بحساب GitHub على enter.pollinations.ai واحصل على مفتاح pk_ فوراً — بدون بطاقة، بدون هاتف. يعمل بدون مفتاح أيضاً بحدود أقل (وضع مجهول).', 
-        defaultModel:'openai', 
-        supportsImage:true, 
-        supportsVideo:true, 
-        imagePath:'/image/', 
-        videoPath:'/video/' 
-    },
-    { 
-        id:'openrouter', 
-        name:'OpenRouter', 
-        kind:'openai-compat', 
-        baseUrl:'https://openrouter.ai/api/v1', 
-        chatPath:'/chat/completions', 
-        modelsPath:'/models', 
-        keyless:false, 
-        signupUrl:'https://openrouter.ai/keys', 
-        signupNote:'تسجيل بالإيميل أو حساب Google — بدون بطاقة. اختر أحد النماذج المنتهية بـ ":free" من القائمة بعد الجلب.', 
-        defaultModel:'', 
-        freeSuffix:':free' 
-    },
-    { 
-        id:'groq', 
-        name:'Groq', 
-        kind:'openai-compat', 
-        baseUrl:'https://api.groq.com/openai/v1', 
-        chatPath:'/chat/completions', 
-        modelsPath:'/models', 
-        keyless:false, 
-        signupUrl:'https://console.groq.com/keys', 
-        signupNote:'تسجيل بالإيميل — بدون بطاقة. استدلال فائق السرعة.', 
-        defaultModel:'llama-3.3-70b-versatile' 
-    },
-    { 
-        id:'cerebras', 
-        name:'Cerebras', 
-        kind:'openai-compat', 
-        baseUrl:'https://api.cerebras.ai/v1', 
-        chatPath:'/chat/completions', 
-        modelsPath:'/models', 
-        keyless:false, 
-        signupUrl:'https://cloud.cerebras.ai', 
-        signupNote:'تسجيل بالإيميل — بدون بطاقة.', 
-        defaultModel:'llama3.1-8b' 
-    },
-    { 
-        id:'gemini', 
-        name:'Google Gemini', 
-        kind:'openai-compat', 
-        baseUrl:'https://generativelanguage.googleapis.com/v1beta/openai', 
-        chatPath:'/chat/completions', 
-        modelsPath:'/models', 
-        keyless:false, 
-        signupUrl:'https://aistudio.google.com/apikey', 
-        signupNote:'تسجيل بحساب Google فقط (Google AI Studio) — بدون بطاقة.', 
-        defaultModel:'gemini-2.5-flash', 
-        staticModels:['gemini-2.5-flash','gemini-2.5-flash-lite','gemini-2.0-flash','gemma-3-27b-it'], 
-        supportsImage:true, 
-        imageGenPath:'/images/generations', 
-        imageModel:'gemini-2.5-flash-image' 
-    },
-    { 
-        id:'hf', 
-        name:'Hugging Face Router', 
-        kind:'openai-compat', 
-        baseUrl:'https://router.huggingface.co/v1', 
-        chatPath:'/chat/completions', 
-        modelsPath:'/models', 
-        keyless:false, 
-        signupUrl:'https://huggingface.co/settings/tokens', 
-        signupNote:'تسجيل بالإيميل — بدون بطاقة. آلاف النماذج مفتوحة المصدر.', 
-        defaultModel:'' 
-    }
+  {
+    id:'pollinations', name:'Pollinations', kind:'openai-compat',
+    baseUrl:'https://text.pollinations.ai/openai',
+    chatPath:'', modelsPath:'',
+    keyless:true,
+    signupUrl:'https://pollinations.ai',
+    signupNote:'يعمل مجاناً وبدون مفتاح.',
+    defaultModel:'openai',
+    staticModels: ['openai', 'qwen', 'qwen-coder', 'llama', 'mistral', 'claude', 'deepseek', 'deepseek-reasoner'],
+    supportsImage:true, supportsVideo:true
+  },
+  {
+    id:'openrouter', name:'OpenRouter', kind:'openai-compat',
+    baseUrl:'https://openrouter.ai/api/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, signupUrl:'https://openrouter.ai/keys',
+    signupNote:'تسجيل بالإيميل أو حساب Google — بدون بطاقة. اختر أحد النماذج المنتهية بـ ":free" من القائمة.',
+    defaultModel:'', freeSuffix:':free'
+  },
+  {
+    id:'groq', name:'Groq', kind:'openai-compat',
+    baseUrl:'https://api.groq.com/openai/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, signupUrl:'https://console.groq.com/keys',
+    signupNote:'تسجيل بالإيميل — بدون بطاقة. استدلال فائق السرعة.',
+    defaultModel:'llama-3.3-70b-versatile'
+  },
+  {
+    id:'cerebras', name:'Cerebras', kind:'openai-compat',
+    baseUrl:'https://api.cerebras.ai/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, signupUrl:'https://cloud.cerebras.ai',
+    signupNote:'تسجيل بالإيميل — بدون بطاقة.',
+    defaultModel:'llama3.1-8b'
+  },
+  {
+    id:'gemini', name:'Google Gemini', kind:'openai-compat',
+    baseUrl:'https://generativelanguage.googleapis.com/v1beta/openai',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, signupUrl:'https://aistudio.google.com/apikey',
+    signupNote:'تسجيل بحساب Google فقط (Google AI Studio) — بدون بطاقة.',
+    defaultModel:'gemini-2.5-flash',
+    staticModels:['gemini-2.5-flash','gemini-2.5-flash-lite','gemini-2.0-flash','gemma-3-27b-it'],
+    supportsImage:true
+  }
 ];
 
-var GITHUB_MODELS_NOTE = 'GitHub Models يتوقف نهائياً في 30 يوليو 2026 (أعلنت GitHub رسمياً في 1 يوليو 2026) — لذلك لم يُدرج هنا كمزوّد افتراضي.';
-var DEFAULT_PRICING = {}; 
-
-/* ---------- State ---------- */
-var LS_KEY = 'matrixAI_state_v1';
-var LS_DEAD = 'matrixAI_deadmap_v1';
+/* لتطبيق تغييرات جديدة وتفادي تجميد القوائم، تم تعديل المفتاح ليتم مسح الأخطاء القديمة */
+var LS_KEY = 'MatrixAI_State_Final_V100';
+var LS_DEAD = 'MatrixAI_DeadMap_Final_V100';
 var state = null;
 var deadMap = {};
 
 function freshState(){
-    var s = { 
-        sessions:[], 
-        currentSessionId:null, 
-        providers: DEFAULT_PROVIDERS.map(function(p){ 
-            var c = Object.assign({}, p); 
-            c.apiKey=''; 
-            c.enabled = (p.id==='pollinations'); 
-            c.status='unknown'; 
-            c.modelsCache=null; 
-            return c; 
-        }), 
-        customProviders:[], 
-        fallbackOrder:['pollinations'], 
-        autoFallback:true, 
-        periodicCheck:true, 
-        thinkMode:false, 
-        pricing: Object.assign({}, DEFAULT_PRICING), 
-        remoteManifestUrl:'', 
-        firstRun:true 
-    };
-    
-    var sess = newSessionObj();
-    s.sessions.push(sess);
-    s.currentSessionId = sess.id;
-    return s;
-}
-
-function newSessionObj(){
-    return { 
-        id:uid(), 
-        title:'محادثة جديدة', 
-        createdAt:Date.now(), 
-        messages:[], 
-        providerId:'pollinations', 
-        model:'openai', 
-        tokensIn:0, 
-        tokensOut:0, 
-        media:[] 
-    };
+  var s = {
+    sessions:[],
+    currentSessionId:null,
+    providers: DEFAULT_PROVIDERS.map(function(p){
+      var c = Object.assign({}, p);
+      c.apiKey=''; 
+      c.enabled = (p.id==='pollinations'); 
+      c.status='unknown'; 
+      c.modelsCache=null;
+      return c;
+    }),
+    customProviders:[],
+    fallbackOrder:['pollinations'],
+    autoFallback:true, 
+    periodicCheck:true, 
+    thinkMode:false,
+    pricing: {}, 
+    remoteManifestUrl:'', 
+    firstRun:true
+  };
+  
+  var sess = newSessionObj();
+  s.sessions.push(sess);
+  s.currentSessionId = sess.id;
+  
+  return s;
 }
 
 function loadState(){
-    try{
-        var raw = localStorage.getItem(LS_KEY);
-        if (!raw) return freshState();
-        
-        var parsed = JSON.parse(raw);
-        if (!parsed.sessions || !parsed.sessions.length) return freshState();
-        
-        var existingIds = parsed.providers.map(function(p){ return p.id; });
-        
-        DEFAULT_PROVIDERS.forEach(function(dp){
-            if (existingIds.indexOf(dp.id) === -1){
-                var c = Object.assign({}, dp);
-                c.apiKey=''; 
-                c.enabled=false; 
-                c.status='unknown'; 
-                c.modelsCache=null;
-                parsed.providers.push(c);
-            }
-        });
-        
-        if (!parsed.customProviders) parsed.customProviders = [];
-        if (!parsed.pricing) parsed.pricing = {};
-        
-        return parsed;
-    }catch(e){
-        console.error('loadState', e);
-        return freshState();
-    }
+  try{
+    var raw = localStorage.getItem(LS_KEY);
+    if (!raw) return freshState();
+    
+    var parsed = JSON.parse(raw);
+    if (!parsed.sessions || !parsed.sessions.length) return freshState();
+    
+    var existingIds = parsed.providers.map(function(p){ return p.id; });
+    
+    DEFAULT_PROVIDERS.forEach(function(dp){
+      if (existingIds.indexOf(dp.id) === -1){
+        var c = Object.assign({}, dp);
+        c.apiKey=''; 
+        c.enabled=false; 
+        c.status='unknown'; 
+        c.modelsCache=null;
+        parsed.providers.push(c);
+      }
+    });
+
+    parsed.providers.forEach(function(p){
+       var def = DEFAULT_PROVIDERS.find(function(d){ return d.id === p.id; });
+       if (def) {
+           p.baseUrl = def.baseUrl;
+           p.chatPath = def.chatPath;
+           p.modelsPath = def.modelsPath;
+           p.staticModels = def.staticModels;
+       }
+    });
+
+    if (!parsed.customProviders) parsed.customProviders = [];
+    if (!parsed.pricing) parsed.pricing = {};
+    
+    return parsed;
+  }catch(e){ 
+      return freshState(); 
+  }
 }
 
 function saveState(){
-    try{
-        localStorage.setItem(LS_KEY, JSON.stringify(state));
-    } catch(e){
-        console.error('saveState failed', e);
-        toast('⚠️ تعذر حفظ البيانات محلياً (المساحة ممتلئة؟)');
-    }
+  try{ 
+      localStorage.setItem(LS_KEY, JSON.stringify(state)); 
+  } catch(e){ 
+      toast('⚠️ تعذر حفظ البيانات محلياً (المساحة ممتلئة؟)'); 
+  }
 }
 
 function loadDeadMap(){
-    try{ 
-        return JSON.parse(localStorage.getItem(LS_DEAD) || '{}'); 
-    }catch(e){ 
-        return {}; 
-    }
+  try{ 
+      return JSON.parse(localStorage.getItem(LS_DEAD) || '{}'); 
+  }catch(e){ 
+      return {}; 
+  }
 }
 
 function saveDeadMap(){
-    try{ 
-        localStorage.setItem(LS_DEAD, JSON.stringify(deadMap)); 
-    }catch(e){}
+  try{ 
+      localStorage.setItem(LS_DEAD, JSON.stringify(deadMap)); 
+  }catch(e){}
 }
 
 /* ---------- Provider helpers ---------- */
@@ -1699,1285 +1695,1282 @@ function deadKey(pid, model){
 }
 
 function markDead(pid, model, err){
-    var msg = (err && err.message) || '';
-    var cooldown = /429|rate/i.test(msg) ? 2*60*1000 : 8*60*1000;
-    deadMap[deadKey(pid, model)] = Date.now() + cooldown;
-    saveDeadMap();
+  var msg = (err && err.message) || '';
+  var cooldown = /429|rate/i.test(msg) ? 2*60*1000 : 8*60*1000;
+  deadMap[deadKey(pid, model)] = Date.now() + cooldown;
+  saveDeadMap();
 }
 
 function isDead(pid, model){
-    var t = deadMap[deadKey(pid, model)];
-    return !!(t && t > Date.now());
+  var t = deadMap[deadKey(pid, model)];
+  return !!(t && t > Date.now());
 }
 
-function clearDeadMap(){
-    deadMap = {};
-    saveDeadMap();
-    toast('تم مسح قائمة المزودين المعطّلين مؤقتاً');
+function clearDeadMap(){ 
+    deadMap = {}; 
+    saveDeadMap(); 
+    toast('تم مسح قائمة المزودين المعطّلين مؤقتاً'); 
 }
 
 function setProviderStatus(pid, status){
-    var p = getProvider(pid);
-    if (p) p.status = status;
-    saveState();
-    renderProvidersList();
+  var p = getProvider(pid);
+  if (p) p.status = status;
+  saveState(); 
+  renderProvidersList();
 }
 
 async function fetchModels(provider){
-    if (provider.modelsCache && provider.modelsCache.length) return provider.modelsCache;
-    var out = [];
+  if (provider.modelsCache && provider.modelsCache.length) return provider.modelsCache;
+  var out = [];
+  
+  if (provider.modelsPath) {
     try{
-        var headers = {};
-        if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+      var headers = {};
+      if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+      
+      var ctrl = new AbortController();
+      var t = setTimeout(function(){ ctrl.abort(); }, 9000);
+      
+      var res = await fetch(provider.baseUrl + provider.modelsPath, {headers:headers, signal:ctrl.signal});
+      clearTimeout(t);
+      
+      if (res.ok){
+        var json = await res.json();
+        var list = json.data || json.models || (Array.isArray(json)?json:[]);
         
-        var ctrl = new AbortController();
-        var t = setTimeout(function(){ ctrl.abort(); }, 9000);
+        out = list.map(function(m){ 
+            return {id: m.id || m.name || m, label: m.id || m.name || String(m)}; 
+        });
         
-        var res = await fetch(provider.baseUrl + (provider.modelsPath||'/models'), {headers:headers, signal:ctrl.signal});
-        clearTimeout(t);
-        
-        if (res.ok){
-            var json = await res.json();
-            var list = json.data || json.models || (Array.isArray(json)?json:[]);
-            
-            out = list.map(function(m){ 
-                return {id: m.id || m.name || m, label: m.id || m.name || String(m)}; 
-            });
-            
-            if (provider.freeSuffix){
-                var free = out.filter(function(m){ return m.id.indexOf(provider.freeSuffix) !== -1; });
-                if (free.length) out = free;
-            }
+        if (provider.freeSuffix){
+          var free = out.filter(function(m){ return m.id.indexOf(provider.freeSuffix) !== -1; });
+          if (free.length) out = free;
         }
-    }catch(e){
-    }
-    
-    if (!out.length && provider.staticModels){
-        out = provider.staticModels.map(function(m){ return {id:m, label:m}; });
-    }
-    
-    if (!out.length && provider.defaultModel){
-        out = [{id:provider.defaultModel, label:provider.defaultModel}];
-    }
-    
-    provider.modelsCache = out;
-    return out;
+      }
+    }catch(e){ /* fall through to static list */ }
+  }
+
+  if (!out.length && provider.staticModels){
+    out = provider.staticModels.map(function(m){ return {id:m, label:m}; });
+  }
+  
+  if (!out.length && provider.defaultModel){
+    out = [{id:provider.defaultModel, label:provider.defaultModel}];
+  }
+  
+  provider.modelsCache = out;
+  return out;
 }
 
 async function testProvider(provider){
-    setProviderStatus(provider.id, 'checking');
-    try{
-        var headers = {};
-        if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
-        
-        var ctrl = new AbortController();
-        var t = setTimeout(function(){ ctrl.abort(); }, 8000);
-        
-        var res = await fetch(provider.baseUrl + (provider.modelsPath||'/models'), {headers:headers, signal:ctrl.signal});
-        clearTimeout(t);
-        
-        if (res.ok){
-            setProviderStatus(provider.id, 'alive');
-            return true;
-        }
-        if (res.status === 401 || res.status === 403){
-            setProviderStatus(provider.id, 'needs-key');
-            return false;
-        }
-        
-        setProviderStatus(provider.id, 'error');
-        return false;
-    }catch(e){
-        setProviderStatus(provider.id, 'error');
-        return false;
+  setProviderStatus(provider.id, 'checking');
+  if (!provider.modelsPath) {
+      setProviderStatus(provider.id, 'alive');
+      return true;
+  }
+  try{
+    var headers = {};
+    if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+    
+    var ctrl = new AbortController();
+    var t = setTimeout(function(){ ctrl.abort(); }, 8000);
+    
+    var res = await fetch(provider.baseUrl + provider.modelsPath, {headers:headers, signal:ctrl.signal});
+    clearTimeout(t);
+    
+    if (res.ok){ 
+        setProviderStatus(provider.id, 'alive'); 
+        return true; 
     }
+    
+    if (res.status === 401 || res.status === 403){ 
+        setProviderStatus(provider.id, 'needs-key'); 
+        return false; 
+    }
+    
+    setProviderStatus(provider.id, 'error'); 
+    return false;
+  }catch(e){
+    setProviderStatus(provider.id, 'error'); 
+    return false;
+  }
 }
 
 async function runPeriodicChecks(){
-    if (!state.periodicCheck) return;
-    var providers = enabledProviders();
-    for (var i = 0; i < providers.length; i++) {
-        await testProvider(providers[i]);
-    }
+  if (!state.periodicCheck) return;
+  var provs = enabledProviders();
+  for (var i = 0; i < provs.length; i++) { 
+      await testProvider(provs[i]); 
+  }
 }
 
 /* ---------- Token estimation & usage ---------- */
 function estimateTokens(text){
-    if (!text) return 0;
-    text = String(text);
-    var arabicChars = (text.match(/[\u0600-\u06FF]/g) || []).length;
-    var ratio = arabicChars / Math.max(text.length, 1);
-    var divisor = ratio > 0.25 ? 2.3 : 4;
-    return Math.max(1, Math.round(text.length / divisor));
+  if (!text) return 0;
+  text = String(text);
+  var arabicChars = (text.match(/[\u0600-\u06FF]/g) || []).length;
+  var ratio = arabicChars / Math.max(text.length, 1);
+  var divisor = ratio > 0.25 ? 2.3 : 4;
+  return Math.max(1, Math.round(text.length / divisor));
 }
 
 function addUsage(session, providerId, tokensIn, tokensOut){
-    session.tokensIn = (session.tokensIn||0) + tokensIn;
-    session.tokensOut = (session.tokensOut||0) + tokensOut;
-    
-    state.usageByProvider = state.usageByProvider || {};
-    var u = state.usageByProvider[providerId] || {in:0,out:0};
-    u.in += tokensIn;
-    u.out += tokensOut;
-    state.usageByProvider[providerId] = u;
-    
-    saveState();
-    updateTokenPill();
+  session.tokensIn = (session.tokensIn||0) + tokensIn;
+  session.tokensOut = (session.tokensOut||0) + tokensOut;
+  
+  state.usageByProvider = state.usageByProvider || {};
+  var u = state.usageByProvider[providerId] || {in:0,out:0};
+  
+  u.in += tokensIn; 
+  u.out += tokensOut;
+  state.usageByProvider[providerId] = u;
+  
+  saveState(); 
+  updateTokenPill();
 }
 
 function costFor(providerId, tokensIn, tokensOut){
-    var pr = state.pricing[providerId] || {inputPer1M:0, outputPer1M:0};
-    return (tokensIn/1e6)*(pr.inputPer1M||0) + (tokensOut/1e6)*(pr.outputPer1M||0);
+  var pr = state.pricing[providerId] || {inputPer1M:0, outputPer1M:0};
+  return (tokensIn/1e6)*(pr.inputPer1M||0) + (tokensOut/1e6)*(pr.outputPer1M||0);
 }
 
 function totalCost(){
-    var total = 0;
-    Object.keys(state.usageByProvider||{}).forEach(function(pid){
-        var u = state.usageByProvider[pid];
-        total += costFor(pid, u.in, u.out);
-    });
-    return total;
+  var total = 0;
+  Object.keys(state.usageByProvider||{}).forEach(function(pid){
+    var u = state.usageByProvider[pid];
+    total += costFor(pid, u.in, u.out);
+  });
+  return total;
 }
 
 function totalTokens(){
-    var t = 0;
-    Object.keys(state.usageByProvider||{}).forEach(function(pid){
-        var u = state.usageByProvider[pid];
-        t += u.in+u.out;
-    });
-    return t;
+  var t = 0;
+  Object.keys(state.usageByProvider||{}).forEach(function(pid){
+    var u = state.usageByProvider[pid];
+    t += u.in+u.out;
+  });
+  return t;
 }
 
 function updateTokenPill(){
-    $('tokenPillText').textContent = fmtNum(totalTokens()) + ' توكن · $' + totalCost().toFixed(4);
+  $('tokenPillText').textContent = fmtNum(totalTokens()) + ' توكن · $' + totalCost().toFixed(4);
 }
 
 /* ---------- Sessions ---------- */
-function getCurrentSession(){
-    return state.sessions.find(function(s){ return s.id === state.currentSessionId; });
+function getCurrentSession(){ 
+    return state.sessions.find(function(s){ return s.id === state.currentSessionId; }); 
+}
+
+function newSessionObj(){ 
+    return { id:uid(), title:'محادثة جديدة', createdAt:Date.now(), messages:[], providerId:'pollinations', model:'openai', tokensIn:0, tokensOut:0, media:[] }; 
 }
 
 function createSession(){
-    var s = newSessionObj();
-    state.sessions.unshift(s);
-    state.currentSessionId = s.id;
-    saveState();
-    renderSessionsList();
-    renderChatMessages();
-    populateChatSelectors();
-    closeDrawer();
+  var s = newSessionObj(); 
+  state.sessions.unshift(s); 
+  state.currentSessionId = s.id; 
+  saveState();
+  renderSessionsList(); 
+  renderChatMessages(); 
+  populateChatSelectors(); 
+  closeDrawer();
 }
 
 function switchSession(id){
-    state.currentSessionId = id;
-    saveState();
-    renderSessionsList();
-    renderChatMessages();
-    populateChatSelectors();
-    closeDrawer();
+  state.currentSessionId = id; 
+  saveState();
+  renderSessionsList(); 
+  renderChatMessages(); 
+  populateChatSelectors(); 
+  closeDrawer();
 }
 
 function deleteSession(id){
-    state.sessions = state.sessions.filter(function(s){ return s.id !== id; });
-    if (!state.sessions.length) state.sessions.push(newSessionObj());
-    if (state.currentSessionId === id) state.currentSessionId = state.sessions[0].id;
-    
-    saveState();
-    renderSessionsList();
-    renderChatMessages();
+  state.sessions = state.sessions.filter(function(s){ return s.id !== id; });
+  if (!state.sessions.length) state.sessions.push(newSessionObj());
+  if (state.currentSessionId === id) state.currentSessionId = state.sessions[0].id;
+  
+  saveState(); 
+  renderSessionsList(); 
+  renderChatMessages();
 }
 
 function renderSessionsList(){
-    var el = $('sessionsList');
-    el.innerHTML = '';
+  var el = $('sessionsList'); 
+  el.innerHTML = '';
+  
+  state.sessions.forEach(function(s){
+    var div = document.createElement('div');
+    div.className = 'session-item' + (s.id===state.currentSessionId?' active':'');
+    var tokens = (s.tokensIn||0)+(s.tokensOut||0);
     
-    state.sessions.forEach(function(s){
-        var div = document.createElement('div');
-        div.className = 'session-item' + (s.id===state.currentSessionId?' active':'');
-        
-        var tokens = (s.tokensIn||0)+(s.tokensOut||0);
-        div.innerHTML = '<div class="stitle">'+escapeHtml(s.title)+'</div><div class="smeta">'+fmtNum(tokens)+' توكن</div>';
-        
-        div.addEventListener('click', function(){ switchSession(s.id); });
-        
-        var del = document.createElement('button');
-        del.className='sdel';
-        del.textContent='✕';
-        del.addEventListener('click', function(e){
-            e.stopPropagation();
-            confirmAction('حذف الجلسة', 'سيتم حذف "'+s.title+'" نهائياً.', function(){ deleteSession(s.id); });
-        });
-        
-        div.appendChild(del);
-        el.appendChild(div);
+    div.innerHTML = '<div class="stitle">'+escapeHtml(s.title)+'</div><div class="smeta">'+fmtNum(tokens)+' توكن</div>';
+    
+    div.addEventListener('click', function(){ switchSession(s.id); });
+    
+    var del = document.createElement('button'); 
+    del.className='sdel'; 
+    del.textContent='✕';
+    
+    del.addEventListener('click', function(e){
+      e.stopPropagation(); 
+      confirmAction('حذف الجلسة', 'سيتم حذف "'+s.title+'" نهائياً.', function(){ deleteSession(s.id); });
     });
+    
+    div.appendChild(del); 
+    el.appendChild(div);
+  });
 }
 
 /* ---------- Chat rendering ---------- */
 function renderChatMessages(){
-    var session = getCurrentSession();
-    var el = $('chatMessages');
-    el.innerHTML = '';
-    
-    session.messages.forEach(function(m){ 
-        el.appendChild(buildMessageEl(m)); 
-    });
-    
-    el.scrollTop = el.scrollHeight;
-    updateContextBar();
+  var session = getCurrentSession(); 
+  var el = $('chatMessages'); 
+  el.innerHTML = '';
+  
+  session.messages.forEach(function(m){ 
+      el.appendChild(buildMessageEl(m)); 
+  });
+  
+  el.scrollTop = el.scrollHeight; 
+  updateContextBar();
 }
 
 function buildMessageEl(m){
-    var wrap = document.createElement('div');
-    wrap.className = 'msg ' + m.role;
-    
-    var bubble = document.createElement('div');
-    bubble.className='bubble';
-    
-    var html = '';
-    if (m.image) html += '<img class="att" src="'+m.image+'">';
-    if (m.reasoning){
-        html += '<details class="thinking-box"><summary>🧠 عرض التفكير</summary><div style="margin-top:6px; white-space:pre-wrap;">'+escapeHtml(m.reasoning)+'</div></details>';
-    }
-    html += renderMarkdown(m.content||'');
-    
-    bubble.innerHTML = html;
-    wrap.appendChild(bubble);
-    
-    if (m.time){
-        var meta = document.createElement('div');
-        meta.className='meta';
-        meta.textContent = m.time;
-        wrap.appendChild(meta);
-    }
-    
-    return wrap;
+  var wrap = document.createElement('div'); 
+  wrap.className = 'msg ' + m.role;
+  
+  var bubble = document.createElement('div'); 
+  bubble.className='bubble';
+  
+  var html = '';
+  if (m.image) html += '<img class="att" src="'+m.image+'">';
+  if (m.reasoning) html += '<details class="thinking-box"><summary>🧠 عرض التفكير</summary><div style="margin-top:6px; white-space:pre-wrap;">'+escapeHtml(m.reasoning)+'</div></details>';
+  
+  html += renderMarkdown(m.content||''); 
+  bubble.innerHTML = html; 
+  wrap.appendChild(bubble);
+  
+  if (m.time){ 
+      var meta = document.createElement('div'); 
+      meta.className='meta'; 
+      meta.textContent = m.time; 
+      wrap.appendChild(meta); 
+  }
+  return wrap;
 }
 
 function appendMessage(role, content, extra){
-    var session = getCurrentSession();
-    var m = Object.assign({role:role, content:content, time:nowStr()}, extra||{});
-    session.messages.push(m);
-    
-    $('chatMessages').appendChild(buildMessageEl(m));
-    $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
-    
-    return m;
+  var session = getCurrentSession();
+  var m = Object.assign({role:role, content:content, time:nowStr()}, extra||{});
+  
+  session.messages.push(m);
+  $('chatMessages').appendChild(buildMessageEl(m));
+  $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
+  
+  return m;
 }
 
 function updateContextBar(){
-    var session = getCurrentSession();
-    var used = (session.tokensIn||0)+(session.tokensOut||0);
-    var ctxSize = 32000;
-    var pct = Math.min(100, Math.round((used/ctxSize)*100));
-    $('contextFill').style.width = pct+'%';
-    $('contextLabel').textContent = pct+'% من نافذة السياق التقديرية';
+  var session = getCurrentSession(); 
+  var used = (session.tokensIn||0)+(session.tokensOut||0);
+  var pct = Math.min(100, Math.round((used/32000)*100));
+  $('contextFill').style.width = pct+'%'; 
+  $('contextLabel').textContent = pct+'% من نافذة السياق التقديرية';
 }
 
-/* ---------- Markdown-lite renderer ---------- */
 function renderMarkdown(text){
-    var html = escapeHtml(text);
-    
-    html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
-        var id = 'code_' + Math.random().toString(36).slice(2,8);
-        return '<div class="code-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
-               '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
-               '<pre><code id="'+id+'" dir="ltr">'+code+'</code></pre></div>';
-    });
-    
-    html = html.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
-    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    html = html.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-    html = html.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
-    
-    return html;
+  var html = escapeHtml(text);
+  
+  html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
+    var id = 'code_' + Math.random().toString(36).slice(2,8);
+    return '<div class="code-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
+           '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
+           '<pre><code id="'+id+'" dir="ltr">'+code+'</code></pre></div>';
+  });
+  
+  html = html.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  html = html.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
+  
+  return html;
 }
 
 document.addEventListener('click', function(e){
-    if (e.target.classList && e.target.classList.contains('copy-btn')){
-        var codeEl = $(e.target.getAttribute('data-target'));
-        if (codeEl){
-            navigator.clipboard && navigator.clipboard.writeText(codeEl.textContent).then(function(){
-                e.target.textContent = 'تم!';
-                setTimeout(function(){ e.target.textContent='نسخ'; }, 1500);
-            });
-        }
+  if (e.target.classList && e.target.classList.contains('copy-btn')){
+    var codeEl = $(e.target.getAttribute('data-target'));
+    if (codeEl && navigator.clipboard){
+      navigator.clipboard.writeText(codeEl.textContent).then(function(){
+        e.target.textContent = 'تم!'; 
+        setTimeout(function(){ e.target.textContent='نسخ'; }, 1500);
+      });
     }
+  }
 });
 
 /* ---------- Request engine ---------- */
-var currentAbortController = null;
+var currentAbortController = null; 
 var isStreaming = false;
 
 function buildFallbackChain(primaryId, primaryModel){
-    var chain = [];
-    var primary = getProvider(primaryId);
-    
-    if (primary) chain.push({provider:primary, model: primaryModel || primary.defaultModel});
-    
-    if (state.autoFallback){
-        state.fallbackOrder.forEach(function(pid){
-            if (pid === primaryId) return;
-            var p = getProvider(pid);
-            if (p && p.enabled && (p.apiKey || p.keyless)) chain.push({provider:p, model:p.defaultModel});
-        });
-    }
-    return chain;
+  var chain = []; 
+  var primary = getProvider(primaryId);
+  
+  if (primary) chain.push({provider:primary, model: primaryModel || primary.defaultModel});
+  
+  if (state.autoFallback){
+    state.fallbackOrder.forEach(function(pid){
+      if (pid === primaryId) return;
+      var p = getProvider(pid);
+      if (p && p.enabled && (p.apiKey || p.keyless)) chain.push({provider:p, model:p.defaultModel});
+    });
+  }
+  return chain;
 }
 
 function buildChatRequest(provider, model, messages, opts){
-    var url = provider.baseUrl + provider.chatPath;
-    var headers = {'Content-Type':'application/json'};
-    
-    if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
-    
-    var body = {model: model || provider.defaultModel, messages: messages, stream:true};
-    if (opts.reasoning) body.reasoning_effort = 'low';
-    
-    return {url:url, headers:headers, body:body};
+  var url = provider.baseUrl + provider.chatPath;
+  var headers = {'Content-Type':'application/json'};
+  
+  if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+  
+  var body = {model: model || provider.defaultModel, messages: messages, stream:true};
+  if (opts.reasoning) body.reasoning_effort = 'low';
+  
+  return {url:url, headers:headers, body:body};
 }
 
 async function streamFromProvider(provider, model, messages, onDelta, onDone){
-    var req = buildChatRequest(provider, model, messages, {reasoning: state.thinkMode});
-    currentAbortController = new AbortController();
+  var req = buildChatRequest(provider, model, messages, {reasoning: state.thinkMode});
+  currentAbortController = new AbortController();
+  
+  var res = await fetch(req.url, { 
+      method:'POST', 
+      headers:req.headers, 
+      body:JSON.stringify(req.body), 
+      signal:currentAbortController.signal 
+  });
+  
+  if (!res.ok){
+    var errText = ''; 
+    try{ errText = (await res.text()).slice(0,150); }catch(e){}
+    throw new Error('HTTP ' + res.status + (errText?(' — '+errText):''));
+  }
+  
+  var reader = res.body.getReader(); 
+  var decoder = new TextDecoder();
+  var buffer = '', fullText = '', reasoningText = '', usage = null;
+  
+  while (true){
+    var chunk = await reader.read(); 
+    if (chunk.done) break;
     
-    var res = await fetch(req.url, {
-        method:'POST',
-        headers:req.headers,
-        body:JSON.stringify(req.body),
-        signal:currentAbortController.signal
-    });
+    buffer += decoder.decode(chunk.value, {stream:true});
+    var lines = buffer.split('\n'); 
+    buffer = lines.pop();
     
-    if (!res.ok){
-        var errText = '';
-        try{ errText = (await res.text()).slice(0,150); }catch(e){}
-        throw new Error('HTTP ' + res.status + (errText?(' — '+errText):''));
-    }
-    
-    var reader = res.body.getReader();
-    var decoder = new TextDecoder();
-    var buffer = '', fullText = '', reasoningText = '', usage = null;
-    
-    while (true){
-        var chunk = await reader.read();
-        if (chunk.done) break;
+    for (var i=0;i<lines.length;i++){
+      var line = lines[i].trim();
+      if (line.slice(0,5) !== 'data:') continue;
+      
+      var payload = line.slice(5).trim();
+      if (payload === '[DONE]') continue;
+      
+      try{
+        var json = JSON.parse(payload);
+        var delta = json.choices && json.choices[0] && json.choices[0].delta;
         
-        buffer += decoder.decode(chunk.value, {stream:true});
-        var lines = buffer.split('\n');
-        buffer = lines.pop();
-        
-        for (var i=0;i<lines.length;i++){
-            var line = lines[i].trim();
-            if (line.slice(0,5) !== 'data:') continue;
-            
-            var payload = line.slice(5).trim();
-            if (payload === '[DONE]') continue;
-            
-            try{
-                var json = JSON.parse(payload);
-                var delta = json.choices && json.choices[0] && json.choices[0].delta;
-                
-                if (delta && delta.content){
-                    fullText += delta.content;
-                    onDelta(delta.content, 'content');
-                }
-                
-                var rc = delta && (delta.reasoning_content || delta.reasoning);
-                if (rc){
-                    reasoningText += rc;
-                    onDelta(rc, 'reasoning');
-                }
-                
-                if (json.usage) usage = json.usage;
-            }catch(e){
-            }
+        if (delta && delta.content){ 
+            fullText += delta.content; 
+            onDelta(delta.content, 'content'); 
         }
+        
+        var rc = delta && (delta.reasoning_content || delta.reasoning);
+        if (rc){ 
+            reasoningText += rc; 
+            onDelta(rc, 'reasoning'); 
+        }
+        
+        if (json.usage) usage = json.usage;
+      }catch(e){ }
     }
-    onDone(fullText, reasoningText, usage);
+  }
+  
+  onDone(fullText, reasoningText, usage);
 }
 
 async function sendChatMessage(){
-    if (isStreaming) return;
+  if (isStreaming) return;
+  
+  var input = $('chatInput'); 
+  var text = input.value.trim(); 
+  var attachedImage = pendingAttachment;
+  
+  if (!text && !attachedImage) return;
+  
+  var session = getCurrentSession();
+  var userMsg = {role:'user', content:text, time:nowStr()};
+  if (attachedImage) userMsg.image = attachedImage;
+  
+  session.messages.push(userMsg);
+  $('chatMessages').appendChild(buildMessageEl(userMsg));
+  $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
+  
+  input.value=''; 
+  autoGrow(input); 
+  clearAttachment();
+  
+  var apiMessages = session.messages.slice(-20).map(function(m){
+    if (m.role==='system') return null;
+    if (m.image) return {role:m.role, content:[{type:'text', text:m.content||''}, {type:'image_url', image_url:{url:m.image}}]};
+    return {role:m.role, content:m.content};
+  }).filter(Boolean);
+  
+  var tokensInEstimate = estimateTokens(text);
+  var chain = buildFallbackChain(session.providerId, session.model);
+  
+  if (!chain.length){ 
+      appendMessage('system', '❌ لا يوجد أي مزوّد مفعّل. افتح تبويب 🔑 مفاتيح أولاً.'); 
+      return; 
+  }
+  
+  isStreaming = true; 
+  setSendButtonState(true);
+  
+  var aiBubbleWrap = null, aiBubbleInner = null;
+  
+  for (var i=0;i<chain.length;i++){
+    if (!isStreaming) break;
     
-    var input = $('chatInput');
-    var text = input.value.trim();
-    var attachedImage = pendingAttachment;
+    var provider = chain[i].provider, model = chain[i].model;
+    if (isDead(provider.id, model)) continue;
     
-    if (!text && !attachedImage) return;
+    aiBubbleWrap = document.createElement('div'); 
+    aiBubbleWrap.className='msg ai';
     
-    var session = getCurrentSession();
-    var userMsg = {role:'user', content:text, time:nowStr()};
-    if (attachedImage) userMsg.image = attachedImage;
+    aiBubbleInner = document.createElement('div'); 
+    aiBubbleInner.className='bubble';
+    aiBubbleInner.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
     
-    session.messages.push(userMsg);
-    $('chatMessages').appendChild(buildMessageEl(userMsg));
+    aiBubbleWrap.appendChild(aiBubbleInner); 
+    $('chatMessages').appendChild(aiBubbleWrap);
     $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
     
-    input.value='';
-    autoGrow(input);
-    clearAttachment();
+    var accText = '', accReasoning = '', gotFirstToken = false;
     
-    var apiMessages = session.messages.slice(-20).map(function(m){
-        if (m.role==='system') return null;
-        if (m.image){
-            return {role:m.role, content:[{type:'text', text:m.content||''}, {type:'image_url', image_url:{url:m.image}}]};
+    try{
+      await streamFromProvider(provider, model, apiMessages, function(delta, kind){
+        if (kind==='content'){
+          if (!gotFirstToken){ 
+              gotFirstToken = true; 
+              aiBubbleInner.innerHTML=''; 
+          }
+          accText += delta;
+          aiBubbleInner.innerHTML = (accReasoning ? '<details class="thinking-box" open><summary>🧠 التفكير...</summary><div style="margin-top:6px;white-space:pre-wrap;">'+escapeHtml(accReasoning)+'</div></details>' : '') + renderMarkdown(accText);
+        } else {
+          accReasoning += delta;
+          aiBubbleInner.innerHTML = '<details class="thinking-box" open><summary>🧠 التفكير...</summary><div style="margin-top:6px;white-space:pre-wrap;">'+escapeHtml(accReasoning)+'</div></details>' + renderMarkdown(accText);
         }
-        return {role:m.role, content:m.content};
-    }).filter(Boolean);
-    
-    var tokensInEstimate = estimateTokens(text);
-    var chain = buildFallbackChain(session.providerId, session.model);
-    
-    if (!chain.length){
-        appendMessage('system', '❌ لا يوجد أي مزوّد مفعّل بمفتاح صالح. افتح تبويب 🔑 مفاتيح أولاً.');
-        return;
-    }
-    
-    isStreaming = true;
-    setSendButtonState(true);
-    
-    var aiBubbleWrap = null, aiBubbleInner = null, thinkingWrap = null;
-    
-    for (var i=0;i<chain.length;i++){
-        if (!isStreaming) break;
-        
-        var provider = chain[i].provider, model = chain[i].model;
-        if (isDead(provider.id, model)) continue;
-        
-        aiBubbleWrap = document.createElement('div');
-        aiBubbleWrap.className='msg ai';
-        
-        aiBubbleInner = document.createElement('div');
-        aiBubbleInner.className='bubble';
-        aiBubbleInner.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
-        
-        aiBubbleWrap.appendChild(aiBubbleInner);
-        $('chatMessages').appendChild(aiBubbleWrap);
         $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
         
-        var accText = '', accReasoning = '', gotFirstToken = false;
+      }, function(fullText, reasoningText, usage){
+        var tOut = usage && usage.completion_tokens ? usage.completion_tokens : estimateTokens(fullText);
+        var tIn = usage && usage.prompt_tokens ? usage.prompt_tokens : tokensInEstimate;
         
-        try{
-            await streamFromProvider(provider, model, apiMessages, function(delta, kind){
-                if (kind==='content'){
-                    if (!gotFirstToken){
-                        gotFirstToken = true;
-                        aiBubbleInner.innerHTML='';
-                    }
-                    accText += delta;
-                    aiBubbleInner.innerHTML = (accReasoning ? '<details class="thinking-box" open><summary>🧠 التفكير...</summary><div style="margin-top:6px;white-space:pre-wrap;">'+escapeHtml(accReasoning)+'</div></details>' : '') + renderMarkdown(accText);
-                } else {
-                    accReasoning += delta;
-                    aiBubbleInner.innerHTML = '<details class="thinking-box" open><summary>🧠 التفكير...</summary><div style="margin-top:6px;white-space:pre-wrap;">'+escapeHtml(accReasoning)+'</div></details>' + renderMarkdown(accText);
-                }
-                $('chatMessages').scrollTop = $('chatMessages').scrollHeight;
-                
-            }, function(fullText, reasoningText, usage){
-                var tOut = usage && usage.completion_tokens ? usage.completion_tokens : estimateTokens(fullText);
-                var tIn = usage && usage.prompt_tokens ? usage.prompt_tokens : tokensInEstimate;
-                
-                session.messages.push({role:'assistant', content:fullText, reasoning:reasoningText||null, time:nowStr(), providerId:provider.id, model:model});
-                addUsage(session, provider.id, tIn, tOut);
-                updateContextBar();
-                
-                var metaEl = document.createElement('div');
-                metaEl.className='meta';
-                metaEl.textContent = (provider.name||provider.id) + ' · ' + model + ' · ' + nowStr();
-                aiBubbleWrap.appendChild(metaEl);
-            });
-            
-            saveState();
-            isStreaming = false;
-            setSendButtonState(false);
-            return;
-            
-        }catch(err){
-            if (err.name === 'AbortError'){
-                aiBubbleInner.innerHTML += ' <em style="color:var(--mint-faint)">(أوقفه المستخدم)</em>';
-                isStreaming = false;
-                setSendButtonState(false);
-                return;
-            }
-            markDead(provider.id, model, err);
-            aiBubbleWrap.remove();
-            appendMessage('system', '⚠️ فشل '+(provider.name||provider.id)+'/'+model+': '+err.message+' — '+(i<chain.length-1?'جارٍ تجربة مزوّد آخر...':'لا مزوّد آخر متاح.'));
-        }
+        session.messages.push({role:'assistant', content:fullText, reasoning:reasoningText||null, time:nowStr(), providerId:provider.id, model:model});
+        addUsage(session, provider.id, tIn, tOut); 
+        updateContextBar();
+        
+        var metaEl = document.createElement('div'); 
+        metaEl.className='meta'; 
+        metaEl.textContent = (provider.name||provider.id) + ' · ' + model + ' · ' + nowStr();
+        aiBubbleWrap.appendChild(metaEl);
+      });
+      
+      saveState(); 
+      isStreaming = false; 
+      setSendButtonState(false); 
+      return;
+      
+    }catch(err){
+      if (err.name === 'AbortError'){
+        aiBubbleInner.innerHTML += ' <em style="color:var(--mint-faint)">(أوقفه المستخدم)</em>';
+        isStreaming = false; 
+        setSendButtonState(false); 
+        return;
+      }
+      markDead(provider.id, model, err); 
+      aiBubbleWrap.remove();
+      appendMessage('system', '⚠️ فشل '+(provider.name||provider.id)+'/'+model+': '+err.message+' — '+(i<chain.length-1?'جارٍ تجربة مزوّد آخر...':'لا مزوّد آخر متاح.'));
     }
-    isStreaming = false;
-    setSendButtonState(false);
+  }
+  isStreaming = false; 
+  setSendButtonState(false);
 }
 
 function setSendButtonState(streaming){
-    var btn = $('btnSend');
-    if (streaming){
-        btn.textContent='⏹';
-        btn.classList.add('stop');
-    } else {
-        btn.textContent='➤';
-        btn.classList.remove('stop');
-    }
+  var btn = $('btnSend');
+  if (streaming){ 
+      btn.textContent='⏹'; 
+      btn.classList.add('stop'); 
+  } else { 
+      btn.textContent='➤'; 
+      btn.classList.remove('stop'); 
+  }
 }
 
-/* ---------- Attachments ---------- */
 var pendingAttachment = null;
-function clearAttachment(){
-    pendingAttachment = null;
-    $('attachPreview').innerHTML = '';
+
+function clearAttachment(){ 
+    pendingAttachment = null; 
+    $('attachPreview').innerHTML = ''; 
 }
 
-function autoGrow(el){
-    el.style.height='auto';
-    el.style.height=Math.min(el.scrollHeight,120)+'px';
+function autoGrow(el){ 
+    el.style.height='auto'; 
+    el.style.height=Math.min(el.scrollHeight,120)+'px'; 
 }
 
-/* ---------- Image generation ---------- */
+/* ---------- Image/Video generation ---------- */
 async function generateImage(){
-    var prompt = $('imgPrompt').value.trim();
-    if (!prompt) return;
-    
-    var rawModel = $('imgModelSelect').value || 'zimage';
-    var pId = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[0] : 'pollinations';
-    var provider = getProvider(pId) || getProvider('pollinations');
-    var model = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[1] : rawModel;
-    
-    var size = $('imgSize').value.split('x');
-    var w = size[0], h = size[1];
-    
-    var wrap = $('imgProgressWrap');
-    wrap.classList.add('show');
-    
-    var stop = simulateProgress($('imgProgressFill'), $('imgProgressLabel'), 9000);
-    $('btnGenImage').disabled = true;
-    
-    try{
-        var url;
-        var isGemini = (pId === 'gemini') && provider.apiKey;
-        if (isGemini){
-            url = await generateGeminiImage(prompt, model);
-        } else {
-            var params = new URLSearchParams({model:model, width:w, height:h, seed:String(Math.floor(Math.random()*1e9))});
-            if (provider.apiKey) params.set('key', provider.apiKey);
-            
-            var res = await fetch('https://gen.pollinations.ai/image/'+encodeURIComponent(prompt)+'?'+params.toString());
-            if (!res.ok) throw new Error('HTTP '+res.status);
-            
-            var blob = await res.blob();
-            url = await blobToPersistableUrl(blob, 4*1024*1024);
-        }
-        
-        stop(true);
-        addMediaResult('image', url, prompt, rawModel);
-        toast('✅ تم توليد الصورة');
-        
-    }catch(err){
-        stop(false);
-        toast('❌ فشل التوليد: '+err.message);
+  var prompt = $('imgPrompt').value.trim(); 
+  if (!prompt) return;
+  
+  var rawModel = $('imgModelSelect').value || 'flux';
+  var model = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[1] : rawModel;
+  var pId = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[0] : 'pollinations';
+  
+  var size = $('imgSize').value.split('x'); 
+  var w = size[0], h = size[1];
+  
+  var wrap = $('imgProgressWrap'); 
+  wrap.classList.add('show');
+  
+  var stop = simulateProgress($('imgProgressFill'), $('imgProgressLabel'), 9000);
+  $('btnGenImage').disabled = true;
+  
+  try{
+    var url;
+    if (pId === 'gemini' || (rawModel.indexOf('gemini')===0 && getProvider('gemini').apiKey)){
+      url = await generateGeminiImage(prompt, model);
+    } else {
+      var params = new URLSearchParams({width:w, height:h, seed:String(Math.floor(Math.random()*1e9)), model:model, nologo:'true'});
+      var res = await fetch('https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?'+params.toString());
+      if (!res.ok) throw new Error('HTTP '+res.status);
+      var blob = await res.blob();
+      url = await blobToPersistableUrl(blob, 4*1024*1024);
     }
-    
-    $('btnGenImage').disabled = false;
-    setTimeout(function(){
-        wrap.classList.remove('show');
-    }, 800);
+    stop(true); 
+    addMediaResult('image', url, prompt, rawModel); 
+    toast('✅ تم توليد الصورة');
+  }catch(err){ 
+      stop(false); 
+      toast('❌ فشل التوليد: '+err.message); 
+  }
+  
+  $('btnGenImage').disabled = false; 
+  setTimeout(function(){ wrap.classList.remove('show'); }, 800);
 }
 
 async function generateGeminiImage(prompt, modelId){
-    var provider = getProvider('gemini');
-    var m = modelId || provider.imageModel;
-    if (!m) m = 'imagen-3.0-generate-001';
-    if (m.indexOf('models/') === 0) m = m.substring(7);
-    
-    var res = await fetch(provider.baseUrl + '/models/' + m + ':predict?key=' + provider.apiKey, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-            instances: [{prompt: prompt}],
-            parameters: {sampleCount: 1, outputOptions: {mimeType: "image/jpeg"}}
-        })
-    });
-    
-    if (!res.ok) throw new Error('HTTP '+res.status);
-    
-    var json = await res.json();
-    var b64 = json.predictions && json.predictions[0] && json.predictions[0].bytesBase64Encoded;
-    if (!b64) throw new Error('لا توجد بيانات صورة في الرد');
-    
-    return 'data:image/jpeg;base64,'+b64;
+  var provider = getProvider('gemini');
+  if(!provider.apiKey) throw new Error("مفتاح Gemini مفقود");
+  
+  var m = modelId || 'imagen-3.0-generate-001';
+  if (m.indexOf('models/') === 0) m = m.substring(7);
+  if (m === 'gemini-2.5-flash-image') m = 'imagen-3.0-generate-001';
+  
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + m + ':predict?key=' + provider.apiKey;
+  var res = await fetch(url, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+          instances: [{prompt: prompt}],
+          parameters: {sampleCount: 1, outputOptions: {mimeType: "image/jpeg"}}
+      })
+  });
+  
+  if (!res.ok) { 
+      var err = await res.text(); 
+      throw new Error('HTTP '+res.status+' ' + err.slice(0,50)); 
+  }
+  
+  var json = await res.json();
+  if (json.predictions && json.predictions[0] && json.predictions[0].bytesBase64Encoded) {
+      return 'data:image/jpeg;base64,' + json.predictions[0].bytesBase64Encoded;
+  }
+  throw new Error('لا توجد بيانات صورة في الرد');
 }
 
 async function blobToPersistableUrl(blob, maxBytes){
-    if (blob.size <= maxBytes){
-        return await new Promise(function(resolve){
-            var r = new FileReader();
-            r.onload = function(){
-                resolve(r.result);
-            };
-            r.readAsDataURL(blob);
-        });
-    }
-    return URL.createObjectURL(blob); 
+  if (blob.size <= maxBytes){
+    return await new Promise(function(resolve){ 
+        var r = new FileReader(); 
+        r.onload = function(){ resolve(r.result); }; 
+        r.readAsDataURL(blob); 
+    });
+  }
+  return URL.createObjectURL(blob);
 }
 
-/* ---------- Video generation ---------- */
 async function generateVideo(){
-    var prompt = $('vidPrompt').value.trim();
-    if (!prompt) return;
+  var prompt = $('vidPrompt').value.trim(); 
+  if (!prompt) return;
+  
+  var rawModel = $('vidModelSelect').value || 'wan-fast';
+  var model = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[1] : rawModel;
+  
+  var duration = $('vidDuration').value;
+  var aspect = $('vidAspect').value;
+  var audio = $('vidAudio').checked;
+  
+  var wrap = $('vidProgressWrap'); 
+  wrap.classList.add('show');
+  
+  var expected = Math.max(15000, Number(duration)*4000);
+  var stop = simulateProgress($('vidProgressFill'), $('vidProgressLabel'), expected);
+  $('btnGenVideo').disabled = true;
+  
+  try{
+    var params = new URLSearchParams({model:model, duration:duration, aspectRatio:aspect});
+    if (audio) params.set('audio','true');
     
-    var rawModel = $('vidModelSelect').value || 'wan-fast';
-    var pId = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[0] : 'pollinations';
-    var provider = getProvider(pId) || getProvider('pollinations');
-    var model = rawModel.indexOf('|') !== -1 ? rawModel.split('|')[1] : rawModel;
+    var res = await fetch('https://image.pollinations.ai/prompt/'+encodeURIComponent(prompt)+'?'+params.toString());
+    if (!res.ok) throw new Error('HTTP '+res.status);
     
-    var duration = $('vidDuration').value;
-    var aspect = $('vidAspect').value;
-    var audio = $('vidAudio').checked;
+    var blob = await res.blob();
+    var url = URL.createObjectURL(blob); 
     
-    var wrap = $('vidProgressWrap');
-    wrap.classList.add('show');
-    
-    var expected = Math.max(15000, Number(duration)*4000);
-    var stop = simulateProgress($('vidProgressFill'), $('vidProgressLabel'), expected);
-    $('btnGenVideo').disabled = true;
-    
-    try{
-        var params = new URLSearchParams({model:model, duration:duration, aspectRatio:aspect});
-        if (audio) params.set('audio','true');
-        if (provider.apiKey) params.set('key', provider.apiKey);
-        
-        var res = await fetch('https://gen.pollinations.ai/video/'+encodeURIComponent(prompt)+'?'+params.toString());
-        if (!res.ok) throw new Error('HTTP '+res.status);
-        
-        var blob = await res.blob();
-        var url = URL.createObjectURL(blob); 
-        
-        stop(true);
-        addMediaResult('video', url, prompt, rawModel);
-        toast('✅ تم توليد الفيديو');
-        
-    }catch(err){
-        stop(false);
-        toast('❌ فشل التوليد: '+err.message);
-    }
-    
-    $('btnGenVideo').disabled = false;
-    setTimeout(function(){
-        wrap.classList.remove('show');
-    }, 800);
+    stop(true); 
+    addMediaResult('video', url, prompt, rawModel); 
+    toast('✅ تم توليد الفيديو');
+  }catch(err){ 
+      stop(false); 
+      toast('❌ فشل التوليد: '+err.message); 
+  }
+  
+  $('btnGenVideo').disabled = false; 
+  setTimeout(function(){ wrap.classList.remove('show'); }, 800);
 }
 
 function simulateProgress(fillEl, labelEl, expectedMs){
-    var start = Date.now();
-    var done=false;
-    var timer = setInterval(function(){
-        if (done) return;
-        var elapsed = Date.now()-start;
-        var pct = Math.min(92, Math.round((elapsed/expectedMs)*92));
-        fillEl.style.width = pct+'%';
-        labelEl.textContent = pct+'%';
-    }, 200);
-    
-    return function(success){
-        done = true;
-        clearInterval(timer);
-        fillEl.style.width = success? '100%':'0%';
-        labelEl.textContent = success? '100%':'خطأ';
-    };
+  var start = Date.now(); 
+  var done = false;
+  
+  var timer = setInterval(function(){
+    if (done) return;
+    var pct = Math.min(92, Math.round(((Date.now()-start)/expectedMs)*92));
+    fillEl.style.width = pct+'%'; 
+    labelEl.textContent = pct+'%';
+  }, 200);
+  
+  return function(success){ 
+      done = true; 
+      clearInterval(timer); 
+      fillEl.style.width = success? '100%':'0%'; 
+      labelEl.textContent = success? '100%':'خطأ'; 
+  };
 }
 
 function addMediaResult(type, url, prompt, model){
-    var session = getCurrentSession();
-    session.media = session.media || [];
-    var entry = {id:uid(), type:type, url: (type==='image'?url:null), prompt:prompt, model:model, time:nowStr()};
-    
-    if (type==='video'){
-        entry._liveKey = entry.id;
-    }
-    session.media.unshift(entry);
-    saveState();
-    
-    if (type==='video'){
-        liveVideoUrls[entry.id] = url;
-    }
-    renderGallery(type);
+  var session = getCurrentSession(); 
+  session.media = session.media || [];
+  
+  var entry = {id:uid(), type:type, url: (type==='image'?url:null), prompt:prompt, model:model, time:nowStr()};
+  if (type==='video') entry._liveKey = entry.id;
+  
+  session.media.unshift(entry); 
+  saveState();
+  
+  if (type==='video') liveVideoUrls[entry.id] = url;
+  renderGallery(type);
 }
 
 var liveVideoUrls = {};
 
 function renderGallery(type){
-    var session = getCurrentSession();
-    var items = (session.media||[]).filter(function(m){
-        return m.type===type;
-    });
-    var el = $(type==='image'?'imgGallery':'vidGallery');
+  var session = getCurrentSession(); 
+  var items = (session.media||[]).filter(function(m){ return m.type===type; });
+  var el = $(type==='image'?'imgGallery':'vidGallery');
+  
+  if (!items.length){ 
+      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'لا توجد فيديوهات بعد ✨')+'</div>'; 
+      return; 
+  }
+  
+  el.innerHTML = '';
+  items.forEach(function(m){
+    var card = document.createElement('div'); 
+    card.className='gallery-item';
+    var mediaUrl = type==='image' ? m.url : liveVideoUrls[m._liveKey];
     
-    if (!items.length){
-        el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد — جرّب توليد أول صورة ✨':'لا توجد فيديوهات بعد ✨')+'</div>';
-        return;
+    if (type==='image') {
+        card.innerHTML = '<img src="'+mediaUrl+'">';
+    } else { 
+        if (mediaUrl) {
+            card.innerHTML = '<video src="'+mediaUrl+'" muted></video>'; 
+        } else { 
+            card.innerHTML = '<div style="height:150px;display:flex;align-items:center;justify-content:center;color:var(--mint-faint);font-size:11px;text-align:center;padding:8px;">انتهت صلاحية المعاينة (لم تُحفظ)</div>'; 
+        }
     }
     
-    el.innerHTML = '';
-    items.forEach(function(m){
-        var card = document.createElement('div');
-        card.className='gallery-item';
-        var mediaUrl = type==='image' ? m.url : liveVideoUrls[m._liveKey];
-        
-        if (type==='image'){
-            card.innerHTML = '<img src="'+mediaUrl+'">';
-        } else {
-            if (mediaUrl) card.innerHTML = '<video src="'+mediaUrl+'" muted></video>';
-            else card.innerHTML = '<div style="height:150px;display:flex;align-items:center;justify-content:center;color:var(--mint-faint);font-size:11px;text-align:center;padding:8px;">انتهت صلاحية المعاينة لهذه الجلسة (لم تُحفظ)</div>';
-        }
-        
-        card.innerHTML += '<div class="ginfo"><div class="gprompt">'+escapeHtml(m.prompt)+'</div>'+m.model+' · '+m.time+'</div>';
-        
-        if (mediaUrl) {
-            card.addEventListener('click', function(){
-                openLightbox(type, mediaUrl);
-            });
-        }
-        el.appendChild(card);
-    });
+    card.innerHTML += '<div class="ginfo"><div class="gprompt">'+escapeHtml(m.prompt)+'</div>'+m.model+' · '+m.time+'</div>';
+    
+    if (mediaUrl) {
+        card.addEventListener('click', function(){ openLightbox(type, mediaUrl); });
+    }
+    el.appendChild(card);
+  });
 }
 
 function openLightbox(type, url){
-    var content = $('lbContent');
-    content.innerHTML = type==='image' ? '<img src="'+url+'">' : '<video src="'+url+'" controls autoplay></video>';
-    $('lbDownload').href = url;
-    $('lbDownload').download = 'matrix-ai-'+Date.now()+(type==='image'?'.png':'.mp4');
-    $('lightbox').classList.add('show');
+  var content = $('lbContent'); 
+  content.innerHTML = type==='image' ? '<img src="'+url+'">' : '<video src="'+url+'" controls autoplay></video>';
+  $('lbDownload').href = url; 
+  $('lbDownload').download = 'matrix-ai-'+Date.now()+(type==='image'?'.png':'.mp4');
+  $('lightbox').classList.add('show');
 }
 
-/* ---------- Rendering: selectors, providers, settings ---------- */
+/* ---------- Selectors & Lists ---------- */
 async function populateChatSelectors(){
-    var session = getCurrentSession();
-    var provSel = $('chatProviderSelect');
-    provSel.innerHTML = '';
-    
-    enabledProviders().forEach(function(p){
-        var o = document.createElement('option');
-        o.value=p.id;
-        o.textContent=p.name;
-        if (p.id===session.providerId) o.selected = true;
-        provSel.appendChild(o);
-    });
-    
-    session.providerId = provSel.value || session.providerId;
-    saveState();
-    await populateModelSelect($('chatModelSelect'), session.providerId, session.model);
+  var session = getCurrentSession(); 
+  var provSel = $('chatProviderSelect'); 
+  provSel.innerHTML = '';
+  
+  enabledProviders().forEach(function(p){
+    var o = document.createElement('option'); 
+    o.value=p.id; 
+    o.textContent=p.name;
+    if (p.id===session.providerId) o.selected = true;
+    provSel.appendChild(o);
+  });
+  
+  session.providerId = provSel.value || session.providerId; 
+  saveState();
+  await populateModelSelect($('chatModelSelect'), session.providerId, session.model);
 }
 
 async function populateModelSelect(selectEl, providerId, currentModel){
-    var provider = getProvider(providerId);
-    selectEl.innerHTML = '<option>...جارِ التحميل</option>';
-    
-    if (!provider) {
-        selectEl.innerHTML='';
-        return;
-    }
-    
-    var models = await fetchModels(provider);
-    selectEl.innerHTML = '';
-    
-    if (!models.length){
-        var o = document.createElement('option');
-        o.value=provider.defaultModel||'';
-        o.textContent='(أدخل يدوياً في الإعدادات)';
-        selectEl.appendChild(o);
-        return;
-    }
-    
-    models.forEach(function(m){
-        var o = document.createElement('option');
-        o.value=m.id;
-        o.textContent=m.label;
-        if (m.id===currentModel) o.selected=true;
-        selectEl.appendChild(o);
-    });
-    
-    if (!selectEl.value) selectEl.value = models[0].id;
+  var provider = getProvider(providerId); 
+  selectEl.innerHTML = '<option>...جارِ التحميل</option>';
+  
+  if (!provider) { selectEl.innerHTML=''; return; }
+  
+  var models = await fetchModels(provider); 
+  selectEl.innerHTML = '';
+  
+  if (!models.length){
+    var o = document.createElement('option'); 
+    o.value=provider.defaultModel||''; 
+    o.textContent='(أدخل يدوياً في الإعدادات)';
+    selectEl.appendChild(o); 
+    return;
+  }
+  
+  models.forEach(function(m){
+    var o = document.createElement('option'); 
+    o.value=m.id; 
+    o.textContent=m.label;
+    if (m.id===currentModel) o.selected=true;
+    selectEl.appendChild(o);
+  });
+  
+  if (!selectEl.value && models.length) selectEl.value = models[0].id;
 }
 
-/* 🔴 التعديل الثالث: الدمج التلقائي الذكي لنماذج الصور والفيديو */
+/* التعديل الثالث: الدمج التلقائي الذكي لنماذج الصور والفيديو */
 async function populateImageVideoSelectors(){
-    var imgSel = $('imgModelSelect');
-    var vidSel = $('vidModelSelect');
-    
-    var imgOptions = ['flux','flux-pro','flux-realism','any-dark','zimage'].map(function(m){ 
-        return '<option value="'+m+'">'+m+'</option>'; 
-    });
-    var vidOptions = ['wan-fast','wan-pro','ltx-2','seedance-2.0'].map(function(m){ 
-        return '<option value="'+m+'">'+m+'</option>'; 
-    });
+  var imgSel = $('imgModelSelect');
+  var vidSel = $('vidModelSelect');
+  
+  var imgOptions = ['flux','flux-pro','flux-realism','any-dark','zimage'].map(function(m){ 
+      return '<option value="'+m+'">'+m+'</option>'; 
+  });
+  
+  var vidOptions = ['wan-fast','wan-pro','ltx-2','seedance-2.0'].map(function(m){ 
+      return '<option value="'+m+'">'+m+'</option>'; 
+  });
 
-    var activeProviders = enabledProviders();
-    for (var i = 0; i < activeProviders.length; i++) {
-        var p = activeProviders[i];
-        if (p.apiKey || p.keyless) {
-            var models = await fetchModels(p);
-            models.forEach(function(m) {
-                var idStr = m.id.toLowerCase();
-                
-                // فلترة أي نموذج يتعلق بالصور (Vision, DALL-E, Image, Nano-Banana)
-                if (idStr.indexOf('image') !== -1 || idStr.indexOf('vision') !== -1 || idStr.indexOf('nano-banana') !== -1 || idStr.indexOf('dall-e') !== -1 || idStr.indexOf('sdxl') !== -1 || idStr.indexOf('midjourney') !== -1) {
-                    imgOptions.push('<option value="' + p.id + '|' + m.id + '">' + p.name + ' - ' + m.label + '</option>');
-                }
-                
-                // فلترة أي نموذج يتعلق بالفيديو أو الصوت
-                if (idStr.indexOf('video') !== -1 || idStr.indexOf('lyria') !== -1 || idStr.indexOf('tts') !== -1 || idStr.indexOf('sora') !== -1 || idStr.indexOf('runway') !== -1) {
-                    vidOptions.push('<option value="' + p.id + '|' + m.id + '">' + p.name + ' - ' + m.label + '</option>');
-                }
-            });
+  var activeProviders = enabledProviders();
+  for (var i = 0; i < activeProviders.length; i++) {
+    var p = activeProviders[i];
+    if (p.apiKey || p.keyless) {
+      var models = await fetchModels(p);
+      models.forEach(function(m) {
+        var idStr = m.id.toLowerCase();
+        
+        if (idStr.indexOf('image') !== -1 || idStr.indexOf('vision') !== -1 || idStr.indexOf('nano-banana') !== -1 || idStr.indexOf('dall-e') !== -1) {
+          imgOptions.push('<option value="' + p.id + '|' + m.id + '">' + p.name + ' - ' + m.label + '</option>');
         }
+        
+        if (idStr.indexOf('video') !== -1 || idStr.indexOf('lyria') !== -1 || idStr.indexOf('sora') !== -1 || idStr.indexOf('runway') !== -1) {
+          vidOptions.push('<option value="' + p.id + '|' + m.id + '">' + p.name + ' - ' + m.label + '</option>');
+        }
+      });
     }
-
-    if (imgSel) {
-        var currentImg = imgSel.value;
-        imgSel.innerHTML = imgOptions.join('');
-        if (currentImg && imgSel.querySelector('option[value="'+currentImg+'"]')) imgSel.value = currentImg;
-    }
-    
-    if (vidSel) {
-        var currentVid = vidSel.value;
-        vidSel.innerHTML = vidOptions.join('');
-        if (currentVid && vidSel.querySelector('option[value="'+currentVid+'"]')) vidSel.value = currentVid;
-    }
+  }
+  
+  if (imgSel) {
+    var currentImg = imgSel.value;
+    imgSel.innerHTML = imgOptions.join('');
+    if (currentImg && imgSel.querySelector('option[value="'+currentImg+'"]')) imgSel.value = currentImg;
+  }
+  
+  if (vidSel) {
+    var currentVid = vidSel.value;
+    vidSel.innerHTML = vidOptions.join('');
+    if (currentVid && vidSel.querySelector('option[value="'+currentVid+'"]')) vidSel.value = currentVid;
+  }
 }
 
 var STATUS_LABELS = {unknown:'غير مفحوص', alive:'يعمل ✓', error:'خطأ', 'needs-key':'يحتاج مفتاح', checking:'جارِ الفحص...'};
 
 function renderProvidersList(){
-    var el = $('providersList');
-    el.innerHTML='';
+  var el = $('providersList'); 
+  el.innerHTML='';
+  
+  allProviders().forEach(function(p){
+    var card = document.createElement('div'); 
+    card.className='provider-card';
     
-    allProviders().forEach(function(p){
-        var card = document.createElement('div');
-        card.className='provider-card';
-        
-        var head = document.createElement('div');
-        head.className='provider-head';
-        head.innerHTML = '<div class="provider-name"><span class="status-dot '+(p.status||'unknown')+'"></span>'+p.name+'</div>';
-        
-        var enableLbl = document.createElement('label');
-        enableLbl.className='switch-chip';
-        enableLbl.innerHTML = '<input type="checkbox" '+(p.enabled?'checked':'')+'> مفعّل';
-        enableLbl.querySelector('input').addEventListener('change', function(e){
-            p.enabled = e.target.checked;
-            saveState();
-            populateChatSelectors();
-            populateImageVideoSelectors();
-        });
-        
-        head.appendChild(enableLbl);
-        card.appendChild(head);
-        
-        if (p.signupNote){
-            var note = document.createElement('div');
-            note.className='provider-note';
-            note.textContent = p.signupNote;
-            card.appendChild(note);
-        }
-        
-        var keyBox = document.createElement('div');
-        keyBox.className='keybox';
-        var keyInput = document.createElement('input');
-        keyInput.type='password';
-        keyInput.placeholder = p.keyless ? 'مفتاح API (اختياري)' : 'مفتاح API';
-        keyInput.value = p.apiKey || '';
-        keyInput.addEventListener('change', function(e){
-            p.apiKey = e.target.value.trim();
-            p.modelsCache=null;
-            saveState();
-            populateImageVideoSelectors();
-        });
-        
-        var toggleBtn = document.createElement('button');
-        toggleBtn.textContent='👁';
-        toggleBtn.addEventListener('click', function(){
-            keyInput.type = keyInput.type==='password'?'text':'password';
-        });
-        
-        keyBox.appendChild(keyInput);
-        keyBox.appendChild(toggleBtn);
-        card.appendChild(keyBox);
-        
-        var actions = document.createElement('div');
-        actions.className='provider-actions';
-        
-        var testBtn = document.createElement('button');
-        testBtn.className='btn-ghost';
-        testBtn.textContent='اختبار الاتصال';
-        testBtn.addEventListener('click', function(){
-            testProvider(p);
-        });
-        actions.appendChild(testBtn);
-        
-        var statusSpan = document.createElement('span');
-        statusSpan.className='provider-note';
-        statusSpan.style.alignSelf='center';
-        statusSpan.textContent = STATUS_LABELS[p.status||'unknown'];
-        actions.appendChild(statusSpan);
-        
-        if (p.signupUrl){
-            var link = document.createElement('a');
-            link.href=p.signupUrl;
-            link.target='_blank';
-            link.rel='noopener';
-            link.className='btn-ghost';
-            link.textContent='الحصول على مفتاح ↗';
-            actions.appendChild(link);
-        }
-        
-        if (p.isCustom){
-            var delBtn = document.createElement('button');
-            delBtn.className='btn-danger';
-            delBtn.textContent='حذف';
-            delBtn.addEventListener('click', function(){
-                confirmAction('حذف المزوّد', 'حذف '+p.name+'؟', function(){
-                    state.customProviders = state.customProviders.filter(function(x){
-                        return x.id!==p.id;
-                    });
-                    saveState();
-                    renderProvidersList();
-                    populateChatSelectors();
-                    populateImageVideoSelectors();
-                });
-            });
-            actions.appendChild(delBtn);
-        }
-        
-        card.appendChild(actions);
-        el.appendChild(card);
+    var head = document.createElement('div'); 
+    head.className='provider-head';
+    head.innerHTML = '<div class="provider-name"><span class="status-dot '+(p.status||'unknown')+'"></span>'+p.name+'</div>';
+    
+    var enableLbl = document.createElement('label'); 
+    enableLbl.className='switch-chip';
+    enableLbl.innerHTML = '<input type="checkbox" '+(p.enabled?'checked':'')+'> مفعّل';
+    enableLbl.querySelector('input').addEventListener('change', function(e){ 
+        p.enabled = e.target.checked; 
+        saveState(); 
+        populateChatSelectors(); 
     });
+    
+    head.appendChild(enableLbl); 
+    card.appendChild(head);
+    
+    if (p.signupNote){ 
+        var note = document.createElement('div'); 
+        note.className='provider-note'; 
+        note.textContent = p.signupNote; 
+        card.appendChild(note); 
+    }
+    
+    var keyBox = document.createElement('div'); 
+    keyBox.className='keybox';
+    
+    var keyInput = document.createElement('input'); 
+    keyInput.type='password'; 
+    keyInput.placeholder = p.keyless ? 'مفتاح API (اختياري)' : 'مفتاح API'; 
+    keyInput.value = p.apiKey || '';
+    
+    // تم إضافة أمر تحديث قائمة الصور والفيديو عند تغيير المفتاح
+    keyInput.addEventListener('change', function(e){ 
+        p.apiKey = e.target.value.trim(); 
+        p.modelsCache=null; 
+        saveState(); 
+        populateImageVideoSelectors();
+    });
+    
+    var toggleBtn = document.createElement('button'); 
+    toggleBtn.textContent='👁';
+    toggleBtn.addEventListener('click', function(){ 
+        keyInput.type = keyInput.type==='password'?'text':'password'; 
+    });
+    
+    keyBox.appendChild(keyInput); 
+    keyBox.appendChild(toggleBtn); 
+    card.appendChild(keyBox);
+    
+    var actions = document.createElement('div'); 
+    actions.className='provider-actions';
+    
+    var testBtn = document.createElement('button'); 
+    testBtn.className='btn-ghost'; 
+    testBtn.textContent='اختبار الاتصال';
+    testBtn.addEventListener('click', function(){ testProvider(p); }); 
+    actions.appendChild(testBtn);
+    
+    var statusSpan = document.createElement('span'); 
+    statusSpan.className='provider-note'; 
+    statusSpan.style.alignSelf='center'; 
+    statusSpan.textContent = STATUS_LABELS[p.status||'unknown']; 
+    actions.appendChild(statusSpan);
+    
+    if (p.signupUrl){ 
+        var link = document.createElement('a'); 
+        link.href=p.signupUrl; 
+        link.target='_blank'; 
+        link.rel='noopener'; 
+        link.className='btn-ghost'; 
+        link.textContent='الحصول على مفتاح ↗'; 
+        actions.appendChild(link); 
+    }
+    
+    if (p.isCustom){
+      var delBtn = document.createElement('button'); 
+      delBtn.className='btn-danger'; 
+      delBtn.textContent='حذف';
+      delBtn.addEventListener('click', function(){ 
+          confirmAction('حذف المزوّد', 'حذف '+p.name+'؟', function(){ 
+              state.customProviders = state.customProviders.filter(function(x){ return x.id!==p.id; }); 
+              saveState(); 
+              renderProvidersList(); 
+              populateChatSelectors(); 
+          }); 
+      });
+      actions.appendChild(delBtn);
+    }
+    
+    card.appendChild(actions); 
+    el.appendChild(card);
+  });
 }
 
 function renderFallbackOrder(){
-    var el = $('fallbackOrderList');
-    el.innerHTML='';
+  var el = $('fallbackOrderList'); 
+  el.innerHTML='';
+  
+  state.fallbackOrder = state.fallbackOrder.filter(function(pid){ return getProvider(pid); });
+  allProviders().forEach(function(p){ 
+      if (state.fallbackOrder.indexOf(p.id)===-1 && p.enabled) state.fallbackOrder.push(p.id); 
+  });
+  
+  state.fallbackOrder.forEach(function(pid, idx){
+    var p = getProvider(pid); 
+    if (!p) return;
     
-    state.fallbackOrder = state.fallbackOrder.filter(function(pid){
-        return getProvider(pid);
+    var row = document.createElement('div'); 
+    row.className='switch-row'; 
+    row.innerHTML = '<div class="label">'+(idx+1)+'. '+p.name+'</div>';
+    
+    var btns = document.createElement('div');
+    
+    var up = document.createElement('button'); 
+    up.className='btn-ghost'; 
+    up.textContent='↑'; 
+    up.style.padding='4px 10px';
+    up.addEventListener('click', function(){ 
+        if (idx>0){ 
+            var tmp=state.fallbackOrder[idx-1]; 
+            state.fallbackOrder[idx-1]=state.fallbackOrder[idx]; 
+            state.fallbackOrder[idx]=tmp; 
+            saveState(); 
+            renderFallbackOrder(); 
+        } 
     });
     
-    allProviders().forEach(function(p){
-        if (state.fallbackOrder.indexOf(p.id)===-1 && p.enabled) state.fallbackOrder.push(p.id);
+    var down = document.createElement('button'); 
+    down.className='btn-ghost'; 
+    down.textContent='↓'; 
+    down.style.padding='4px 10px'; 
+    down.style.marginRight='6px';
+    down.addEventListener('click', function(){ 
+        if (idx<state.fallbackOrder.length-1){ 
+            var tmp=state.fallbackOrder[idx+1]; 
+            state.fallbackOrder[idx+1]=state.fallbackOrder[idx]; 
+            state.fallbackOrder[idx]=tmp; 
+            saveState(); 
+            renderFallbackOrder(); 
+        } 
     });
     
-    state.fallbackOrder.forEach(function(pid, idx){
-        var p = getProvider(pid);
-        if (!p) return;
-        
-        var row = document.createElement('div');
-        row.className='switch-row';
-        row.innerHTML = '<div class="label">'+(idx+1)+'. '+p.name+'</div>';
-        
-        var btns = document.createElement('div');
-        
-        var up = document.createElement('button');
-        up.className='btn-ghost';
-        up.textContent='↑';
-        up.style.padding='4px 10px';
-        up.addEventListener('click', function(){
-            if (idx>0){
-                var tmp=state.fallbackOrder[idx-1];
-                state.fallbackOrder[idx-1]=state.fallbackOrder[idx];
-                state.fallbackOrder[idx]=tmp;
-                saveState();
-                renderFallbackOrder();
-            }
-        });
-        
-        var down = document.createElement('button');
-        down.className='btn-ghost';
-        down.textContent='↓';
-        down.style.padding='4px 10px';
-        down.style.marginRight='6px';
-        down.addEventListener('click', function(){
-            if (idx<state.fallbackOrder.length-1){
-                var tmp=state.fallbackOrder[idx+1];
-                state.fallbackOrder[idx+1]=state.fallbackOrder[idx];
-                state.fallbackOrder[idx]=tmp;
-                saveState();
-                renderFallbackOrder();
-            }
-        });
-        
-        btns.appendChild(down);
-        btns.appendChild(up);
-        row.appendChild(btns);
-        el.appendChild(row);
-    });
+    btns.appendChild(down); 
+    btns.appendChild(up); 
+    row.appendChild(btns); 
+    el.appendChild(row);
+  });
 }
 
 function renderPricingList(){
-    var el = $('pricingList');
-    el.innerHTML='';
+  var el = $('pricingList'); 
+  el.innerHTML='';
+  
+  allProviders().forEach(function(p){
+    var pr = state.pricing[p.id] || {inputPer1M:0, outputPer1M:0};
     
-    allProviders().forEach(function(p){
-        var pr = state.pricing[p.id] || {inputPer1M:0, outputPer1M:0};
-        var row = document.createElement('div');
-        row.style.marginBottom='10px';
-        row.innerHTML = '<label class="field">'+p.name+' — إدخال / إخراج ($/مليون توكن)</label>';
-        
-        var rowInputs = document.createElement('div');
-        rowInputs.className='row';
-        
-        var inp1 = document.createElement('input');
-        inp1.type='number';
-        inp1.step='0.01';
-        inp1.value=pr.inputPer1M;
-        
-        var inp2 = document.createElement('input');
-        inp2.type='number';
-        inp2.step='0.01';
-        inp2.value=pr.outputPer1M;
-        
-        inp1.addEventListener('change', function(){
-            state.pricing[p.id]=state.pricing[p.id]||{};
-            state.pricing[p.id].inputPer1M=Number(inp1.value)||0;
-            saveState();
-            updateTokenPill();
-        });
-        
-        inp2.addEventListener('change', function(){
-            state.pricing[p.id]=state.pricing[p.id]||{};
-            state.pricing[p.id].outputPer1M=Number(inp2.value)||0;
-            saveState();
-            updateTokenPill();
-        });
-        
-        rowInputs.appendChild(inp1);
-        rowInputs.appendChild(inp2);
-        row.appendChild(rowInputs);
-        el.appendChild(row);
+    var row = document.createElement('div'); 
+    row.style.marginBottom='10px'; 
+    row.innerHTML = '<label class="field">'+p.name+' — إدخال / إخراج ($/مليون توكن)</label>';
+    
+    var rowInputs = document.createElement('div'); 
+    rowInputs.className='row';
+    
+    var inp1 = document.createElement('input'); 
+    inp1.type='number'; 
+    inp1.step='0.01'; 
+    inp1.value=pr.inputPer1M;
+    
+    var inp2 = document.createElement('input'); 
+    inp2.type='number'; 
+    inp2.step='0.01'; 
+    inp2.value=pr.outputPer1M;
+    
+    inp1.addEventListener('change', function(){ 
+        state.pricing[p.id]=state.pricing[p.id]||{}; 
+        state.pricing[p.id].inputPer1M=Number(inp1.value)||0; 
+        saveState(); 
+        updateTokenPill(); 
     });
+    
+    inp2.addEventListener('change', function(){ 
+        state.pricing[p.id]=state.pricing[p.id]||{}; 
+        state.pricing[p.id].outputPer1M=Number(inp2.value)||0; 
+        saveState(); 
+        updateTokenPill(); 
+    });
+    
+    rowInputs.appendChild(inp1); 
+    rowInputs.appendChild(inp2); 
+    row.appendChild(rowInputs); 
+    el.appendChild(row);
+  });
 }
 
 function renderUsageModal(){
-    var el = $('usageContent');
-    el.innerHTML='';
-    var session = getCurrentSession();
-    var sTotal = (session.tokensIn||0)+(session.tokensOut||0);
-    
-    el.innerHTML += '<div class="usage-row"><span>الجلسة الحالية</span><b>'+fmtNum(sTotal)+' توكن</b></div>';
-    el.innerHTML += '<div class="usage-row"><span>كل الجلسات</span><b>'+fmtNum(totalTokens())+' توكن</b></div>';
-    el.innerHTML += '<div class="usage-row"><span>التكلفة التقديرية الإجمالية</span><b>$'+totalCost().toFixed(4)+'</b></div>';
-    el.innerHTML += '<div class="section-title" style="margin-top:14px;">حسب المزوّد</div>';
-    
-    Object.keys(state.usageByProvider||{}).forEach(function(pid){
-        var u = state.usageByProvider[pid];
-        var p = getProvider(pid);
-        var t = u.in+u.out;
-        var pct = totalTokens()? Math.round((t/totalTokens())*100) : 0;
-        el.innerHTML += '<div class="usage-row"><span>'+(p?p.name:pid)+'</span><b>'+fmtNum(t)+'</b></div>'+
-        '<div class="usage-bar-track"><div class="usage-bar-fill" style="width:'+pct+'%"></div></div>';
-    });
-    
-    if (!Object.keys(state.usageByProvider||{}).length) el.innerHTML += '<p class="provider-note">لا يوجد استخدام مسجّل بعد.</p>';
+  var el = $('usageContent'); 
+  el.innerHTML=''; 
+  var session = getCurrentSession(); 
+  var sTotal = (session.tokensIn||0)+(session.tokensOut||0);
+  
+  el.innerHTML += '<div class="usage-row"><span>الجلسة الحالية</span><b>'+fmtNum(sTotal)+' توكن</b></div>';
+  el.innerHTML += '<div class="usage-row"><span>كل الجلسات</span><b>'+fmtNum(totalTokens())+' توكن</b></div>';
+  el.innerHTML += '<div class="usage-row"><span>التكلفة التقديرية الإجمالية</span><b>$'+totalCost().toFixed(4)+'</b></div>';
+  el.innerHTML += '<div class="section-title" style="margin-top:14px;">حسب المزوّد</div>';
+  
+  Object.keys(state.usageByProvider||{}).forEach(function(pid){
+    var u = state.usageByProvider[pid]; 
+    var p = getProvider(pid); 
+    var t = u.in+u.out;
+    var pct = totalTokens()? Math.round((t/totalTokens())*100) : 0;
+    el.innerHTML += '<div class="usage-row"><span>'+(p?p.name:pid)+'</span><b>'+fmtNum(t)+'</b></div><div class="usage-bar-track"><div class="usage-bar-fill" style="width:'+pct+'%"></div></div>';
+  });
+  
+  if (!Object.keys(state.usageByProvider||{}).length) {
+      el.innerHTML += '<p class="provider-note">لا يوجد استخدام مسجّل بعد.</p>';
+  }
 }
 
 var confirmCb = null;
 function confirmAction(title, body, cb){
-    $('confirmTitle').textContent = title;
-    $('confirmBody').textContent = body;
-    confirmCb = cb;
-    $('confirmModal').classList.add('show');
+  $('confirmTitle').textContent = title; 
+  $('confirmBody').textContent = body; 
+  confirmCb = cb; 
+  $('confirmModal').classList.add('show');
 }
 
-function openDrawer(){
-    $('sessionsDrawer').classList.add('open');
-    $('drawerOverlay').classList.add('show');
+function openDrawer(){ 
+    $('sessionsDrawer').classList.add('open'); 
+    $('drawerOverlay').classList.add('show'); 
 }
 
-function closeDrawer(){
-    $('sessionsDrawer').classList.remove('open');
-    $('drawerOverlay').classList.remove('show');
+function closeDrawer(){ 
+    $('sessionsDrawer').classList.remove('open'); 
+    $('drawerOverlay').classList.remove('show'); 
 }
 
-function switchView(name){
-    qsa('.view').forEach(function(v){
-        v.classList.remove('active');
-    });
-    $('view-'+name).classList.add('active');
-    qsa('.nav-btn').forEach(function(b){
-        b.classList.toggle('active', b.getAttribute('data-view')===name);
-    });
+function switchView(name){ 
+    qsa('.view').forEach(function(v){ v.classList.remove('active'); }); 
+    $('view-'+name).classList.add('active'); 
+    qsa('.nav-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-view')===name); }); 
 }
 
-/* ---------- Remote manifest (optional continuous-update hook) ---------- */
 async function fetchRemoteManifest(){
-    var url = state.remoteManifestUrl;
-    if (!url) {
-        toast('أدخل رابطاً أولاً');
-        return;
-    }
-    try{
-        var res = await fetch(url, {cache:'no-store'});
-        if (!res.ok) throw new Error('HTTP '+res.status);
-        var json = await res.json();
-        
-        if (json.providers){
-            json.providers.forEach(function(u){
-                var p = getProvider(u.id);
-                if (p){
-                    if (u.defaultModel) p.defaultModel=u.defaultModel;
-                    if (u.staticModels) p.staticModels=u.staticModels;
-                    p.modelsCache=null;
-                }
-            });
+  var url = state.remoteManifestUrl;
+  if (!url) { toast('أدخل رابطاً أولاً'); return; }
+  try{
+    var res = await fetch(url, {cache:'no-store'});
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    var json = await res.json();
+    if (json.providers){
+      json.providers.forEach(function(u){
+        var p = getProvider(u.id);
+        if (p){
+          if (u.defaultModel) p.defaultModel=u.defaultModel;
+          if (u.staticModels) p.staticModels=u.staticModels;
+          p.modelsCache=null;
         }
-        saveState();
-        toast('✅ تم تحديث الإعدادات عن بُعد');
-        populateChatSelectors();
-        populateImageVideoSelectors();
-        renderProvidersList();
-    }catch(e){
-        toast('❌ تعذر الجلب: '+e.message);
+      });
     }
+    saveState();
+    toast('✅ تم تحديث الإعدادات عن بُعد');
+    populateChatSelectors();
+    renderProvidersList();
+  }catch(e){
+    toast('❌ تعذر الجلب: '+e.message);
+  }
 }
 
-/* ---------- Init & event wiring ---------- */
+/* ---------- Events & Init ---------- */
 function initEvents(){
-    $('btnSessions').addEventListener('click', openDrawer);
-    $('btnCloseSessions').addEventListener('click', closeDrawer);
-    $('drawerOverlay').addEventListener('click', closeDrawer);
-    $('btnNewSession').addEventListener('click', createSession);
+  $('btnSessions').addEventListener('click', openDrawer); 
+  $('btnCloseSessions').addEventListener('click', closeDrawer);
+  $('drawerOverlay').addEventListener('click', closeDrawer); 
+  $('btnNewSession').addEventListener('click', createSession);
+  
+  qsa('.nav-btn').forEach(function(b){ 
+      b.addEventListener('click', function(){ switchView(b.getAttribute('data-view')); }); 
+  });
+  
+  var input = $('chatInput'); 
+  input.addEventListener('input', function(){ autoGrow(input); });
+  input.addEventListener('keydown', function(e){ 
+      if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChatMessage(); } 
+  });
+  
+  $('btnSend').addEventListener('click', function(){ 
+      if (isStreaming){ 
+          if (currentAbortController) currentAbortController.abort(); 
+          isStreaming=false; 
+          setSendButtonState(false); 
+      } else {
+          sendChatMessage(); 
+      }
+  });
+  
+  $('fileInput').addEventListener('change', function(e){
+    var file = e.target.files[0]; 
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){ 
+        pendingAttachment = reader.result; 
+        $('attachPreview').innerHTML = '<div class="rm"><img src="'+reader.result+'"><button id="rmAttach">✕</button></div>'; 
+        $('rmAttach').addEventListener('click', clearAttachment); 
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  $('chatProviderSelect').addEventListener('change', async function(e){
+    var session = getCurrentSession(); 
+    session.providerId = e.target.value;
+    await populateModelSelect($('chatModelSelect'), session.providerId, null);
+    session.model = $('chatModelSelect').value; 
+    saveState();
+  });
+  
+  $('chatModelSelect').addEventListener('change', function(e){ 
+      getCurrentSession().model = e.target.value; 
+      saveState(); 
+  });
+  
+  $('autoFallback').addEventListener('change', function(e){ 
+      state.autoFallback=e.target.checked; 
+      $('settingsAutoFallback').checked=e.target.checked; 
+      saveState(); 
+  });
+  
+  $('thinkToggle').addEventListener('change', function(e){ 
+      state.thinkMode=e.target.checked; 
+      saveState(); 
+  });
+  
+  $('btnUsage').addEventListener('click', function(){ renderUsageModal(); $('usageModal').classList.add('show'); });
+  $('btnCloseUsage').addEventListener('click', function(){ $('usageModal').classList.remove('show'); });
+  $('lbClose').addEventListener('click', function(){ $('lightbox').classList.remove('show'); $('lbContent').innerHTML=''; });
+  
+  $('lightbox').addEventListener('click', function(e){
+      if (e.target.id==='lightbox') {
+          $('lightbox').classList.remove('show');
+          $('lbContent').innerHTML='';
+      }
+  });
+  
+  $('confirmCancel').addEventListener('click', function(){ $('confirmModal').classList.remove('show'); confirmCb=null; });
+  
+  $('confirmOk').addEventListener('click', function(){ 
+      if (confirmCb) confirmCb(); 
+      $('confirmModal').classList.remove('show'); 
+      confirmCb=null; 
+  });
+  
+  $('btnGenImage').addEventListener('click', generateImage); 
+  $('btnGenVideo').addEventListener('click', generateVideo);
+  
+  $('btnAddCustomProvider').addEventListener('click', function(){ $('addProviderModal').classList.add('show'); });
+  $('apCancel').addEventListener('click', function(){ $('addProviderModal').classList.remove('show'); });
+  
+  $('apSave').addEventListener('click', function(){
+    var name = $('apName').value.trim(), baseUrl = $('apBaseUrl').value.trim(), key = $('apKey').value.trim(), model = $('apModel').value.trim();
+    if (!name || !baseUrl){ toast('الاسم و Base URL مطلوبان'); return; }
     
-    qsa('.nav-btn').forEach(function(b){
-        b.addEventListener('click', function(){
-            switchView(b.getAttribute('data-view'));
-        });
+    state.customProviders.push({ 
+        id:'custom_'+uid(), 
+        name:name, 
+        kind:'openai-compat', 
+        baseUrl:baseUrl, 
+        chatPath:'/chat/completions', 
+        modelsPath:'/models', 
+        apiKey:key, 
+        defaultModel:model, 
+        enabled:true, 
+        status:'unknown', 
+        modelsCache:null, 
+        isCustom:true 
     });
     
-    var input = $('chatInput');
-    input.addEventListener('input', function(){
-        autoGrow(input);
-    });
-    
-    input.addEventListener('keydown', function(e){
-        if (e.key==='Enter' && !e.shiftKey){
-            e.preventDefault();
-            sendChatMessage();
-        }
-    });
-    
-    $('btnSend').addEventListener('click', function(){
-        if (isStreaming){
-            if (currentAbortController) currentAbortController.abort();
-            isStreaming=false;
-            setSendButtonState(false);
-        } else sendChatMessage();
-    });
-    
-    $('fileInput').addEventListener('change', function(e){
-        var file = e.target.files[0];
-        if (!file) return;
-        var reader = new FileReader();
-        reader.onload = function(){
-            pendingAttachment = reader.result;
-            $('attachPreview').innerHTML = '<div class="rm"><img src="'+reader.result+'"><button id="rmAttach">✕</button></div>';
-            $('rmAttach').addEventListener('click', clearAttachment);
-        };
-        reader.readAsDataURL(file);
-    });
-    
-    $('chatProviderSelect').addEventListener('change', async function(e){
-        var session = getCurrentSession();
-        session.providerId = e.target.value;
-        await populateModelSelect($('chatModelSelect'), session.providerId, null);
-        session.model = $('chatModelSelect').value;
-        saveState();
-    });
-    
-    $('chatModelSelect').addEventListener('change', function(e){
-        getCurrentSession().model = e.target.value;
-        saveState();
-    });
-    
-    $('autoFallback').addEventListener('change', function(e){
-        state.autoFallback=e.target.checked;
-        $('settingsAutoFallback').checked=e.target.checked;
-        saveState();
-    });
-    
-    $('thinkToggle').addEventListener('change', function(e){
-        state.thinkMode=e.target.checked;
-        saveState();
-    });
-    
-    $('btnUsage').addEventListener('click', function(){
-        renderUsageModal();
-        $('usageModal').classList.add('show');
-    });
-    
-    $('btnCloseUsage').addEventListener('click', function(){
-        $('usageModal').classList.remove('show');
-    });
-    
-    $('lbClose').addEventListener('click', function(){
-        $('lightbox').classList.remove('show');
-        $('lbContent').innerHTML='';
-    });
-    
-    $('lightbox').addEventListener('click', function(e){
-        if (e.target.id==='lightbox') {
-            $('lightbox').classList.remove('show');
-            $('lbContent').innerHTML='';
-        }
-    });
-    
-    $('confirmCancel').addEventListener('click', function(){
-        $('confirmModal').classList.remove('show');
-        confirmCb=null;
-    });
-    
-    $('confirmOk').addEventListener('click', function(){
-        if (confirmCb) confirmCb();
-        $('confirmModal').classList.remove('show');
-        confirmCb=null;
-    });
-    
-    $('btnGenImage').addEventListener('click', generateImage);
-    $('btnGenVideo').addEventListener('click', generateVideo);
-    
-    $('btnAddCustomProvider').addEventListener('click', function(){
-        $('addProviderModal').classList.add('show');
-    });
-    
-    $('apCancel').addEventListener('click', function(){
-        $('addProviderModal').classList.remove('show');
-    });
-    
-    $('apSave').addEventListener('click', function(){
-        var name = $('apName').value.trim(),
-        baseUrl = $('apBaseUrl').value.trim(),
-        key = $('apKey').value.trim(),
-        model = $('apModel').value.trim();
-        
-        if (!name || !baseUrl){
-            toast('الاسم و Base URL مطلوبان');
-            return;
-        }
-        
-        state.customProviders.push({
-            id:'custom_'+uid(),
-            name:name,
-            kind:'openai-compat',
-            baseUrl:baseUrl,
-            chatPath:'/chat/completions',
-            modelsPath:'/models',
-            apiKey:key,
-            defaultModel:model,
-            enabled:true,
-            status:'unknown',
-            modelsCache:null,
-            isCustom:true
-        });
-        
-        saveState();
-        renderProvidersList();
-        populateChatSelectors();
-        populateImageVideoSelectors();
-        $('addProviderModal').classList.remove('show');
-        $('apName').value='';
-        $('apBaseUrl').value='';
-        $('apKey').value='';
-        $('apModel').
+    saveState(); 
+    renderProvidersList(); 
+    populateChatSelectors(); 
+    $('addProviderModal').classList.remove('show'); 
+    $('apName').value=''; $('apBaseUrl').value=''; $('apKey').value=''; $('apModel').value='';
+    toast('تمت الإضافة');
+  });
+  
+  $('settingsAutoFallback').addEventListener('change', function(e){ 
+      state.autoFallback=e.target.checked; 
+      $('autoFallback').checked=e.target.checked; 
+      saveState(); 
+  });
+  
+  $('settingsPeriodicCheck').addEventListener('change', function(e){ 
+      state.periodicCheck=e.target.checked; 
+      saveState(); 
+  });
+  
+  $('btnResetAll').addEventListener('click', function(){ 
+      confirmAction('حذف كل البيانات', 'سيُحذف كل شيء: الجلسات، المفاتيح، الإعدادات. لا يمكن التراجع.', function(){ 
+          localStorage.removeItem(LS_KEY); 
+          localStorage.removeItem(LS_DEAD); 
+          location.reload(); 
+      }); 
+  });
+  
+  $('welcomeOk').addEventListener('click', function(){ 
+      $('welcomeModal').classList.remove('show'); 
+      state.firstRun=false; 
+      saveState(); 
+  });
+}
+
+async function initApp(){
+  state = loadState(); 
+  deadMap = loadDeadMap(); 
+  initEvents();
+  
+  renderSessionsList(); 
+  renderChatMessages(); 
+  
+  await populateChatSelectors(); 
+  await populateImageVideoSelectors();
+  
+  renderProvidersList(); 
+  renderFallbackOrder(); 
+  renderPricingList(); 
+  updateTokenPill();
+  
+  $('autoFallback').checked = state.autoFallback; 
+  $('settingsAutoFallback').checked = state.autoFallback;
+  $('settingsPeriodicCheck').checked = state.periodicCheck;
+  $('remoteManifestUrl').value = state.remoteManifestUrl || '';
+  
+  if (state.firstRun) $('welcomeModal').classList.add('show');
+  
+  runPeriodicChecks(); 
+  setInterval(runPeriodicChecks, 10*60*1000);
+}
+
+initApp();
+</script>
+</body>
+</html>
