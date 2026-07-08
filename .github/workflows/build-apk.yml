@@ -47,8 +47,17 @@ jobs:
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npm install -D @capacitor/assets
 
-      - name: تهيئة مشروع Capacitor
-        run: npx cap init "$APP_NAME" "$APP_ID" --web-dir www
+      # الحل الجذري: إنشاء ملف إعدادات بصيغة JSON بدلاً من TS لتفادي أخطاء بيئة GitHub
+      - name: إنشاء إعدادات Capacitor الآمنة
+        run: |
+          cat <<EOF > capacitor.config.json
+          {
+            "appId": "${APP_ID}",
+            "appName": "${APP_NAME}",
+            "webDir": "www",
+            "bundledWebRuntime": false
+          }
+          EOF
 
       - name: إضافة منصّة أندرويد
         run: npx cap add android
@@ -112,5 +121,5 @@ jobs:
           name: "Chibani Lotfi AI — أحدث بناء (#${{ github.run_number }})"
           body: |
             📲 حمّل تطبيق **Chibani Lotfi AI 🇩🇿** بالأسفل وثبّته على هاتفك.
-            - تم تحديث الاسم والأيقونة الخارجية.
+            - تم تحديث الاسم والأيقونة الخارجية بنجاح.
           files: release-apk/*.apk
