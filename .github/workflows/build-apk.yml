@@ -1,26 +1,6 @@
 # =========================================================================
 # بناء MATRIX AI كـ APK أندرويد — تلقائياً عبر GitHub Actions
 # =========================================================================
-# طريقة الاستخدام:
-#   1) ضع ملف matrix-ai.html في جذر المستودع (repo root).
-#   2) ضع هذا الملف في: .github/workflows/build-apk.yml
-#   3) ادفع (push) — سيبني تلقائياً APK "Debug" يعمل فوراً بدون أي إعداد.
-#
-# كل push يبني ملف APK جديد ويحدّث Release باسم "latest" — رابط التنزيل
-# ثابت دائماً، تفتحه من هاتفك وتضغط تثبيت.
-#
-# --- لتفعيل توقيع Release (اختياري، لاحقاً) ---
-# أضف 4 أسرار في: الإعدادات (Settings) > Secrets and variables > Actions
-#   ANDROID_KEYSTORE_BASE64   → ناتج: openssl base64 -A -in your.keystore
-#   ANDROID_KEYSTORE_PASSWORD
-#   ANDROID_KEY_ALIAS
-#   ANDROID_KEY_PASSWORD
-# لإنشاء keystore جديد إن لم يكن لديك واحد (من Termux مثلاً):
-#   keytool -genkeypair -v -keystore release.keystore -alias matrixai \
-#     -keyalg RSA -keysize 2048 -validity 10000
-# بمجرد إضافة الأسرار، ستظهر نسخة "release-signed" تلقائياً في كل بناء
-# القادم — بدون أي تعديل على هذا الملف.
-# =========================================================================
 
 name: بناء MATRIX AI (APK)
 
@@ -33,12 +13,12 @@ on:
   workflow_dispatch: {}
 
 env:
-  SOURCE_HTML: matrix-ai.html          # غيّر هذا إن أعدت تسمية الملف
-  APP_NAME: "MATRIX AI"                # الاسم الظاهر تحت أيقونة التطبيق
-  APP_ID: com.chibanilotfi.matrixai    # معرّف الحزمة (لا تغيّره بعد أول تثبيت)
+  SOURCE_HTML: matrix-ai.html
+  APP_NAME: "MATRIX AI"
+  APP_ID: com.chibanilotfi.matrixai
 
 permissions:
-  contents: write   # مطلوب لإنشاء/تحديث Release
+  contents: write
 
 jobs:
   build:
@@ -47,7 +27,7 @@ jobs:
       HAS_SIGNING: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4 # تم التصحيح إلى v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -55,16 +35,13 @@ jobs:
           node-version: '20'
 
       - name: Setup JDK 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4 # تم التصحيح إلى v4
         with:
           distribution: 'temurin'
           java-version: '21'
 
-      # يضمن قبول تراخيص Android SDK تلقائياً — هذا بالضبط ما سبب مشاكل
-      # سابقاً عند الإعداد اليدوي، فنستخدم أداة مخصصة له بدل الاعتماد
-      # على أن صورة الـ runner جاهزة مسبقاً.
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3 # تم التصحيح إلى v3
 
       - name: تجهيز ملفات الويب
         run: |
@@ -89,18 +66,30 @@ jobs:
       - name: مزامنة ملفات الويب داخل مشروع أندرويد
         run: npx cap sync android
 
-      # ننشئ مشروع أندرويد ديناميكياً في كل تشغيل (فوق)، لذلك لا نُعدّ Gradle
-      # إلا الآن — بعد أن أصبحت ملفات .gradle موجودة فعلياً على القرص.
-      # وضعها قبل هذه النقطة يفشل لأن الأداة تبحث عن ملفات .gradle فور
-      # تشغيلها ولا تجد شيئاً بعد.
-      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-provider: basic   # مفتوح المصدر بالكامل، بدون قيود ترخيص
+      # ---------------------------------------------------------
+      # إضافة خطوة إصلاح تعارض الكلاسات المكررة (Duplicate Classes)
+      # ---------------------------------------------------------
+      - name: إصلاح تعارض إصدارات Kotlin
+        working-directory: android
+        run: |
+          cat <<EOF >> build.gradle
 
-      # كل تشغيل يُنشئ مشروع أندرويد من الصفر (لا نحفظه في المستودع)، لذا
-      # نجعل رقم الإصدار يزيد تلقائياً حتى تستطيع تثبيت نسخة فوق أخرى
-      # بدون الحاجة لإزالة القديمة أولاً في كل مرة.
+          allprojects {
+              configurations.all {
+                  resolutionStrategy {
+                      force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
+                      force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'
+                      force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
+                  }
+              }
+          }
+          EOF
+
+      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
+        uses: gradle/actions/setup-gradle@v4 # تم التصحيح إلى v4
+        with:
+          cache-provider: basic
+
       - name: ترقيم الإصدار تلقائياً
         working-directory: android
         run: |
@@ -129,7 +118,7 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
         env:
-          BUILD_TOOLS_VERSION: "36.0.0"   # يطابق compileSdk 36 المستخدم حالياً
+          BUILD_TOOLS_VERSION: "36.0.0"
 
       - name: تجميع ملفات APK النهائية
         run: |
@@ -149,7 +138,7 @@ jobs:
           retention-days: 30
 
       - name: نشر/تحديث GitHub Release (رابط تنزيل ثابت)
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v2 # تم التصحيح إلى v2
         with:
           tag_name: latest
           name: "MATRIX AI — أحدث بناء (#${{ github.run_number }})"
