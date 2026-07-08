@@ -66,11 +66,6 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          cache-provider: basic   # مفتوح المصدر بالكامل، بدون قيود ترخيص
-
       - name: تجهيز ملفات الويب
         run: |
           if [ ! -f "$SOURCE_HTML" ]; then
@@ -93,6 +88,15 @@ jobs:
 
       - name: مزامنة ملفات الويب داخل مشروع أندرويد
         run: npx cap sync android
+
+      # ننشئ مشروع أندرويد ديناميكياً في كل تشغيل (فوق)، لذلك لا نُعدّ Gradle
+      # إلا الآن — بعد أن أصبحت ملفات .gradle موجودة فعلياً على القرص.
+      # وضعها قبل هذه النقطة يفشل لأن الأداة تبحث عن ملفات .gradle فور
+      # تشغيلها ولا تجد شيئاً بعد.
+      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-provider: basic   # مفتوح المصدر بالكامل، بدون قيود ترخيص
 
       # كل تشغيل يُنشئ مشروع أندرويد من الصفر (لا نحفظه في المستودع)، لذا
       # نجعل رقم الإصدار يزيد تلقائياً حتى تستطيع تثبيت نسخة فوق أخرى
