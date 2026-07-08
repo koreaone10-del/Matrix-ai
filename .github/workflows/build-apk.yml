@@ -16,8 +16,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HAS_SIGNING: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -33,8 +31,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      # تم حذف خطوة Setup Android SDK المعطوبة لأن بيئة Ubuntu تحتوي عليه مسبقاً!
 
       - name: تجهيز ملفات الويب
         run: |
@@ -47,7 +44,6 @@ jobs:
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npm install -D @capacitor/assets
 
-      # الحل الجذري: إنشاء ملف إعدادات بصيغة JSON بدلاً من TS لتفادي أخطاء بيئة GitHub
       - name: إنشاء إعدادات Capacitor الآمنة
         run: |
           cat <<EOF > capacitor.config.json
@@ -121,5 +117,5 @@ jobs:
           name: "Chibani Lotfi AI — أحدث بناء (#${{ github.run_number }})"
           body: |
             📲 حمّل تطبيق **Chibani Lotfi AI 🇩🇿** بالأسفل وثبّته على هاتفك.
-            - تم تحديث الاسم والأيقونة الخارجية بنجاح.
+            تم تجاوز أخطاء البناء بنجاح!
           files: release-apk/*.apk
