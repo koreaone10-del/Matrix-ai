@@ -1,21 +1,14 @@
-# =========================================================================
-# بناء MATRIX AI كـ APK أندرويد — تلقائياً عبر GitHub Actions
-# =========================================================================
-
-name: بناء MATRIX AI (APK)
+name: بناء Chibani Lotfi AI
 
 on:
   push:
     branches: [main, master]
-    paths:
-      - 'matrix-ai.html'
-      - '.github/workflows/build-apk.yml'
   workflow_dispatch: {}
 
 env:
   SOURCE_HTML: matrix-ai.html
-  APP_NAME: "MATRIX AI"
-  APP_ID: com.chibanilotfi.matrixai
+  APP_NAME: "Chibani Lotfi AI"
+  APP_ID: com.chibanilotfi.ai
 
 permissions:
   contents: write
@@ -27,7 +20,7 @@ jobs:
       HAS_SIGNING: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4 # تم التصحيح إلى v4
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,27 +28,24 @@ jobs:
           node-version: '20'
 
       - name: Setup JDK 21
-        uses: actions/setup-java@v4 # تم التصحيح إلى v4
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3 # تم التصحيح إلى v3
+        uses: android-actions/setup-android@v3
 
       - name: تجهيز ملفات الويب
         run: |
-          if [ ! -f "$SOURCE_HTML" ]; then
-            echo "::error::لم يتم العثور على $SOURCE_HTML في جذر المستودع"
-            exit 1
-          fi
           mkdir -p www
           cp "$SOURCE_HTML" www/index.html
-
-      - name: تثبيت Capacitor
+          
+      - name: تثبيت Capacitor ومولد الأيقونات
         run: |
           [ -f package.json ] || npm init -y
           npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install -D @capacitor/assets
 
       - name: تهيئة مشروع Capacitor
         run: npx cap init "$APP_NAME" "$APP_ID" --web-dir www
@@ -63,12 +53,20 @@ jobs:
       - name: إضافة منصّة أندرويد
         run: npx cap add android
 
+      - name: توليد أيقونة التطبيق الخارجية (اللوغو)
+        run: |
+          if [ -f "logo.png" ]; then
+            mkdir -p assets
+            cp logo.png assets/icon.png
+            cp logo.png assets/splash.png
+            npx @capacitor/assets generate --android
+          else
+            echo "⚠️ ملف logo.png غير موجود، سيتم استخدام الأيقونة الافتراضية."
+          fi
+
       - name: مزامنة ملفات الويب داخل مشروع أندرويد
         run: npx cap sync android
 
-      # ---------------------------------------------------------
-      # إضافة خطوة إصلاح تعارض الكلاسات المكررة (Duplicate Classes)
-      # ---------------------------------------------------------
       - name: إصلاح تعارض إصدارات Kotlin
         working-directory: android
         run: |
@@ -85,8 +83,8 @@ jobs:
           }
           EOF
 
-      - name: Setup Gradle (مع تخزين مؤقت للاعتماديات)
-        uses: gradle/actions/setup-gradle@v4 # تم التصحيح إلى v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
         with:
           cache-provider: basic
 
@@ -96,57 +94,23 @@ jobs:
           sed -i "s/versionCode 1/versionCode ${{ github.run_number }}/" app/build.gradle
           sed -i "s/versionName \"1.0\"/versionName \"1.0.${{ github.run_number }}\"/" app/build.gradle
 
-      - name: بناء Debug APK (يعمل فوراً بدون توقيع خاص)
+      - name: بناء Debug APK
         working-directory: android
         run: |
           chmod +x ./gradlew
           ./gradlew assembleDebug --no-daemon
 
-      - name: بناء Release APK (غير موقّع)
-        if: env.HAS_SIGNING == 'true'
-        working-directory: android
-        run: ./gradlew assembleRelease --no-daemon
-
-      - name: توقيع Release APK
-        if: env.HAS_SIGNING == 'true'
-        id: sign_app
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: android/app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          alias: ${{ secrets.ANDROID_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "36.0.0"
-
       - name: تجميع ملفات APK النهائية
         run: |
           mkdir -p release-apk
-          cp android/app/build/outputs/apk/debug/app-debug.apk \
-             "release-apk/MatrixAI-debug-build${{ github.run_number }}.apk"
-          if [ "${HAS_SIGNING}" = "true" ]; then
-            cp "${{ steps.sign_app.outputs.signedReleaseFile }}" \
-               "release-apk/MatrixAI-release-signed-build${{ github.run_number }}.apk"
-          fi
+          cp android/app/build/outputs/apk/debug/app-debug.apk "release-apk/ChibaniLotfiAI-build${{ github.run_number }}.apk"
 
-      - name: رفع كنتاج بناء (Artifact) — سجل تاريخي
-        uses: actions/upload-artifact@v4
-        with:
-          name: matrix-ai-apk-build${{ github.run_number }}
-          path: release-apk/*.apk
-          retention-days: 30
-
-      - name: نشر/تحديث GitHub Release (رابط تنزيل ثابت)
-        uses: softprops/action-gh-release@v2 # تم التصحيح إلى v2
+      - name: نشر GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: "MATRIX AI — أحدث بناء (#${{ github.run_number }})"
+          name: "Chibani Lotfi AI — أحدث بناء (#${{ github.run_number }})"
           body: |
-            🔄 بناء تلقائي رقم ${{ github.run_number }} عبر GitHub Actions.
-
-            📲 حمّل ملف الـ APK بالأسفل وثبّته على هاتفك (فعّل "السماح بالتثبيت
-            من مصادر غير معروفة" إن طلب أندرويد ذلك أول مرة).
-            - ملف "debug": يعمل فوراً، بدون أي إعداد إضافي.
-            - ملف "release-signed" (إن وُجد): موقّع بمفتاحك الخاص، مناسب للاستخدام الدائم/النشر.
+            📲 حمّل تطبيق **Chibani Lotfi AI 🇩🇿** بالأسفل وثبّته على هاتفك.
+            - تم تحديث الاسم والأيقونة الخارجية.
           files: release-apk/*.apk
