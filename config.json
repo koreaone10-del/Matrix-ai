@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-08 14:05:08",
+  "last_updated": "2026-07-09 03:37:17",
   "providers": [
     {
       "id": "pollinations",
@@ -47,6 +47,8 @@
         "meta-llama/llama-3.3-70b-instruct:free",
         "meta-llama/llama-3.2-3b-instruct:free",
         "nousresearch/hermes-3-llama-3.1-405b:free",
+        "x-ai/grok-4.5",
+        "~x-ai/grok-latest",
         "aion-labs/aion-3.0-mini",
         "aion-labs/aion-3.0",
         "tencent/hy3",
@@ -250,7 +252,6 @@
         "bytedance/ui-tars-1.5-7b",
         "google/gemini-2.5-flash-lite",
         "qwen/qwen3-235b-a22b-2507",
-        "switchpoint/router",
         "moonshotai/kimi-k2",
         "tencent/hunyuan-a13b-instruct",
         "morph/morph-v3-large",
@@ -325,11 +326,11 @@
         "thedrummer/unslopnemo-12b",
         "anthracite-org/magnum-v4-72b",
         "qwen/qwen-2.5-7b-instruct",
-        "inflection/inflection-3-productivity",
         "inflection/inflection-3-pi",
+        "inflection/inflection-3-productivity",
         "thedrummer/rocinante-12b",
-        "meta-llama/llama-3.2-1b-instruct",
         "meta-llama/llama-3.2-3b-instruct",
+        "meta-llama/llama-3.2-1b-instruct",
         "meta-llama/llama-3.2-11b-vision-instruct",
         "qwen/qwen-2.5-72b-instruct",
         "cohere/command-r-08-2024",
@@ -339,11 +340,11 @@
         "nousresearch/hermes-3-llama-3.1-405b",
         "sao10k/l3-lunaris-8b",
         "openai/gpt-4o-2024-08-06",
-        "meta-llama/llama-3.1-70b-instruct",
         "meta-llama/llama-3.1-8b-instruct",
+        "meta-llama/llama-3.1-70b-instruct",
         "mistralai/mistral-nemo",
-        "openai/gpt-4o-mini",
         "openai/gpt-4o-mini-2024-07-18",
+        "openai/gpt-4o-mini",
         "google/gemma-2-27b-it",
         "openai/gpt-4o-2024-05-13",
         "openai/gpt-4o",
@@ -361,8 +362,8 @@
         "mancer/weaver",
         "undi95/remm-slerp-l2-13b",
         "gryphe/mythomax-l2-13b",
-        "openai/gpt-3.5-turbo",
-        "openai/gpt-4"
+        "openai/gpt-4",
+        "openai/gpt-3.5-turbo"
       ]
     },
     {
