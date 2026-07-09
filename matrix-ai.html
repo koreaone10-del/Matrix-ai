@@ -61,7 +61,6 @@
             position: fixed;
             inset: 0;
             width: 100%;
-            transition: direction 0.3s ease;
         }
 
         ::selection {
@@ -114,7 +113,13 @@
             inset: 0;
             z-index: 1;
             pointer-events: none;
-            background: repeating-linear-gradient(0deg, rgba(0,255,156,0.03) 0px, rgba(0,255,156,0.03) 1px, transparent 2px, transparent 3px);
+            background: repeating-linear-gradient(
+                0deg, 
+                rgba(0,255,156,0.03) 0px, 
+                rgba(0,255,156,0.03) 1px, 
+                transparent 2px, 
+                transparent 3px
+            );
             mix-blend-mode: overlay;
         }
 
@@ -177,7 +182,7 @@
         }
 
         .brand-text {
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: bold;
             color: var(--mint);
             letter-spacing: 1px;
@@ -229,14 +234,6 @@
             display: flex;
             flex-direction: column;
             padding: calc(14px + var(--safe-t)) 14px 14px;
-        }
-
-        html[dir="ltr"] .drawer {
-            right: auto;
-            left: 0;
-            border-left: none;
-            border-right: 1px solid var(--line);
-            transform: translateX(-100%);
         }
 
         .drawer.open {
@@ -353,7 +350,7 @@
             border: 1px solid var(--line);
             color: var(--mint);
             border-radius: var(--radius-sm);
-            padding: 12px;
+            padding: 10px;
             font-size: 13.5px;
         }
 
@@ -424,8 +421,11 @@
         .scroll {
             overflow-y: auto;
             flex: 1;
-            padding: 14px;
             -webkit-overflow-scrolling: touch;
+        }
+
+        .pad {
+            padding: 14px;
         }
 
         /* ==========================================================================
@@ -492,18 +492,13 @@
             color: var(--mint-faint);
         }
 
-        html[dir="ltr"] #contextLabel {
-            left: auto;
-            right: 8px;
-        }
-
         .messages {
             flex: 1;
             overflow-y: auto;
             padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 16px; /* مسافة مريحة بين الرسائل */
+            gap: 16px; 
             -webkit-overflow-scrolling: touch;
         }
 
@@ -522,14 +517,16 @@
             margin-inline-start: auto;
         }
 
-        /* تحسينات لتحمل الأكواد الطويلة جداً */
+        /* تحسين فقاعات الدردشة لتحمل الأكواد الضخمة */
         .msg .bubble {
             padding: 14px 18px;
             border-radius: var(--radius);
             font-size: 14.5px;
-            line-height: 1.7;
-            word-wrap: break-word;
-            overflow-x: auto;
+            line-height: 1.75;
+            white-space: normal;
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .msg.user .bubble {
@@ -564,29 +561,31 @@
             border-radius: 10px;
             margin-bottom: 6px;
             display: block;
-            cursor: pointer;
             border: 1px solid var(--line);
+            cursor: pointer;
         }
 
-        /* زر نسخ أسفل رسالة الذكاء الاصطناعي */
+        /* زر النسخ أسفل إجابة الذكاء الاصطناعي */
         .msg-copy-btn {
             align-self: flex-start;
             background: var(--bg-elev2);
             border: 1px solid var(--line);
             color: var(--mint-dim);
             border-radius: 6px;
-            padding: 4px 12px;
-            font-size: 11px;
+            padding: 5px 12px;
+            font-size: 11.5px;
             cursor: pointer;
             margin-top: 4px;
             display: flex;
             align-items: center;
             gap: 4px;
+            transition: all 0.2s ease;
         }
         
         .msg-copy-btn:hover {
             color: var(--green);
             border-color: var(--green-dim);
+            background: var(--bg-elev);
         }
 
         /* Markdown & Code Blocks */
@@ -603,7 +602,7 @@
             background: rgba(0,255,156,.08);
             padding: 2px 6px;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 13.5px;
         }
 
         .code-block {
@@ -621,7 +620,7 @@
             background: var(--bg-elev2);
             padding: 8px 12px;
             font-family: var(--font-mono);
-            font-size: 11px;
+            font-size: 11.5px;
             color: var(--mint-faint);
         }
 
@@ -630,30 +629,30 @@
             border: 1px solid var(--line);
             color: var(--mint-dim);
             border-radius: 6px;
-            padding: 4px 10px;
+            padding: 4px 12px;
             font-size: 11px;
             cursor: pointer;
         }
 
-        /* تحمل الأكواد الطويلة */
         .code-block pre {
             margin: 0;
-            padding: 12px;
+            padding: 14px;
             overflow-x: auto;
             background: #020806;
-            max-height: 65vh; /* شريط تمرير داخلي للأكواد العملاقة */
+            max-height: 70vh; /* تحمل الأكواد الضخمة */
         }
 
         .code-block code {
             background: none;
             padding: 0;
-            font-size: 13px;
+            font-size: 13.5px;
             color: var(--green);
+            white-space: pre;
         }
 
         /* Thinking UI */
         .temp-thinking {
-            font-size: 12.5px;
+            font-size: 12px;
             opacity: 0.6;
             font-family: var(--font-mono);
             white-space: pre-wrap;
@@ -700,7 +699,7 @@
 
         .composer textarea {
             resize: none;
-            max-height: 150px;
+            max-height: 200px;
             min-height: 48px;
             border-radius: 20px;
             padding: 12px 16px;
@@ -759,30 +758,25 @@
             cursor: pointer;
         }
 
-        html[dir="ltr"] .attach-preview .rm button {
-            left: auto;
-            right: -6px;
-        }
-
-        /* تنسيق معاينة الملفات النصية */
+        /* تنسيق معاينة الملفات النصية/الأكواد */
         .text-file-preview {
             background: var(--bg-elev2);
             border: 1px solid var(--green-dim);
             color: var(--green);
             padding: 8px 12px;
             border-radius: 8px;
-            font-size: 12px;
+            font-size: 12.5px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         /* ==========================================================================
-           9. ARENA MODE (حلبة التنافس المطورة)
+           9. ARENA MODE (حلبة التنافس الواسعة والاحترافية)
         ========================================================================== */
         .arena-header {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 16px;
             flex-wrap: wrap;
         }
@@ -809,7 +803,7 @@
             border-radius: var(--radius);
             background: var(--bg-elev);
             overflow: hidden;
-            min-height: 50vh;
+            min-height: 45vh;
             position: relative;
         }
 
@@ -832,26 +826,21 @@
             padding: 16px;
             font-size: 14.5px;
             line-height: 1.7;
-            padding-bottom: 50px; /* مساحة لزر النسخ */
+            padding-bottom: 60px; /* مسافة لزر النسخ العائم */
         }
 
         .arena-copy-btn {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(8,20,16,0.85);
+            bottom: 12px;
+            left: 12px;
+            background: rgba(8,20,16,0.9);
             border: 1px solid var(--line);
             color: var(--mint);
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 8px 14px;
             font-size: 12px;
             cursor: pointer;
             backdrop-filter: blur(4px);
-        }
-
-        html[dir="ltr"] .arena-copy-btn {
-            left: auto;
-            right: 10px;
         }
 
         /* ==========================================================================
@@ -870,7 +859,7 @@
         .gen-row {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 12px;
             flex-wrap: wrap;
         }
 
@@ -947,6 +936,19 @@
             font-size: 14px;
         }
 
+        .media-dl-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid var(--line);
+        }
+
         /* ==========================================================================
            11. KEYS & SETTINGS
         ========================================================================== */
@@ -975,23 +977,10 @@
             margin-inline-end: 8px;
         }
 
-        .status-dot.alive {
-            background: var(--green);
-            box-shadow: 0 0 6px var(--green);
-        }
-
-        .status-dot.error {
-            background: var(--danger);
-        }
-
-        .status-dot.needs-key {
-            background: var(--warn);
-        }
-
-        .status-dot.checking {
-            background: var(--cyan);
-            animation: pulse 1s infinite;
-        }
+        .status-dot.alive { background: var(--green); box-shadow: 0 0 6px var(--green); }
+        .status-dot.error { background: var(--danger); }
+        .status-dot.needs-key { background: var(--warn); }
+        .status-dot.checking { background: var(--cyan); animation: pulse 1s infinite; }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -1033,11 +1022,6 @@
             cursor: pointer;
         }
 
-        html[dir="ltr"] .keybox button {
-            left: auto;
-            right: 8px;
-        }
-
         .keybox input {
             padding-inline-start: 40px;
         }
@@ -1051,11 +1035,21 @@
             margin: 20px 0 10px;
         }
 
+        .gh-warning {
+            border: 1px solid var(--warn);
+            background: rgba(255,194,74,.08);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--warn);
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
         details.settings-block {
             border: 1px solid var(--line);
             border-radius: var(--radius);
             margin-bottom: 12px;
-            overflow: hidden;
             background: var(--bg-elev);
         }
 
@@ -1070,21 +1064,16 @@
             align-items: center;
         }
 
-        details.settings-block summary::-webkit-details-marker {
-            display: none;
-        }
+        details.settings-block summary::-webkit-details-marker { display: none; }
+        details.settings-block summary:after { content: '˅'; color: var(--mint-faint); }
+        details.settings-block[open] summary:after { content: '˄'; }
 
-        details.settings-block summary:after {
-            content: '˅';
-            color: var(--mint-faint);
-        }
+        .settings-body { padding: 0 16px 16px; }
 
-        details.settings-block[open] summary:after {
-            content: '˄';
-        }
-
-        .settings-body {
-            padding: 0 16px 16px;
+        .about-box {
+            font-size: 13px;
+            color: var(--mint-dim);
+            line-height: 1.9;
         }
 
         /* ==========================================================================
@@ -1124,7 +1113,7 @@
         }
 
         /* ==========================================================================
-           13. MODALS & TOASTS
+           13. MODALS
         ========================================================================== */
         .modal {
             position: fixed;
@@ -1137,9 +1126,7 @@
             padding: 20px;
         }
 
-        .modal.show {
-            display: flex;
-        }
+        .modal.show { display: flex; }
 
         .modal-box {
             background: var(--bg-elev);
@@ -1152,32 +1139,13 @@
             padding: 20px;
         }
 
-        .modal-box h3 {
-            margin: 0 0 12px;
-            color: var(--green);
-            font-size: 18px;
-        }
+        .modal-box h3 { margin: 0 0 12px; color: var(--green); font-size: 18px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+        .modal-actions > * { flex: 1; }
 
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-        }
-
-        .modal-actions > * {
-            flex: 1;
-        }
-
-        #lightbox {
-            background: rgba(0,0,0,.95);
-        }
-
-        #lightbox img, #lightbox video {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 10px;
-        }
-
+        #lightbox { background: rgba(0,0,0,.95); }
+        #lightbox img, #lightbox video { max-width: 100%; max-height: 80vh; border-radius: 10px; }
+        
         #lightbox .lb-close {
             position: absolute;
             top: calc(20px + var(--safe-t));
@@ -1191,12 +1159,7 @@
             font-size: 20px;
             cursor: pointer;
         }
-
-        html[dir="ltr"] #lightbox .lb-close {
-            right: auto;
-            left: 20px;
-        }
-
+        
         #lightbox .lb-dl {
             position: absolute;
             top: calc(20px + var(--safe-t));
@@ -1208,38 +1171,15 @@
             border-radius: 20px;
             font-size: 14px;
             text-decoration: none;
-        }
-
-        html[dir="ltr"] #lightbox .lb-dl {
-            left: auto;
-            right: 20px;
-        }
-
-        .usage-row {
             display: flex;
-            justify-content: space-between;
-            font-size: 13.5px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--line-soft);
+            align-items: center;
+            gap: 6px;
         }
 
-        .usage-row b {
-            color: var(--green);
-            font-family: var(--font-mono);
-        }
-
-        .usage-bar-track {
-            height: 6px;
-            background: var(--line-soft);
-            border-radius: 4px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-
-        .usage-bar-fill {
-            height: 100%;
-            background: var(--green-dim);
-        }
+        .usage-row { display: flex; justify-content: space-between; font-size: 13.5px; padding: 10px 0; border-bottom: 1px solid var(--line-soft); }
+        .usage-row b { color: var(--green); font-family: var(--font-mono); }
+        .usage-bar-track { height: 6px; background: var(--line-soft); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+        .usage-bar-fill { height: 100%; background: var(--green-dim); }
 
         .toast {
             position: fixed;
@@ -1259,11 +1199,7 @@
             max-width: 88%;
             text-align: center;
         }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -1277,7 +1213,7 @@
             <button id="btnSessions" class="icon-btn" aria-label="Menu">☰</button>
             
             <div class="brand">
-                <span class="brand-text" style="font-size: 14px;">Chibani Lotfi AI 🇩🇿</span>
+                <span class="brand-text">Chibani Lotfi AI 🇩🇿</span>
             </div>
             
             <div style="display:flex; gap:8px;">
@@ -1289,15 +1225,13 @@
         <main id="views">
             <section id="view-chat" class="view active">
                 <div class="model-strip">
-                    <select id="chatProviderSelect" class="chip-select" aria-label="المزوّد"></select>
-                    <select id="chatModelSelect" class="chip-select" aria-label="النموذج"></select>
+                    <select id="chatProviderSelect" class="chip-select"></select>
+                    <select id="chatModelSelect" class="chip-select"></select>
                     <label class="switch-chip">
-                        <input type="checkbox" id="autoFallback" checked> 
-                        <span data-i18n="autoSwitch">تبديل تلقائي</span>
+                        <input type="checkbox" id="autoFallback" checked> تبديل تلقائي
                     </label>
                     <label class="switch-chip">
-                        <input type="checkbox" id="thinkToggle"> 🧠 
-                        <span data-i18n="thinking">تفكير</span>
+                        <input type="checkbox" id="thinkToggle"> 🧠 تفكير
                     </label>
                 </div>
                 
@@ -1311,10 +1245,10 @@
                 <div id="attachPreview" class="attach-preview"></div>
                 
                 <div class="composer">
-                    <label for="fileInput" id="btnAttach" class="icon-btn" title="إرفاق ملف" aria-label="إرفاق ملف" style="margin:0; flex-shrink:0; cursor:pointer;">📎</label>
-                    <input type="file" id="fileInput" accept="image/*,video/*,.txt,.md,.html,.js,.json,.css,.py,.java,.c,.cpp" style="display:none;">
+                    <label for="fileInput" id="btnAttach" class="icon-btn" title="إرفاق ملف" style="margin:0; flex-shrink:0; cursor:pointer; display:flex; align-items:center; justify-content:center;">📎</label>
+                    <input type="file" id="fileInput" accept="image/*,video/*,.txt,.md,.html,.js,.json,.css,.py,.java,.c,.cpp,.csv" style="display:none;">
                     
-                    <textarea id="chatInput" rows="1" data-i18n-ph="chatPlaceholder" placeholder="اكتب رسالتك... (Enter للإرسال)"></textarea>
+                    <textarea id="chatInput" rows="1" placeholder="اكتب رسالتك... (Enter للإرسال)"></textarea>
                     
                     <button id="btnSend" class="send-btn" aria-label="إرسال">➤</button>
                 </div>
@@ -1332,21 +1266,21 @@
                         <div class="arena-col">
                             <div class="arena-col-head" id="arenaHead1">المزوّد 1</div>
                             <div class="arena-col-body" id="arenaBody1">
-                                <span style="color:var(--mint-faint);" data-i18n="waitingForArena">بانتظار الإرسال...</span>
+                                <span style="color:var(--mint-faint);">بانتظار الإرسال...</span>
                             </div>
                             <button class="arena-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('arenaBody1').innerText); this.textContent='✅ تم النسخ'; setTimeout(()=>this.textContent='📋 نسخ الإجابة',2000);">📋 نسخ الإجابة</button>
                         </div>
                         <div class="arena-col">
                             <div class="arena-col-head" id="arenaHead2">المزوّد 2</div>
                             <div class="arena-col-body" id="arenaBody2">
-                                <span style="color:var(--mint-faint);" data-i18n="waitingForArena">بانتظار الإرسال...</span>
+                                <span style="color:var(--mint-faint);">بانتظار الإرسال...</span>
                             </div>
                             <button class="arena-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('arenaBody2').innerText); this.textContent='✅ تم النسخ'; setTimeout(()=>this.textContent='📋 نسخ الإجابة',2000);">📋 نسخ الإجابة</button>
                         </div>
                     </div>
                     
                     <div class="composer" style="border:none; padding:14px 0 0 0; background:transparent;">
-                        <textarea id="arenaInput" rows="2" data-i18n-ph="arenaPlaceholder" placeholder="اطرح سؤالاً لتشاهد تنافس النموذجين..."></textarea>
+                        <textarea id="arenaInput" rows="2" placeholder="اطرح سؤالاً لتشاهد تنافس النموذجين..."></textarea>
                         <button id="btnArenaSend" class="send-btn" style="width:50px; height:50px;">⚔️</button>
                     </div>
                 </div>
@@ -1354,7 +1288,7 @@
 
             <section id="view-image" class="view">
                 <div class="gen-controls">
-                    <textarea id="imgPrompt" data-i18n-ph="imgPlaceholder" placeholder="صف الصورة التي تريد توليدها..."></textarea>
+                    <textarea id="imgPrompt" placeholder="صف الصورة التي تريد توليدها..."></textarea>
                     <div class="gen-row">
                         <select id="imgModelSelect"></select>
                         <select id="imgSize">
@@ -1366,7 +1300,8 @@
                         </select>
                     </div>
                     <div class="gen-row">
-                        <button id="btnGenImage" class="btn-primary full" data-i18n="genImageBtn">🎨 توليد الصورة (باحترافية)</button>
+                        <label class="switch-chip" style="flex:1;"><input type="checkbox" id="imgHD" checked> جودة عالية HD</label>
+                        <button id="btnGenImage" class="btn-primary" style="flex:2;">🎨 توليد الصورة</button>
                     </div>
                     <div class="progress-wrap" id="imgProgressWrap">
                         <div class="progress-track">
@@ -1376,24 +1311,24 @@
                     </div>
                 </div>
                 <div id="imgGallery" class="gallery">
-                    <div class="gallery-empty" data-i18n="emptyGallery">لا توجد صور بعد ✨</div>
+                    <div class="gallery-empty">لا توجد صور بعد ✨</div>
                 </div>
             </section>
 
             <section id="view-video" class="view">
                 <div class="gen-controls">
-                    <textarea id="vidPrompt" data-i18n-ph="vidPlaceholder" placeholder="صف الفيديو الذي تريد توليده..."></textarea>
+                    <textarea id="vidPrompt" placeholder="صف الفيديو الذي تريد توليده..."></textarea>
                     <div class="gen-row">
                         <select id="vidModelSelect"></select>
                         <select id="vidDuration">
-                            <option value="4">4 ثواني</option>
+                            <option value="4">4 ثواني (سريع)</option>
                             <option value="6" selected>6 ثواني (قياسي)</option>
-                            <option value="8">8 ثواني</option>
-                            <option value="10">10 ثواني (طويل)</option>
+                            <option value="8">8 ثواني (طويل)</option>
+                            <option value="10">10 ثواني (أقصى حد)</option>
                         </select>
                     </div>
                     <div class="gen-row">
-                        <button id="btnGenVideo" class="btn-primary full" data-i18n="genVideoBtn">🎬 توليد الفيديو</button>
+                        <button id="btnGenVideo" class="btn-primary full">🎬 توليد الفيديو</button>
                     </div>
                     <div class="progress-wrap" id="vidProgressWrap">
                         <div class="progress-track">
@@ -1401,22 +1336,22 @@
                         </div>
                         <span id="vidProgressLabel">0%</span>
                     </div>
-                    <div style="margin-top:12px; font-size:11.5px; color:var(--mint-dim);" data-i18n="videoNote">
-                        ⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — نزّلها إذا أردت الاحتفاظ بها.
+                    <div style="margin-top:12px; font-size:11.5px; color:var(--mint-dim);">
+                        ⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — افتح الفيديو واضغط تنزيل.
                     </div>
                 </div>
                 <div id="vidGallery" class="gallery">
-                    <div class="gallery-empty" data-i18n="emptyVideo">لا توجد فيديوهات بعد ✨</div>
+                    <div class="gallery-empty">لا توجد فيديوهات بعد ✨</div>
                 </div>
             </section>
 
             <section id="view-keys" class="view">
                 <div class="scroll pad">
-                    <div style="font-size:13px; color:var(--warn); background:rgba(255,194,74,0.1); padding:12px; border-radius:10px; margin-bottom:16px;" data-i18n="corsNote">
-                        ⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات لتتمكن من استخدامها من المتصفح مباشرة. (مفعل تلقائياً للمزودات المحظورة).
+                    <div style="font-size:13px; color:var(--warn); background:rgba(255,194,74,0.1); padding:12px; border-radius:10px; margin-bottom:16px;">
+                        ⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات لتتمكن من استخدامها من المتصفح مباشرة. <br>✅ (مفعل تلقائياً للمزودات المحظورة).
                     </div>
                     <div id="providersList"></div>
-                    <button id="btnAddCustomProvider" class="btn-ghost full" style="margin-top:10px;" data-i18n="addCustomProv">
+                    <button id="btnAddCustomProvider" class="btn-ghost full" style="margin-top:10px;">
                         + إضافة مزوّد مخصّص
                     </button>
                 </div>
@@ -1425,51 +1360,44 @@
             <section id="view-settings" class="view">
                 <div class="scroll pad">
                     <details class="settings-block" open>
-                        <summary data-i18n="sysSettings">⚙️ إعدادات النظام</summary>
+                        <summary>⚙️ إعدادات النظام</summary>
                         <div class="settings-body">
                             <div class="switch-row">
                                 <div>
-                                    <div class="label" data-i18n="autoSwitch">تبديل تلقائي عند الفشل</div>
+                                    <div class="label">تبديل تلقائي عند الفشل</div>
                                 </div>
                                 <input type="checkbox" id="settingsAutoFallback" checked style="width:auto;">
                             </div>
                             <div class="switch-row">
                                 <div>
-                                    <div class="label" data-i18n="periodicCheckLbl">فحص المزودين دورياً</div>
+                                    <div class="label">فحص المزودين دورياً</div>
                                 </div>
                                 <input type="checkbox" id="settingsPeriodicCheck" checked style="width:auto;">
                             </div>
                             
-                            <label class="field" data-i18n="corsProxyLbl" style="margin-top:16px;">رابط وكيل CORS (للمزودات المحمية)</label>
+                            <label class="field" style="margin-top:16px;">رابط وكيل CORS (للمزودات المحمية)</label>
                             <input type="text" id="settingsCorsProxy" value="https://corsproxy.io/?">
                             
-                            <label class="field" data-i18n="fallbackOrderLbl" style="margin-top:16px;">ترتيب التبديل التلقائي</label>
+                            <label class="field" style="margin-top:16px;">ترتيب التبديل التلقائي</label>
                             <div id="fallbackOrderList"></div>
                         </div>
                     </details>
                     
                     <details class="settings-block">
-                        <summary data-i18n="remoteUpdates">🔄 التحديث المستمر للنماذج</summary>
+                        <summary>🔄 التحديث المستمر للنماذج</summary>
                         <div class="settings-body">
-                            <label class="field" data-i18n="remoteJsonLbl">رابط ملف الإعدادات عن بُعد (JSON)</label>
+                            <label class="field">رابط ملف الإعدادات عن بُعد (JSON)</label>
                             <input type="url" id="remoteManifestUrl" placeholder="https://raw.githubusercontent.com/.../config.json">
-                            <button id="btnFetchManifest" class="btn-ghost full" style="margin-top:12px;" data-i18n="fetchNow">جلب النماذج الآن</button>
+                            <button id="btnFetchManifest" class="btn-ghost full" style="margin-top:12px;">جلب النماذج الآن</button>
                         </div>
                     </details>
 
                     <details class="settings-block">
-                        <summary data-i18n="pricingEst">💰 تسعير تقديري ($ لكل مليون توكن)</summary>
+                        <summary>🗑️ إدارة البيانات والمشاكل</summary>
                         <div class="settings-body">
-                            <div id="pricingList"></div>
-                        </div>
-                    </details>
-
-                    <details class="settings-block">
-                        <summary data-i18n="dataManage">🗑️ إدارة البيانات والمشاكل</summary>
-                        <div class="settings-body">
-                            <button id="btnExportSessions" class="btn-ghost full" data-i18n="exportSessions">تصدير كل الجلسات (JSON)</button>
-                            <button id="btnClearDead" class="btn-ghost full" style="margin-top:10px;" data-i18n="clearDead">مسح المزودين المعطّلين مؤقتاً</button>
-                            <button id="btnResetAll" class="btn-danger full" style="margin-top:10px;" data-i18n="deleteAll">تهيئة التطبيق وحذف البيانات للإصلاح</button>
+                            <button id="btnExportSessions" class="btn-ghost full">تصدير كل الجلسات (JSON)</button>
+                            <button id="btnClearDead" class="btn-ghost full" style="margin-top:10px;">مسح المزودين المعطّلين مؤقتاً</button>
+                            <button id="btnResetAll" class="btn-danger full" style="margin-top:10px;">تهيئة التطبيق وحذف البيانات للإصلاح</button>
                         </div>
                     </details>
                 </div>
@@ -1477,37 +1405,37 @@
         </main>
 
         <nav class="bottomnav">
-            <button class="nav-btn active" data-view="chat">💬<span data-i18n="navChat">دردشة</span></button>
-            <button class="nav-btn" data-view="arena">⚔️<span data-i18n="navArena">حلبة</span></button>
-            <button class="nav-btn" data-view="image">🎨<span data-i18n="navImages">صور</span></button>
-            <button class="nav-btn" data-view="video">🎬<span data-i18n="navVideo">فيديو</span></button>
-            <button class="nav-btn" data-view="keys">🔑<span data-i18n="navKeys">مفاتيح</span></button>
-            <button class="nav-btn" data-view="settings">⚙️<span data-i18n="navSettings">إعدادات</span></button>
+            <button class="nav-btn active" data-view="chat">💬<span>دردشة</span></button>
+            <button class="nav-btn" data-view="arena">⚔️<span>حلبة</span></button>
+            <button class="nav-btn" data-view="image">🎨<span>صور</span></button>
+            <button class="nav-btn" data-view="video">🎬<span>فيديو</span></button>
+            <button class="nav-btn" data-view="keys">🔑<span>مفاتيح</span></button>
+            <button class="nav-btn" data-view="settings">⚙️<span>إعدادات</span></button>
         </nav>
     </div>
 
     <div id="drawerOverlay" class="overlay"></div>
     <aside id="sessionsDrawer" class="drawer">
         <div class="drawer-head">
-            <h2 data-i18n="drawerTitle">الجلسات</h2>
+            <h2>الجلسات</h2>
             <button id="btnCloseSessions" class="icon-btn">✕</button>
         </div>
-        <button id="btnNewSession" class="btn-primary full" data-i18n="newSession">+ جلسة جديدة</button>
+        <button id="btnNewSession" class="btn-primary full">+ جلسة جديدة</button>
         <div id="sessionsList" class="sessions-list"></div>
     </aside>
 
     <div id="lightbox" class="modal">
         <button class="lb-close" id="lbClose">✕</button>
-        <a class="lb-dl" id="lbDownload" download>⬇ تنزيل</a>
+        <a class="lb-dl" id="lbDownload" download>⬇ تحميل الوسائط</a>
         <div id="lbContent" style="text-align:center;"></div>
     </div>
 
     <div id="usageModal" class="modal">
         <div class="modal-box">
-            <h3 data-i18n="usageTitle">📊 الاستخدام والتوكنز</h3>
+            <h3>📊 الاستخدام والتوكنز</h3>
             <div id="usageContent"></div>
             <div class="modal-actions">
-                <button class="btn-ghost full" id="btnCloseUsage" data-i18n="closeBtn">إغلاق</button>
+                <button class="btn-ghost full" id="btnCloseUsage">إغلاق</button>
             </div>
         </div>
     </div>
@@ -1517,15 +1445,15 @@
             <h3 id="confirmTitle">تأكيد</h3>
             <p id="confirmBody" style="font-size:13.5px; color:var(--mint-dim); line-height: 1.6;"></p>
             <div class="modal-actions">
-                <button class="btn-ghost full" id="confirmCancel" data-i18n="cancelBtn">إلغاء</button>
-                <button class="btn-danger" style="flex:1;" id="confirmOk" data-i18n="confirmBtn">تأكيد</button>
+                <button class="btn-ghost full" id="confirmCancel">إلغاء</button>
+                <button class="btn-danger" style="flex:1;" id="confirmOk">تأكيد</button>
             </div>
         </div>
     </div>
 
     <div id="addProviderModal" class="modal">
         <div class="modal-box">
-            <h3 data-i18n="addCustomProv">+ مزوّد مخصّص</h3>
+            <h3>+ مزوّد مخصّص</h3>
             <label class="field">الاسم</label>
             <input type="text" id="apName" placeholder="مثال: Groq Fast">
             
@@ -1544,8 +1472,8 @@
             </div>
             
             <div class="modal-actions">
-                <button class="btn-ghost full" id="apCancel" data-i18n="cancelBtn">إلغاء</button>
-                <button class="btn-primary full" id="apSave" data-i18n="saveBtn">حفظ</button>
+                <button class="btn-ghost full" id="apCancel">إلغاء</button>
+                <button class="btn-primary full" id="apSave">حفظ</button>
             </div>
         </div>
     </div>
@@ -1555,8 +1483,8 @@
             <h3>⌗ أهلاً بك في Chibani Lotfi AI</h3>
             <div class="about-box">
                 <p>هذا التطبيق يعمل <b>بمفاتيحك الخاصة (BYOK)</b> مع نظام وكيل مدمج لتشغيل كل النماذج بأمان.</p>
-                <p>1) افتح تبويب <b>🔑 مفاتيح</b><br>2) اختر مزوّداً (Pollinations يعمل مجاناً)<br>3) الصق المفتاح (إن وجد) واضغط "اختبار الاتصال"</p>
-                <p style="color:var(--mint-faint);">جميع المفاتيح تُحفظ على جهازك فقط (localStorage) ولا تُرسل لأي خادم غير مزوّدها.</p>
+                <p>1) افتح تبويب <b>🔑 مفاتيح</b><br>2) اختر مزوّداً (Pollinations يعمل مجاناً)<br>3) الصق المفتاح واضغط "اختبار الاتصال"</p>
+                <p style="color:var(--mint-faint);">جميع المفاتيح تُحفظ على جهازك محلياً فقط ولا تُرسل لأي خادم وسيط.</p>
             </div>
             <div class="modal-actions">
                 <button class="btn-primary full" id="welcomeOk">فهمت، لنبدأ</button>
@@ -1569,84 +1497,9 @@
     <script>
         'use strict';
 
-        /* ---------- Matrix Effect ---------- */
-        (function initMatrixRain() {
-            var canvas = document.getElementById('matrixCanvas'); 
-            if(!canvas) return;
-            var ctx = canvas.getContext('2d');
-            var w, h, cols, drops, fontSize = 15;
-            var glyphs = ('アイウエオカキクケコサシスセソタチツテト0123456789' + 'ابجدهوزحطيكلمنسعفصقرشتثخذضظغأإةى').split('');
-            
-            function resize() { 
-                w = canvas.width = window.innerWidth; 
-                h = canvas.height = window.innerHeight; 
-                cols = Math.floor(w / fontSize); 
-                drops = new Array(cols).fill(0).map(() => Math.random() * -100); 
-            }
-            
-            resize(); 
-            window.addEventListener('resize', resize);
-            
-            setInterval(() => {
-                ctx.fillStyle = 'rgba(3,7,5,0.09)'; 
-                ctx.fillRect(0, 0, w, h); 
-                ctx.font = fontSize + 'px "JetBrains Mono", monospace';
-                
-                for (var i = 0; i < cols; i++) {
-                    var ch = glyphs[Math.floor(Math.random() * glyphs.length)];
-                    ctx.fillStyle = Math.random() > 0.975 ? '#eafff2' : (Math.random() > 0.88 ? '#00ff9c' : '#0d7a3e');
-                    ctx.fillText(ch, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > h && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                }
-            }, 55);
-        })();
-
-        /* ---------- Translation System ---------- */
-        const i18n = {
-            ar: {
-                appName: "Chibani Lotfi AI 🇩🇿", navChat: "دردشة", navArena: "حلبة", navImages: "صور", navVideo: "فيديو", navKeys: "مفاتيح", navSettings: "إعدادات",
-                autoSwitch: "تبديل تلقائي", thinking: "تفكير", autoTuneInfo: "⚡ ضبط آلي",
-                chatPlaceholder: "اكتب رسالتك... (Enter للإرسال)", arenaPlaceholder: "اطرح سؤالاً لتشاهد التنافس...", waitingForArena: "بانتظار الإرسال...",
-                imgPlaceholder: "صف الصورة التي تريد توليدها...", genImageBtn: "🎨 توليد الصورة", emptyGallery: "لا توجد صور بعد ✨",
-                vidPlaceholder: "صف الفيديو الذي تريد توليده...", genVideoBtn: "🎬 توليد الفيديو", emptyVideo: "لا توجد فيديوهات بعد ✨", videoNote: "⚠️ الفيديوهات لا تُحفظ محلياً.",
-                drawerTitle: "الجلسات", newSession: "+ جلسة جديدة", sysSettings: "⚙️ إعدادات النظام", corsProxyLbl: "رابط وكيل CORS (للمزودات المحمية)", remoteUpdates: "🔄 التحديث المستمر للنماذج", remoteJsonLbl: "رابط ملف الإعدادات عن بُعد (JSON)", fetchNow: "جلب النماذج الآن", dataManage: "🗑️ إدارة البيانات والمشاكل", deleteAll: "تهيئة التطبيق وحذف البيانات للإصلاح", addCustomProv: "+ إضافة مزوّد مخصّص", usageTitle: "📊 الاستخدام والتوكنز", closeBtn: "إغلاق", cancelBtn: "إلغاء", saveBtn: "حفظ",
-                corsNote: "⚠️ <b>نظام فك الحظر (CORS Proxy):</b> التطبيق مزود بوكيل صامت لكسر حماية بعض المزودات لتتمكن من استخدامها من المتصفح مباشرة. (مفعل تلقائياً)"
-            },
-            en: {
-                appName: "Chibani Lotfi AI 🇩🇿", navChat: "Chat", navArena: "Arena", navImages: "Images", navVideo: "Video", navKeys: "Keys", navSettings: "Settings",
-                autoSwitch: "Auto Fallback", thinking: "Think", autoTuneInfo: "⚡ Auto",
-                chatPlaceholder: "Type your message... (Enter to send)", arenaPlaceholder: "Ask a question to see models compete...", waitingForArena: "Waiting for prompt...",
-                imgPlaceholder: "Describe the image to generate...", genImageBtn: "🎨 Generate Image", emptyGallery: "No images yet ✨",
-                vidPlaceholder: "Describe the video to generate...", genVideoBtn: "🎬 Generate Video", emptyVideo: "No videos yet ✨", videoNote: "⚠️ Videos are not saved locally.",
-                drawerTitle: "Sessions", newSession: "+ New Session", sysSettings: "⚙️ System Settings", corsProxyLbl: "CORS Proxy URL (for APIs)", remoteUpdates: "🔄 Remote Updates", remoteJsonLbl: "Remote Config URL (JSON)", fetchNow: "Fetch Models Now", dataManage: "🗑️ Data Management", deleteAll: "Factory Reset App Data", addCustomProv: "+ Add Custom Provider", usageTitle: "📊 Usage & Tokens", closeBtn: "Close", cancelBtn: "Cancel", saveBtn: "Save",
-                corsNote: "⚠️ <b>CORS Proxy System:</b> App includes a silent proxy to bypass restrictions for protected providers directly from browser."
-            }
-        };
-
-        let currentLang = 'ar';
-        
-        function translateUI() {
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            let btnLang = document.getElementById('btnLangToggle');
-            if(btnLang) {
-                btnLang.textContent = currentLang === 'ar' ? 'EN' : 'عربي';
-            }
-            
-            const dict = i18n[currentLang];
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => { 
-                el.innerHTML = dict[el.getAttribute('data-i18n')] || el.innerHTML; 
-            });
-            
-            document.querySelectorAll('[data-i18n-ph]').forEach(el => { 
-                el.placeholder = dict[el.getAttribute('data-i18n-ph')] || el.placeholder; 
-            });
-        }
-
-        /* ---------- Utilities ---------- */
+        /* --------------------------------------------------------------------------
+           Utilities
+        -------------------------------------------------------------------------- */
         function $(id) { 
             let el = document.getElementById(id);
             return el; 
@@ -1661,27 +1514,26 @@
         }
 
         function nowStr() { 
-            return new Date().toLocaleTimeString(currentLang, {hour:'2-digit', minute:'2-digit'}); 
+            return new Date().toLocaleTimeString('ar', {hour:'2-digit', minute:'2-digit'}); 
         }
 
         let toastTimer = null;
         function toast(msg, ms) { 
             let t = $('toast'); 
             if(!t) return;
-            
             t.textContent = msg; 
             t.classList.add('show'); 
-            
             clearTimeout(toastTimer); 
-            toastTimer = setTimeout(() => {
-                t.classList.remove('show');
-            }, ms || 3200); 
+            toastTimer = setTimeout(() => { t.classList.remove('show'); }, ms || 3200); 
         }
 
         function fmtNum(n) { 
             return Number(n||0).toLocaleString('en-US'); 
         }
 
+        /* --------------------------------------------------------------------------
+           Smart Tuning
+        -------------------------------------------------------------------------- */
         function getAutoTuningParams(promptText) {
             if(!promptText) return { temp: 0.6, tokens: 2048 };
             let p = promptText.toLowerCase();
@@ -1693,25 +1545,29 @@
             return { temp: 0.6, tokens: 2048 }; 
         }
 
-        /* ---------- Massive Provider Registry ---------- */
-        // تمت إضافة قائمة ضخمة من المزودين هنا
+        /* --------------------------------------------------------------------------
+           Huge Provider Registry (Massive Integration with CORS handling)
+        -------------------------------------------------------------------------- */
         const DEFAULT_PROVIDERS = [
             { id: 'pollinations', name: 'Pollinations', baseUrl: 'https://text.pollinations.ai/openai', chatPath: '', keyless: true, needsCors: false, defaultModel: 'openai', staticModels: ['openai', 'qwen', 'llama', 'mistral', 'deepseek', 'deepseek-reasoner'] },
-            { id: 'groq', name: 'Groq', baseUrl: 'https://api.groq.com/openai/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'llama-3.3-70b-versatile', staticModels: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768'] },
+            { id: 'groq', name: 'Groq API', baseUrl: 'https://api.groq.com/openai/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'llama-3.3-70b-versatile', staticModels: ['llama-3.3-70b-versatile', 'mixtral-8x7b-32768', 'deepseek-r1-distill-llama-70b'] },
             { id: 'nvidia', name: 'Nvidia NIM', baseUrl: 'https://integrate.api.nvidia.com/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'meta/llama-3.1-70b-instruct', staticModels: ['meta/llama-3.1-70b-instruct', 'nvidia/nemotron-4-340b-instruct'] },
             { id: 'deepseek', name: 'DeepSeek API', baseUrl: 'https://api.deepseek.com/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'deepseek-chat', staticModels: ['deepseek-chat', 'deepseek-reasoner'] },
-            { id: 'anthropic', name: 'Anthropic', baseUrl: 'https://api.anthropic.com/v1', chatPath: '/messages', keyless: false, needsCors: true, defaultModel: 'claude-3-5-sonnet-20240620', staticModels: ['claude-3-5-sonnet-20240620', 'claude-3-opus-20240229'] },
+            { id: 'anthropic', name: 'Anthropic', baseUrl: 'https://api.anthropic.com/v1', chatPath: '/messages', keyless: false, needsCors: true, defaultModel: 'claude-3-5-sonnet-20241022', staticModels: ['claude-3-5-sonnet-20241022', 'claude-3-opus-20240229'] },
             { id: 'mistral', name: 'Mistral API', baseUrl: 'https://api.mistral.ai/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'mistral-large-latest', staticModels: ['mistral-large-latest', 'pixtral-12b-2409'] },
             { id: 'together', name: 'Together AI', baseUrl: 'https://api.together.xyz/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'meta-llama/Llama-3-70b-chat-hf', staticModels: ['meta-llama/Llama-3-70b-chat-hf', 'Qwen/Qwen2.5-72B-Instruct'] },
             { id: 'cerebras', name: 'Cerebras', baseUrl: 'https://api.cerebras.ai/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'llama3.1-8b', staticModels: ['llama3.1-8b', 'llama3.1-70b'] },
             { id: 'huggingface', name: 'Hugging Face', baseUrl: 'https://router.huggingface.co/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'Qwen/Qwen2.5-72B-Instruct', staticModels: ['Qwen/Qwen2.5-72B-Instruct', 'meta-llama/Llama-3.2-3B-Instruct'] },
             { id: 'openrouter', name: 'OpenRouter', baseUrl: 'https://openrouter.ai/api/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'google/gemma-2-9b-it:free', staticModels: ['google/gemma-2-9b-it:free'] },
-            { id: 'gemini', name: 'Google Gemini', baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai', chatPath: '/chat/completions', keyless: false, needsCors: false, defaultModel: 'gemini-2.5-flash', staticModels: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash-thinking-exp'] }
+            { id: 'gemini', name: 'Google Gemini', baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai', chatPath: '/chat/completions', keyless: false, needsCors: false, defaultModel: 'gemini-2.5-flash', staticModels: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash-thinking-exp'] },
+            { id: 'fireworks', name: 'Fireworks AI', baseUrl: 'https://api.fireworks.ai/inference/v1', chatPath: '/chat/completions', keyless: false, needsCors: true, defaultModel: 'accounts/fireworks/models/llama-v3p1-405b-instruct', staticModels: ['accounts/fireworks/models/llama-v3p1-405b-instruct'] }
         ];
 
-        /* ---------- STATE MANAGEMENT (V200 FORCE RESET) ---------- */
-        const STATE_KEY = 'CL_AI_STATE_V200';
-        const DEAD_MAP_KEY = 'CL_AI_DEADMAP_V200';
+        /* --------------------------------------------------------------------------
+           State Management (V_MAX)
+        -------------------------------------------------------------------------- */
+        const STATE_KEY = 'CL_AI_STATE_MAX_V1';
+        const DEAD_MAP_KEY = 'CL_AI_DEADMAP_MAX_V1';
 
         let state = null;
         let deadMap = {};
@@ -1742,7 +1598,7 @@
                     if(parsed && parsed.providers && parsed.providers.length > 0) {
                         state = parsed;
                         
-                        // Force update base URLs from defaults
+                        // Force update base URLs and CORS requirements from defaults
                         DEFAULT_PROVIDERS.forEach(dp => {
                             let existing = state.providers.find(p => p.id === dp.id);
                             if(existing) { 
@@ -1912,6 +1768,40 @@
             }
         }
 
+        async function fetchModels(provider) {
+            if (provider.modelsCache && provider.modelsCache.length) return provider.modelsCache;
+            let out = [];
+            if (provider.modelsPath) {
+                try {
+                    let reqUrl = provider.baseUrl + provider.modelsPath;
+                    if (provider.needsCors) reqUrl = (state.corsProxyUrl || 'https://corsproxy.io/?') + encodeURIComponent(reqUrl);
+                    
+                    let headers = {};
+                    if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+                    if (provider.id === 'anthropic' && provider.apiKey) {
+                        headers['x-api-key'] = provider.apiKey;
+                        headers['anthropic-version'] = '2023-06-01';
+                        delete headers['Authorization'];
+                    }
+                    
+                    let ctrl = new AbortController();
+                    setTimeout(() => ctrl.abort(), 9000);
+                    
+                    let res = await fetch(reqUrl, {headers: headers, signal: ctrl.signal});
+                    if (res.ok) {
+                        let json = await res.json();
+                        let list = json.data || json.models || (Array.isArray(json) ? json : []);
+                        out = list.map(m => ({id: m.id || m.name || m, label: m.id || m.name || String(m)}));
+                    }
+                } catch(e) {}
+            }
+            if (!out.length && provider.staticModels) out = provider.staticModels.map(m => ({id:m, label:m}));
+            if (!out.length && provider.defaultModel) out = [{id:provider.defaultModel, label:provider.defaultModel}];
+            
+            provider.modelsCache = out;
+            return out;
+        }
+
         function renderProvidersList() {
             let el = $('providersList'); 
             if(!el) return;
@@ -1930,12 +1820,12 @@
                             </span>
                             <label class="switch-chip">
                                 <input type="checkbox" onchange="toggleProvider('${p.id}', this.checked)" ${p.enabled ? 'checked' : ''}> 
-                                ${currentLang === 'ar' ? 'مفعّل' : 'Enabled'}
+                                مفعّل
                             </label>
                         </div>
                         <div class="keybox">
                             <input type="password" 
-                                   placeholder="${p.keyless ? (currentLang === 'ar' ? 'بدون مفتاح (يعمل مجاناً)' : 'No key needed') : (currentLang === 'ar' ? 'أدخل مفتاح API هنا' : 'Enter API Key')}" 
+                                   placeholder="${p.keyless ? 'بدون مفتاح (مجاني)' : 'أدخل مفتاح API هنا'}" 
                                    value="${p.apiKey}" 
                                    onchange="updateProviderKey('${p.id}', this.value)">
                         </div>
@@ -1949,8 +1839,12 @@
         window.toggleProvider = function(id, val) { 
             let all = state.providers.concat(state.customProviders || []);
             let p = all.find(x => x.id === id); 
-            if(p) p.enabled = val; 
-            saveState(); populateSelectors(); populateImageVideoSelectors();
+            if(p) {
+                p.enabled = val; 
+            }
+            saveState(); 
+            populateSelectors(); 
+            populateImageVideoSelectors();
         };
 
         window.updateProviderKey = function(id, val) { 
@@ -1966,7 +1860,9 @@
             renderProvidersList(); 
         };
 
-        /* ---------- FILE UPLOADS (Images & Code/Text Files) ---------- */
+        /* --------------------------------------------------------------------------
+           File Uploads (Images & Code/Text Files)
+        -------------------------------------------------------------------------- */
         var pendingAttachment = null;
         var pendingTextContent = "";
         
@@ -2008,9 +1904,9 @@
                         
                         if(ap) {
                             ap.innerHTML = `
-                                <div class="rm" style="background:var(--bg-elev2); border:1px solid var(--green-dim); padding:10px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+                                <div class="rm text-file-preview">
                                     <span style="font-size:16px;">📄</span>
-                                    <span style="font-size:12px; color:var(--green);">${file.name}</span>
+                                    <span style="color:var(--green);">${file.name} (جاهز للتحليل)</span>
                                     <button id="rmAttach" style="top:-5px; right:-5px; width:22px; height:22px;">✕</button>
                                 </div>
                             `;
@@ -2024,7 +1920,9 @@
             });
         }
 
-        /* ---------- MARKDOWN & CHAT RENDER ---------- */
+        /* --------------------------------------------------------------------------
+           MARKDOWN & CHAT RENDER
+        -------------------------------------------------------------------------- */
         function renderMarkdown(text) {
             // إخفاء التفكير في العرض النهائي
             let html = text.replace(/<think>([\s\S]*?)(?:<\/think>|$)/g, '').trim();
@@ -2094,78 +1992,9 @@
             el.scrollTop = el.scrollHeight;
         }
 
-        /* ---------- FETCH MODELS HELPERS ---------- */
-        async function fetchModels(provider){
-            if (provider.modelsCache && provider.modelsCache.length) return provider.modelsCache;
-            var out = [];
-            
-            if (provider.modelsPath) {
-                try{
-                    var reqUrl = provider.baseUrl + provider.modelsPath;
-                    if (provider.needsCors) reqUrl = (state.corsProxyUrl || 'https://corsproxy.io/?') + encodeURIComponent(reqUrl);
-                    
-                    var headers = {};
-                    if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
-                    
-                    var ctrl = new AbortController();
-                    var t = setTimeout(function(){ ctrl.abort(); }, 9000);
-                    
-                    var res = await fetch(reqUrl, {headers:headers, signal:ctrl.signal});
-                    clearTimeout(t);
-                    
-                    if (res.ok){
-                        var json = await res.json();
-                        var list = json.data || json.models || (Array.isArray(json)?json:[]);
-                        out = list.map(function(m){ return {id: m.id || m.name || m, label: m.id || m.name || String(m)}; });
-                        
-                        if (provider.freeSuffix){
-                            var free = out.filter(function(m){ return m.id.indexOf(provider.freeSuffix) !== -1; });
-                            if (free.length) out = free;
-                        }
-                    }
-                }catch(e){ /* fall through to static list */ }
-            }
-
-            if (!out.length && provider.staticModels){
-                out = provider.staticModels.map(function(m){ return {id:m, label:m}; });
-            }
-            if (!out.length && provider.defaultModel){
-                out = [{id:provider.defaultModel, label:provider.defaultModel}];
-            }
-            
-            provider.modelsCache = out;
-            return out;
-        }
-
-        async function testProvider(provider){
-            var pId = provider.id;
-            try{
-                var reqUrl = provider.baseUrl + (provider.modelsPath || '/models');
-                if (provider.needsCors) reqUrl = (state.corsProxyUrl || 'https://corsproxy.io/?') + encodeURIComponent(reqUrl);
-                
-                var headers = {};
-                if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
-                
-                var ctrl = new AbortController();
-                var t = setTimeout(function(){ ctrl.abort(); }, 8000);
-                
-                var res = await fetch(reqUrl, {headers:headers, signal:ctrl.signal});
-                clearTimeout(t);
-                
-                if (res.ok){ 
-                    provider.status = 'alive'; saveState(); renderProvidersList(); return true; 
-                }
-                if (res.status === 401 || res.status === 403){ 
-                    provider.status = 'needs-key'; saveState(); renderProvidersList(); return false; 
-                }
-                
-                provider.status = 'error'; saveState(); renderProvidersList(); return false;
-            }catch(e){
-                provider.status = 'error'; saveState(); renderProvidersList(); return false;
-            }
-        }
-
-        /* ---------- STREAMING ENGINE ---------- */
+        /* --------------------------------------------------------------------------
+           STREAMING ENGINE
+        -------------------------------------------------------------------------- */
         let currentAbort = null;
         let isStreaming = false;
 
@@ -2184,7 +2013,6 @@
             };
             
             if(prov.apiKey) {
-                // لـ Anthropic نستخدم x-api-key ونسخة محددة
                 if(prov.id === 'anthropic') {
                     headers['x-api-key'] = prov.apiKey;
                     headers['anthropic-version'] = '2023-06-01';
@@ -2220,7 +2048,6 @@
                 body.reasoning_effort = 'low';
             }
 
-            // لـ Anthropic شكل الطلب يختلف قليلا
             if(prov.id === 'anthropic') {
                 body.messages = messages.filter(m => m.role !== 'system');
             }
@@ -2267,9 +2094,7 @@
                             if(delta) {
                                 onDelta(delta);
                             }
-                        } catch(e) {
-                            // Silently ignore incomplete JSON chunks
-                        }
+                        } catch(e) {}
                     }
                 }
             }
@@ -2314,7 +2139,7 @@
             let model = mSel.value;
             
             if(!prov) { 
-                toast(currentLang === 'ar' ? 'لا يوجد مزود متاح' : 'No provider available'); 
+                toast('لا يوجد مزود متاح'); 
                 return; 
             }
             
@@ -2363,7 +2188,7 @@
                         if (afterThink.length > 0) {
                             displayHtml = afterThink; // إخفاء التفكير بمجرد بدء الإجابة
                         } else {
-                            displayHtml = `<div class="temp-thinking">🧠 ${currentLang === 'ar' ? 'يفكر...' : 'Thinking...'}\n${escapeHtml(thinkMatch[1])}</div>`;
+                            displayHtml = `<div class="temp-thinking">🧠 يفكر...\n${escapeHtml(thinkMatch[1])}</div>`;
                         }
                     }
                     
@@ -2390,7 +2215,7 @@
                 
             } catch(e) { 
                 if(e.name === 'AbortError') {
-                    aiBubble.innerHTML = `<em style="color:var(--mint-faint)">(${currentLang === 'ar' ? 'توقف' : 'Stopped'})</em>`;
+                    aiBubble.innerHTML = `<em style="color:var(--mint-faint)">(توقف)</em>`;
                 } else {
                     aiBubble.innerHTML = `⚠️ خطأ: ${e.message}`; 
                 }
@@ -2400,7 +2225,9 @@
             if(btn) btn.textContent = '➤';
         }
 
-        /* ---------- ARENA MODE (حلبة التنافس) ---------- */
+        /* --------------------------------------------------------------------------
+           Arena Mode
+        -------------------------------------------------------------------------- */
         async function startArena() {
             let input = $('arenaInput'); 
             if(!input) return;
@@ -2451,17 +2278,20 @@
                     }
                 })
             ]).then(() => {
-                toast(currentLang === 'ar' ? 'اكتمل التنافس!' : 'Arena Match Finished!');
+                toast('اكتمل التنافس!');
             });
         }
 
-        /* ---------- IMAGE & VIDEO GENERATION ---------- */
+        /* --------------------------------------------------------------------------
+           Image & Video Generation
+        -------------------------------------------------------------------------- */
         async function generateGeminiImage(prompt, modelId) {
             let provider = getProvider('gemini');
             if(!provider || !provider.apiKey) throw new Error("مفتاح Gemini مفقود");
             
             let m = modelId || 'imagen-3.0-generate-001';
             if(m.startsWith('models/')) m = m.substring(7);
+            if(m === 'gemini-2.5-flash-image') m = 'imagen-3.0-generate-001';
             
             let url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:predict?key=${provider.apiKey}`;
             let res = await fetch(url, { 
@@ -2518,6 +2348,12 @@
                     url = await generateGeminiImage(prompt, mId); 
                 } else {
                     url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=${size[0]}&height=${size[1]}&model=${mId}&nologo=true${hd}`;
+                    
+                    // Pollinations return image immediately or via redirect
+                    let res = await fetch(url);
+                    if (!res.ok) throw new Error('HTTP '+res.status);
+                    let blob = await res.blob();
+                    url = await blobToPersistableUrl(blob, 4*1024*1024);
                 }
                 
                 let gal = $('imgGallery');
@@ -2525,7 +2361,7 @@
                     gal.innerHTML = `
                         <div class="gallery-item" style="grid-column:1/-1;">
                             <img src="${url}">
-                            <a href="${url}" download="Image-${Date.now()}.png" style="position:absolute; bottom:10px; right:10px; background:rgba(0,0,0,0.7); padding:6px 12px; border-radius:6px; font-size:12px; color:#fff;">⬇ تحميل</a>
+                            <a href="${url}" download="Image-${Date.now()}.png" class="media-dl-btn">⬇ تحميل</a>
                         </div>
                     ` + gal.innerHTML.replace(/لا توجد صور بعد ✨/g, '');
                 }
@@ -2560,11 +2396,18 @@
             
             try {
                 let url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=${mId}`;
+                
+                let res = await fetch(url);
+                if (!res.ok) throw new Error('HTTP '+res.status);
+                let blob = await res.blob();
+                let localUrl = URL.createObjectURL(blob);
+                
                 let gal = $('vidGallery');
                 if(gal) {
                     gal.innerHTML = `
                         <div class="gallery-item" style="grid-column:1/-1;">
-                            <video src="${url}" controls autoplay muted></video>
+                            <video src="${localUrl}" controls autoplay muted></video>
+                            <a href="${localUrl}" download="Video-${Date.now()}.mp4" class="media-dl-btn">⬇ تحميل</a>
                         </div>
                     ` + gal.innerHTML.replace(/لا توجد فيديوهات بعد ✨/g, '');
                 }
@@ -2576,37 +2419,6 @@
             
             if(btn) btn.disabled = false;
             if(wrap) setTimeout(()=>wrap.classList.remove('show'), 800);
-        }
-
-        function simulateProgress(fillEl, labelEl, expectedMs) {
-            if(!fillEl || !labelEl) return function(){};
-            let start = Date.now(); let done = false;
-            let timer = setInterval(() => { 
-                if (done) return; 
-                let pct = Math.min(95, Math.round(((Date.now()-start)/expectedMs)*95)); 
-                fillEl.style.width = pct+'%'; labelEl.textContent = pct+'%'; 
-            }, 200);
-            return function(success) { 
-                done = true; 
-                clearInterval(timer); 
-                fillEl.style.width = success? '100%':'0%'; 
-                labelEl.textContent = success? '100%':'خطأ'; 
-            };
-        }
-
-        /* --------------------------------------------------------------------------
-           Sessions Drawer & Other Utilities
-        -------------------------------------------------------------------------- */
-        function openDrawer(){ $('sessionsDrawer').classList.add('open'); $('drawerOverlay').classList.add('show'); }
-        function closeDrawer(){ $('sessionsDrawer').classList.remove('open'); $('drawerOverlay').classList.remove('show'); }
-
-        function renderUsageModal() {
-            let el = $('usageContent'); 
-            if(!el) return;
-            el.innerHTML = '';
-            let sTotal = 0; // Simplified for speed
-            
-            el.innerHTML += `<div class="usage-row"><span>توكنز التقديرية</span><b>${fmtNum(sTotal)}</b></div>`;
         }
 
         /* --------------------------------------------------------------------------
@@ -2629,16 +2441,29 @@
                 });
                 
                 // UI Binds
-                let btnSend = $('btnSend'); if(btnSend) btnSend.addEventListener('click', () => { if(isStreaming && currentAbort) currentAbort.abort(); else sendChatMessage(); });
-                let chatInput = $('chatInput'); if(chatInput) chatInput.addEventListener('keydown', (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } });
-                let chatInput2 = $('chatInput'); if(chatInput2) chatInput2.addEventListener('input', () => { autoGrow(chatInput2); });
+                let btnSend = $('btnSend'); 
+                if(btnSend) {
+                    btnSend.addEventListener('click', () => { 
+                        if(isStreaming && currentAbort) currentAbort.abort(); 
+                        else sendChatMessage(); 
+                    });
+                }
+                
+                let chatInput = $('chatInput'); 
+                if(chatInput) {
+                    chatInput.addEventListener('keydown', (e) => { 
+                        if(e.key === 'Enter' && !e.shiftKey) { 
+                            e.preventDefault(); 
+                            sendChatMessage(); 
+                        } 
+                    });
+                }
                 
                 let btnArena = $('btnArenaSend'); if(btnArena) btnArena.addEventListener('click', startArena);
                 let btnImg = $('btnGenImage'); if(btnImg) btnImg.addEventListener('click', generateImage);
                 let btnVid = $('btnGenVideo'); if(btnVid) btnVid.addEventListener('click', generateVideo);
                 
                 let btnReset = $('btnResetAll'); if(btnReset) btnReset.addEventListener('click', () => { if(confirm("سيتم مسح كافة البيانات للإصلاح. هل أنت متأكد؟")) { localStorage.clear(); location.reload(); } });
-                let btnLang = $('btnLangToggle'); if(btnLang) btnLang.addEventListener('click', () => { currentLang = currentLang === 'ar' ? 'en' : 'ar'; translateUI(); });
                 
                 let corsInput = $('settingsCorsProxy'); if(corsInput) { corsInput.value = state.corsProxyUrl; corsInput.addEventListener('change', (e) => { state.corsProxyUrl = e.target.value; saveState(); }); }
                 
