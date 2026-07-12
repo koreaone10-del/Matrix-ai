@@ -1316,7 +1316,7 @@ details.settings-block[open] summary:after {
         <div class="progress-wrap" id="vidProgressWrap"><div class="progress-track"><div class="progress-fill" id="vidProgressFill"></div></div><span id="vidProgressLabel">0%</span></div>
         <div class="provider-note">⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — نزّلها إذا أردت الاحتفاظ بها. ملاحظة: نموذج wan يولّد صوتاً دائماً بغض النظر عن هذا المفتاح.</div>
       </div>
-      <div id="vidGallery" class="gallery"><div class="gallery-empty">لا توجد فيديوهات بعد ✨</div></div>
+      <div id="vidGallery" class="gallery"><div class="gallery-empty">للا توجد فيديوهات بعد ✨</div></div>
       <input type="file" id="vidRefStartInput" accept="image/*" style="display:none;">
       <input type="file" id="vidRefEndInput" accept="image/*" style="display:none;">
     </section>
@@ -1905,6 +1905,7 @@ function enabledProviders(){
 // يبني الرابط الأساسي الفعلي لمزوّد: يستبدل {placeholders} من extraFieldValues
 // (مثال: Cloudflare يحتاج {accountId})، ثم يمر عبر بروكسي شخصي إن كان مفعّلاً
 // لهذا المزوّد تحديداً أو بروكسي عام في الإعدادات — بدون أي بروكسي عام مشترك مدمج.
+
 function getEffectiveBaseUrl(provider){
   var base = provider.baseUrl || '';
   if (provider.baseUrlTemplate){
@@ -1914,16 +1915,19 @@ function getEffectiveBaseUrl(provider){
   }
   var proxy = provider.proxyUrl || state.globalProxyUrl;
   if (proxy && provider.corsMode !== 'direct-forced'){
+    if (/\?url=|\?quest=/.test(proxy)) {
+      return proxy + encodeURIComponent(base);
+    }
     return proxy.replace(/\/$/, '') + '?url=' + encodeURIComponent(base);
   }
-  // مسار مكتشَف تلقائياً (فحص CORS الأوتوماتيكي): بادئة بروكسي عامة ناجحة
   var autoRoute = autoProxyMap[provider.id];
-  if (autoRoute) return autoRoute + base;
+  if (autoRoute) {
+    if (/\?url=|\?quest=/.test(autoRoute)) return autoRoute + encodeURIComponent(base);
+    return autoRoute + base;
+  }
   return base;
 }
-// يميّز فشل CORS/الشبكة (TypeError عام من fetch بلا حالة HTTP) عن خطأ HTTP
-// حقيقي أرسله الخادم فعلاً؛ هذا هو أقصى ما يستطيعه أي كود يعمل من المتصفح لأن
-// المواصفة تُخفي تفاصيل خطأ CORS عن جافاسكربت عمداً لأسباب أمنية.
+
 function looksLikeCorsOrNetworkFailure(err){
   return err instanceof TypeError;
 }
@@ -2283,49 +2287,49 @@ function updateContextBar(){
 // للمحادثة — النسخ يبقى دائماً للنص الكامل بغض النظر عن حالة الطي.
 var CODE_COLLAPSE_LINE_THRESHOLD = 60;
 
+
 function renderMarkdown(text){
   // إخفاء التفكير في العرض النهائي
-  var html = text.replace(/<think>([\s\S]*?)(?:<\/think>|$)/g, '').trim();
-  html = escapeHtml(html);
-  
-  html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
+  var cleaned = text.replace(/<think>([\s\S]*?)(?:<\/think>|$)/g, '').trim();
+
+  // معالجة كتل الكود أولاً (قبل escapeHtml)
+  var codeBlocks = [];
+  cleaned = cleaned.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
     var id = 'code_' + Math.random().toString(36).slice(2,8);
     var lineCount = code.split('\n').length;
     var collapsed = lineCount > CODE_COLLAPSE_LINE_THRESHOLD;
     var expandBtn = collapsed ? '<button class="expand-btn" data-expand-target="'+id+'-block">عرض الكل ('+lineCount+' سطر)</button>' : '';
-    return '<div class="code-block'+(collapsed?' collapsed':'')+'" id="'+id+'-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
-           '<span class="cb-lines">'+lineCount+' سطر</span>'+expandBtn+
-           '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
-           '<pre><code id="'+id+'" dir="ltr">'+code+'</code></pre></div>';
+    var placeholder = '___CODE_BLOCK_'+codeBlocks.length+'___';
+    codeBlocks.push({
+      placeholder: placeholder,
+      html: '<div class="code-block'+(collapsed?' collapsed':'')+'" id="'+id+'-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
+             '<span class="cb-lines">'+lineCount+' سطر</span>'+expandBtn+
+             '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
+             '<pre><code id="'+id+'" dir="ltr">'+escapeHtml(code)+'</code></pre></div>'
+    });
+    return placeholder;
   });
-  
-  html = html.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-  html = html.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
-  
-  return html;
+
+  // تهريب HTML للنص المتبقي
+  cleaned = escapeHtml(cleaned);
+
+  // معالجة inline code
+  cleaned = cleaned.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
+
+  // معالجة bold و italic
+  cleaned = cleaned.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  cleaned = cleaned.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+
+  // فقرات
+  cleaned = cleaned.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
+
+  // استعادة كتل الكود
+  codeBlocks.forEach(function(cb){
+    cleaned = cleaned.replace(cb.placeholder, cb.html);
+  });
+
+  return cleaned;
 }
-
-document.addEventListener('click', function(e){
-  if (e.target.classList && e.target.classList.contains('expand-btn')){
-    var block = $(e.target.getAttribute('data-expand-target'));
-    if (block){ block.classList.remove('collapsed'); e.target.remove(); }
-  }
-  if (e.target.classList && e.target.classList.contains('copy-btn')){
-    var codeEl = $(e.target.getAttribute('data-target'));
-    if (codeEl && navigator.clipboard){
-      navigator.clipboard.writeText(codeEl.textContent).then(function(){
-        e.target.textContent = 'تم!'; 
-        setTimeout(function(){ e.target.textContent='نسخ'; }, 1500);
-      });
-    }
-  }
-});
-
-/* ---------- Request engine ---------- */
-var currentAbortController = null; 
-var isStreaming = false;
 
 function buildFallbackChain(primaryId, primaryModel){
   var chain = []; 
@@ -2813,7 +2817,7 @@ function renderGallery(type){
   var el = $(type==='image'?'imgGallery':'vidGallery');
   
   if (!items.length){ 
-      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��ا توجد فيديوهات بعد ✨')+'</div>'; 
+      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��لا توجد فيديوهات بعد ✨')+'</div>'; 
       return; 
   }
   
@@ -3094,25 +3098,27 @@ function renderProvidersList(){
   });
 }
 
+
 function renderFallbackOrder(){
   var el = $('fallbackOrderList'); 
   el.innerHTML='';
-  
+
   state.fallbackOrder = state.fallbackOrder.filter(function(pid){ return getProvider(pid); });
   allProviders().forEach(function(p){ 
       if (state.fallbackOrder.indexOf(p.id)===-1 && p.enabled) state.fallbackOrder.push(p.id); 
   });
-  
+
   state.fallbackOrder.forEach(function(pid, idx){
     var p = getProvider(pid); 
     if (!p) return;
-    
+
     var row = document.createElement('div'); 
     row.className='switch-row'; 
     row.innerHTML = '<div class="label">'+(idx+1)+'. '+p.name+'</div>';
-    
+
     var btns = document.createElement('div');
-    
+    btns.style.display='flex'; btns.style.gap='4px';
+
     var up = document.createElement('button'); 
     up.className='btn-ghost'; 
     up.textContent='↑'; 
@@ -3121,4 +3127,497 @@ function renderFallbackOrder(){
         if (idx>0){ 
             var tmp=state.fallbackOrder[idx-1]; 
             state.fallbackOrder[idx-1]=state.fallbackOrder[idx]; 
-            state.fallbackOrder[id
+            state.fallbackOrder[idx]=tmp;
+            saveState();
+            renderFallbackOrder();
+        }
+    });
+    btns.appendChild(up);
+
+    var down = document.createElement('button'); 
+    down.className='btn-ghost'; 
+    down.textContent='↓'; 
+    down.style.padding='4px 10px';
+    down.addEventListener('click', function(){ 
+        if (idx < state.fallbackOrder.length-1){ 
+            var tmp=state.fallbackOrder[idx+1]; 
+            state.fallbackOrder[idx+1]=state.fallbackOrder[idx]; 
+            state.fallbackOrder[idx]=tmp;
+            saveState();
+            renderFallbackOrder();
+        }
+    });
+    btns.appendChild(down);
+
+    var remove = document.createElement('button');
+    remove.className='btn-danger';
+    remove.textContent='✕';
+    remove.style.padding='4px 10px';
+    remove.addEventListener('click', function(){
+        state.fallbackOrder.splice(idx, 1);
+        saveState();
+        renderFallbackOrder();
+    });
+    btns.appendChild(remove);
+
+    row.appendChild(btns);
+    el.appendChild(row);
+  });
+}
+
+function renderPricingList(){
+  var el = $('pricingList');
+  if (!el) return;
+  el.innerHTML = '';
+  allProviders().forEach(function(p){
+    var pr = state.pricing[p.id] || {inputPer1M:0, outputPer1M:0};
+    var row = document.createElement('div');
+    row.className = 'switch-row';
+    row.innerHTML = '<div><div class="label">'+p.name+'</div></div>';
+    var inputs = document.createElement('div');
+    inputs.style.display = 'flex'; inputs.style.gap = '6px';
+
+    var inInp = document.createElement('input');
+    inInp.type = 'number'; inInp.placeholder = 'Input $/1M'; inInp.value = pr.inputPer1M || '';
+    inInp.style.width = '80px'; inInp.style.fontSize = '11px';
+    inInp.addEventListener('change', function(e){
+      state.pricing[p.id] = state.pricing[p.id] || {};
+      state.pricing[p.id].inputPer1M = Number(e.target.value) || 0;
+      saveState();
+    });
+
+    var outInp = document.createElement('input');
+    outInp.type = 'number'; outInp.placeholder = 'Output $/1M'; outInp.value = pr.outputPer1M || '';
+    outInp.style.width = '80px'; outInp.style.fontSize = '11px';
+    outInp.addEventListener('change', function(e){
+      state.pricing[p.id] = state.pricing[p.id] || {};
+      state.pricing[p.id].outputPer1M = Number(e.target.value) || 0;
+      saveState();
+    });
+
+    inputs.appendChild(inInp); inputs.appendChild(outInp);
+    row.appendChild(inputs);
+    el.appendChild(row);
+  });
+}
+
+function renderArenaProviderGrid(){
+  var el = $('arenaProviderGrid');
+  if (!el) return;
+  el.innerHTML = '';
+  enabledProviders().forEach(function(p){
+    var label = document.createElement('label');
+    label.className = 'arena-pick';
+    label.innerHTML = '<input type="checkbox" value="'+p.id+'"> '+p.name;
+    label.querySelector('input').addEventListener('change', function(){
+      label.classList.toggle('checked', this.checked);
+    });
+    el.appendChild(label);
+  });
+}
+
+function openDrawer(){ $('sessionsDrawer').classList.add('open'); $('drawerOverlay').classList.add('show'); }
+function closeDrawer(){ $('sessionsDrawer').classList.remove('open'); $('drawerOverlay').classList.remove('show'); }
+
+function switchView(viewId){
+  qsa('.view').forEach(function(v){ v.classList.remove('active'); });
+  var target = $('view-'+viewId);
+  if (target) target.classList.add('active');
+}
+
+function confirmAction(title, body, callback){
+  $('confirmTitle').textContent = title;
+  $('confirmBody').textContent = body;
+  window._confirmCallback = callback;
+  $('confirmModal').classList.add('show');
+}
+
+function handleFileSelect(e){
+  var files = e.target.files;
+  if (!files.length) return;
+  Array.from(files).forEach(function(file){
+    if (file.type.startsWith('image/')){
+      var reader = new FileReader();
+      reader.onload = function(){
+        pendingAttachments.push({kind:'image', data:reader.result, name:file.name});
+        renderAttachPreview();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      readTextFileIntoInput(file);
+    }
+  });
+  e.target.value = '';
+}
+
+function saveCustomProvider(){
+  var name = $('apName').value.trim();
+  var baseUrl = $('apBaseUrl').value.trim();
+  var key = $('apKey').value.trim();
+  var model = $('apModel').value.trim();
+  if (!name || !baseUrl){ toast('❌ الاسم و Base URL مطلوبان'); return; }
+
+  var id = 'custom_' + uid();
+  state.customProviders.push({
+    id:id, name:name, kind:'openai-compat',
+    baseUrl:baseUrl.replace(/\/$/, ''),
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:!key, corsMode:'auto',
+    defaultModel:model||'',
+    apiKey:key, enabled:true, status:'unknown', modelsCache:null,
+    extraFieldValues:{}, proxyUrl:'', isCustom:true
+  });
+  saveState();
+  renderProvidersList();
+  populateChatSelectors();
+  $('addProviderModal').classList.remove('show');
+  toast('✅ تم إضافة المزوّد المخصص');
+}
+
+function fetchRemoteManifest(){
+  var url = $('remoteManifestUrl').value.trim();
+  if (!url){ toast('❌ أدخل الرابط أولاً'); return; }
+  toast('⏳ جارِ الجلب...');
+  fetch(url).then(function(res){
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    return res.json();
+  }).then(function(json){
+    if (json.providers) {
+      json.providers.forEach(function(np){
+        var existing = getProvider(np.id);
+        if (!existing) {
+          var c = Object.assign({}, np);
+          c.apiKey=''; c.enabled=false; c.status='unknown'; c.modelsCache=null;
+          c.extraFieldValues={}; c.proxyUrl='';
+          state.providers.push(c);
+        }
+      });
+    }
+    if (json.pricing) Object.assign(state.pricing, json.pricing);
+    saveState();
+    renderProvidersList();
+    toast('✅ تم تحديث الإعدادات عن بُعد');
+  }).catch(function(err){
+    toast('❌ فشل الجلب: '+err.message);
+  });
+}
+
+function exportSessions(){
+  var data = JSON.stringify(state, null, 2);
+  var blob = new Blob([data], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'matrix-ai-backup-'+Date.now()+'.json';
+  a.click();
+  toast('✅ تم تصدير البيانات');
+}
+
+function startArena(){
+  var prompt = $('arenaPrompt').value.trim();
+  if (!prompt){ toast('❌ اكتب سؤالاً أولاً'); return; }
+
+  var checked = qsa('#arenaProviderGrid .arena-pick input:checked').map(function(cb){ return cb.value; });
+  if (checked.length < 2){ toast('❌ اختر مزوّدين على الأقل'); return; }
+
+  var resultsEl = $('arenaResults');
+  resultsEl.innerHTML = '';
+  $('arenaLeaderboard').style.display = 'none';
+
+  checked.forEach(function(pid){
+    var p = getProvider(pid);
+    if (!p) return;
+    var card = document.createElement('div');
+    card.className = 'arena-card';
+    card.id = 'arena-'+pid;
+    card.innerHTML = '<div class="arena-card-head"><span>'+p.name+'</span><span class="ac-meta" id="arena-meta-'+pid+'">جارِ الانتظار...</span></div><div class="arena-card-body" id="arena-body-'+pid+'"><span class="typing-dots"><span></span><span></span><span></span></span></div><div class="arena-card-foot"><button class="arena-win-btn" id="arena-vote-'+pid+'">🏆 هذا الأفضل</button></div>';
+    resultsEl.appendChild(card);
+
+    var model = p.defaultModel || '';
+    var messages = [{role:'user', content:prompt}];
+    var req = buildChatRequest(p, model, messages, prompt);
+
+    fetch(req.url, {
+      method:'POST',
+      headers:req.headers,
+      body:JSON.stringify(req.body)
+    }).then(function(res){
+      if (!res.ok) throw new Error('HTTP '+res.status);
+      return res.json();
+    }).then(function(json){
+      var text = json.choices && json.choices[0] && json.choices[0].message && json.choices[0].message.content || 'لا يوجد رد';
+      $('arena-body-'+pid).innerHTML = renderMarkdown(text);
+      $('arena-meta-'+pid).textContent = model + ' · ' + nowStr();
+
+      var voteBtn = $('arena-vote-'+pid);
+      voteBtn.addEventListener('click', function(){
+        qsa('.arena-win-btn').forEach(function(b){ b.classList.remove('picked'); b.textContent = '🏆 هذا الأفضل'; });
+        voteBtn.classList.add('picked');
+        voteBtn.textContent = '✅ تم الاختيار';
+
+        state.arenaStats = state.arenaStats || {};
+        state.arenaStats[pid] = (state.arenaStats[pid] || 0) + 1;
+        saveState();
+        renderArenaLeaderboard();
+      });
+    }).catch(function(err){
+      $('arena-body-'+pid).innerHTML = '<span style="color:var(--danger)">❌ فشل: '+escapeHtml(err.message)+'</span>';
+      $('arena-meta-'+pid).textContent = 'خطأ';
+    });
+  });
+
+  renderArenaLeaderboard();
+}
+
+function renderArenaLeaderboard(){
+  var el = $('arenaLeaderboard');
+  if (!state.arenaStats || Object.keys(state.arenaStats).length === 0){
+    el.style.display = 'none';
+    return;
+  }
+  el.style.display = 'block';
+  var html = '<b>🏆 لوحة المتصدرين</b>';
+  var sorted = Object.keys(state.arenaStats).sort(function(a,b){ return state.arenaStats[b] - state.arenaStats[a]; });
+  sorted.forEach(function(pid){
+    var p = getProvider(pid);
+    html += '<div class="arena-lb-row"><span>'+(p?p.name:pid)+'</span><span>'+state.arenaStats[pid]+' فوز</span></div>';
+  });
+  el.innerHTML = html;
+}
+
+function openUsageModal(){
+  var html = '';
+  var totalIn = 0, totalOut = 0;
+  Object.keys(state.usageByProvider||{}).forEach(function(pid){
+    var u = state.usageByProvider[pid];
+    var p = getProvider(pid);
+    var name = p ? p.name : pid;
+    var cost = costFor(pid, u.in, u.out);
+    html += '<div class="usage-row"><span>'+name+'</span><span><b>'+fmtNum(u.in+u.out)+'</b> توكن · $'+cost.toFixed(4)+'</span></div>';
+    totalIn += u.in; totalOut += u.out;
+  });
+  if (!html) html = '<p style="color:var(--mint-faint)">لا يوجد استخدام مسجّل بعد.</p>';
+  html = '<div style="margin-bottom:10px;font-size:13px;color:var(--mint-dim)">إجمالي: <b>'+fmtNum(totalIn+totalOut)+'</b> توكن · $'+costFor(null,totalIn,totalOut).toFixed(4)+'</div>' + html;
+  $('usageContent').innerHTML = html;
+  $('usageModal').classList.add('show');
+}
+
+function bindEvents(){
+  // Topbar
+  $('btnSessions').addEventListener('click', openDrawer);
+  $('btnCloseSessions').addEventListener('click', closeDrawer);
+  $('btnNewSession').addEventListener('click', createSession);
+  $('btnUsage').addEventListener('click', openUsageModal);
+  $('btnCloseUsage').addEventListener('click', function(){ $('usageModal').classList.remove('show'); });
+  $('btnSyncRealBalance').addEventListener('click', syncPollinationsBalance);
+  $('btnSupport').addEventListener('click', function(){ $('supportModal').classList.add('show'); });
+  $('btnCloseSupport').addEventListener('click', function(){ $('supportModal').classList.remove('show'); });
+  $('btnCopyWallet').addEventListener('click', function(){
+    var addr = $('supportWalletAddress').textContent;
+    navigator.clipboard && navigator.clipboard.writeText(addr).then(function(){
+      toast('✅ تم نسخ عنوان المحفظة');
+    });
+  });
+
+  // Chat
+  $('btnSend').addEventListener('click', function(){
+    if (isStreaming) {
+      if (currentAbortController) currentAbortController.abort();
+      isStreaming = false;
+      setSendButtonState(false);
+    } else {
+      sendChatMessage();
+    }
+  });
+  $('chatInput').addEventListener('keydown', function(e){
+    if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChatMessage(); }
+  });
+  $('chatInput').addEventListener('input', function(){ autoGrow(this); });
+  $('fileInput').addEventListener('change', handleFileSelect);
+  $('chatProviderSelect').addEventListener('change', function(){
+    var session = getCurrentSession();
+    session.providerId = this.value;
+    var p = getProvider(this.value);
+    session.model = p ? (p.defaultModel || '') : '';
+    saveState();
+    populateModelSelect($('chatModelSelect'), session.providerId, session.model);
+  });
+  $('chatModelSelect').addEventListener('change', function(){
+    var session = getCurrentSession();
+    session.model = this.value;
+    saveState();
+  });
+  $('autoFallback').addEventListener('change', function(){
+    state.autoFallback = this.checked;
+    saveState();
+  });
+  $('thinkToggle').addEventListener('change', function(){
+    state.thinkMode = this.checked;
+    saveState();
+  });
+
+  // Image
+  $('btnGenImage').addEventListener('click', generateImage);
+  $('imgModelSelect').addEventListener('change', updateImgModelUI);
+  $('btnAddImgRef').addEventListener('click', function(){ $('imgRefInput').click(); });
+  $('imgRefInput').addEventListener('change', function(e){
+    if (e.target.files[0]) {
+      imgRefFile = e.target.files[0];
+      var btn = $('btnAddImgRef');
+      var reader = new FileReader();
+      reader.onload = function(){
+        btn.innerHTML = '<img src="'+reader.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+        btn.style.padding = '0'; btn.style.border = 'none';
+      };
+      reader.readAsDataURL(imgRefFile);
+    }
+  });
+
+  // Video
+  $('btnGenVideo').addEventListener('click', generateVideo);
+  $('vidModelSelect').addEventListener('change', updateVidModelUI);
+  $('btnAddVidRefStart').addEventListener('click', function(){ $('vidRefStartInput').click(); });
+  $('vidRefStartInput').addEventListener('change', function(e){
+    if (e.target.files[0]) {
+      vidRefStartFile = e.target.files[0];
+      var btn = $('btnAddVidRefStart');
+      var reader = new FileReader();
+      reader.onload = function(){
+        btn.innerHTML = '<img src="'+reader.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+        btn.style.padding = '0'; btn.style.border = 'none';
+      };
+      reader.readAsDataURL(vidRefStartFile);
+    }
+  });
+  $('btnAddVidRefEnd').addEventListener('click', function(){ $('vidRefEndInput').click(); });
+  $('vidRefEndInput').addEventListener('change', function(e){
+    if (e.target.files[0]) {
+      vidRefEndFile = e.target.files[0];
+      var btn = $('btnAddVidRefEnd');
+      var reader = new FileReader();
+      reader.onload = function(){
+        btn.innerHTML = '<img src="'+reader.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">';
+        btn.style.padding = '0'; btn.style.border = 'none';
+      };
+      reader.readAsDataURL(vidRefEndFile);
+    }
+  });
+
+  // Arena
+  $('btnStartArena').addEventListener('click', startArena);
+
+  // Keys
+  $('btnAddCustomProvider').addEventListener('click', function(){ $('addProviderModal').classList.add('show'); });
+  $('apCancel').addEventListener('click', function(){ $('addProviderModal').classList.remove('show'); });
+  $('apSave').addEventListener('click', saveCustomProvider);
+
+  // Settings
+  $('settingsAutoFallback').addEventListener('change', function(){
+    state.autoFallback = this.checked;
+    saveState();
+  });
+  $('settingsPeriodicCheck').addEventListener('change', function(){
+    state.periodicCheck = this.checked;
+    saveState();
+  });
+  $('btnFetchManifest').addEventListener('click', fetchRemoteManifest);
+  $('btnExportSessions').addEventListener('click', exportSessions);
+  $('btnClearDead').addEventListener('click', clearDeadMap);
+  $('btnResetAll').addEventListener('click', function(){
+    confirmAction('حذف كل البيانات', 'سيتم حذف كل الجلسات والمفاتيح والإعدادات. لا يمكن التراجع.', function(){
+      localStorage.removeItem(LS_KEY);
+      localStorage.removeItem(LS_DEAD);
+      localStorage.removeItem(LS_ROUTES);
+      state = freshState();
+      deadMap = {};
+      autoProxyMap = {};
+      saveState();
+      init();
+      toast('🗑️ تم إعادة التعيير الكامل');
+    });
+  });
+  $('btnCopyProxyCode').addEventListener('click', function(){
+    var code = $('proxyWorkerCode').textContent;
+    navigator.clipboard && navigator.clipboard.writeText(code).then(function(){
+      toast('✅ تم نسخ كود البروكسي');
+    });
+  });
+
+  // Navigation
+  qsa('.nav-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var view = this.getAttribute('data-view');
+      switchView(view);
+      qsa('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+      this.classList.add('active');
+    });
+  });
+
+  // Lightbox
+  $('lbClose').addEventListener('click', function(){ $('lightbox').classList.remove('show'); });
+
+  // Drawer overlay
+  $('drawerOverlay').addEventListener('click', closeDrawer);
+
+  // Welcome
+  $('welcomeOk').addEventListener('click', function(){
+    $('welcomeModal').classList.remove('show');
+    state.firstRun = false;
+    saveState();
+  });
+
+  // Confirm modal
+  $('confirmCancel').addEventListener('click', function(){
+    $('confirmModal').classList.remove('show');
+    window._confirmCallback = null;
+  });
+  $('confirmOk').addEventListener('click', function(){
+    $('confirmModal').classList.remove('show');
+    if (window._confirmCallback) window._confirmCallback();
+    window._confirmCallback = null;
+  });
+}
+
+function init(){
+  state = loadState();
+  deadMap = loadDeadMap();
+  autoProxyMap = loadAutoRoutes();
+
+  renderSessionsList();
+  renderChatMessages();
+  populateChatSelectors();
+  renderProvidersList();
+  renderFallbackOrder();
+  renderPricingList();
+  renderArenaProviderGrid();
+  updateTokenPill();
+
+  // تهيئة القيم
+  $('autoFallback').checked = state.autoFallback;
+  $('thinkToggle').checked = state.thinkMode;
+  $('settingsAutoFallback').checked = state.autoFallback;
+  $('settingsPeriodicCheck').checked = state.periodicCheck;
+  $('remoteManifestUrl').value = state.remoteManifestUrl || '';
+  $('globalProxyUrl').value = state.globalProxyUrl || '';
+
+  // إظهار الترحيب إذا لزم
+  if (state.firstRun !== false) {
+    $('welcomeModal').classList.add('show');
+  }
+
+  // بدء الفحص الدوري
+  if (state.periodicCheck) {
+    setInterval(runPeriodicChecks, 10*60*1000);
+    setTimeout(runPeriodicChecks, 3000);
+  }
+
+  // تحميل selectors الصور/الفيديو
+  populateImageVideoSelectors();
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  bindEvents();
+  init();
+});
+</script>
+</body>
+</html>
