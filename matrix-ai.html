@@ -1222,6 +1222,7 @@ details.settings-block[open] summary:after {
     <div class="brand">
       <span class="brand-text" style="font-size: 12.5px;">Chibani Lotfi ai 🇩🇿</span>
     </div>
+    <button id="btnSupport" class="pill-btn" aria-label="إدعمني / Support Me" title="إدعمني / Support Me">💚 إدعمني</button>
     <button id="btnUsage" class="pill-btn" aria-label="الاستخدام"><span id="tokenPillText">0 توكن · $0.00</span></button>
   </header>
 
@@ -1251,6 +1252,7 @@ details.settings-block[open] summary:after {
       <div class="gen-controls">
         <textarea id="imgPrompt" placeholder="صف الصورة التي تريد توليدها..."></textarea>
         <div class="gen-row">
+          <select id="imgProviderSelect" title="مزوّد توليد الصور"></select>
           <select id="imgModelSelect"></select>
           <select id="imgSize">
             <option value="1024x1024">مربع 1:1 (1024)</option>
@@ -1286,6 +1288,7 @@ details.settings-block[open] summary:after {
       <div class="gen-controls">
         <textarea id="vidPrompt" placeholder="صف الفيديو الذي تريد توليده..."></textarea>
         <div class="gen-row">
+          <select id="vidProviderSelect" title="مزوّد توليد الفيديو"></select>
           <select id="vidModelSelect"></select>
           <select id="vidResolution">
             <option value="480">480p (أسرع)</option>
@@ -1460,6 +1463,19 @@ details.settings-block[open] summary:after {
     <div id="usageContent"></div>
     <div class="modal-actions"><button class="btn-ghost full" id="btnSyncRealBalance">🔄 مزامنة رصيد Pollinations الحقيقي</button></div>
     <div class="modal-actions"><button class="btn-ghost full" id="btnCloseUsage">إغلاق</button></div>
+  </div>
+</div>
+
+<div id="supportModal" class="modal">
+  <div class="modal-box">
+    <h3>💚 إدعمني / Support Me</h3>
+    <div class="about-box">
+      <p>إذا أعجبك هذا التطبيق يمكنك دعمي بأي مبلغ عبر شبكة <b>BNB Smart Chain (BEP20)</b> — يقبل <b>BNB</b> و <b>USDT</b>:</p>
+      <p style="color:var(--mint-faint);">If you like this app you can support me with any amount via <b>BNB Smart Chain (BEP20)</b> — accepts <b>BNB</b> &amp; <b>USDT</b>:</p>
+    </div>
+    <div class="proxy-code-box" id="supportWalletAddress" style="text-align:center; font-size:12px; user-select:all;">0x422e4ed7959958b4f0fec76fd3149af49a43c768</div>
+    <div class="modal-actions"><button class="btn-primary full" id="btnCopyWallet">📋 نسخ عنوان المحفظة / Copy Wallet Address</button></div>
+    <div class="modal-actions"><button class="btn-ghost full" id="btnCloseSupport">إغلاق / Close</button></div>
   </div>
 </div>
 
@@ -1659,6 +1675,56 @@ var DEFAULT_PROVIDERS = [
     defaultModel:'@cf/meta/llama-3.3-70b-instruct-fp8-fast',
     staticModels:['@cf/meta/llama-3.3-70b-instruct-fp8-fast','@cf/openai/gpt-oss-120b','@cf/google/gemma-3-12b-it','@cf/qwen/qwen2.5-coder-32b-instruct'],
     extraFields:[{key:'accountId', label:'Cloudflare Account ID'}]
+  },
+  {
+    id:'github-models', name:'GitHub Models', kind:'openai-compat',
+    baseUrl:'https://models.github.ai/inference',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, corsMode:'auto',
+    signupUrl:'https://github.com/settings/tokens',
+    signupNote:'مجاني تماماً بحساب GitHub — أنشئ Personal Access Token (fine-grained أو classic بدون صلاحيات خاصة، فقط فعّل "Models: read"). يمنحك وصولاً مجانياً لنماذج GPT-4o وLlama وPhi وMistral وغيرها ضمن حصة يومية.',
+    defaultModel:'openai/gpt-4o-mini',
+    staticModels:['openai/gpt-4o-mini','openai/gpt-4o','openai/gpt-4.1-mini','openai/gpt-4.1','meta/llama-3.3-70b-instruct','meta/llama-4-scout-17b-16e-instruct','mistral-ai/mistral-small-2503','microsoft/phi-4','deepseek/deepseek-v3-0324','xai/grok-3-mini','cohere/cohere-command-a']
+  },
+  {
+    id:'together', name:'Together AI', kind:'openai-compat',
+    baseUrl:'https://api.together.xyz/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, corsMode:'auto',
+    signupUrl:'https://api.together.ai/settings/api-keys',
+    signupNote:'تسجيل بالإيميل — رصيد مجاني عند التسجيل بدون بطاقة. نماذج مفتوحة المصدر قوية + نماذج مجانية (تنتهي بـ "-Free").',
+    defaultModel:'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
+    staticModels:['meta-llama/Llama-3.3-70B-Instruct-Turbo-Free','deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free','meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo']
+  },
+  {
+    id:'mistral', name:'Mistral AI', kind:'openai-compat',
+    baseUrl:'https://api.mistral.ai/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, corsMode:'auto',
+    signupUrl:'https://console.mistral.ai/api-keys',
+    signupNote:'تسجيل بالإيميل — طبقة مجانية (Experiment) بدون بطاقة عبر La Plateforme.',
+    defaultModel:'mistral-small-latest',
+    staticModels:['mistral-small-latest','mistral-large-latest','open-mistral-nemo','codestral-latest','pixtral-12b-2409']
+  },
+  {
+    id:'deepinfra', name:'DeepInfra', kind:'openai-compat',
+    baseUrl:'https://api.deepinfra.com/v1/openai',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, corsMode:'auto',
+    signupUrl:'https://deepinfra.com/dash/api_keys',
+    signupNote:'تسجيل بحساب GitHub أو Google — بدون بطاقة، تجربة مجانية. نماذج مفتوحة المصدر بأسعار زهيدة جداً.',
+    defaultModel:'meta-llama/Meta-Llama-3.1-8B-Instruct',
+    staticModels:['meta-llama/Meta-Llama-3.1-8B-Instruct','meta-llama/Llama-3.3-70B-Instruct','Qwen/Qwen2.5-Coder-32B-Instruct','deepseek-ai/DeepSeek-V3']
+  },
+  {
+    id:'sambanova', name:'SambaNova', kind:'openai-compat',
+    baseUrl:'https://api.sambanova.ai/v1',
+    chatPath:'/chat/completions', modelsPath:'/models',
+    keyless:false, corsMode:'auto',
+    signupUrl:'https://cloud.sambanova.ai/apis',
+    signupNote:'تسجيل بالإيميل — طبقة مجانية بدون بطاقة. استدلال سريع جداً لنماذج Llama وDeepSeek.',
+    defaultModel:'Meta-Llama-3.3-70B-Instruct',
+    staticModels:['Meta-Llama-3.3-70B-Instruct','Meta-Llama-3.1-8B-Instruct','DeepSeek-R1-Distill-Llama-70B','QwQ-32B']
   }
 ];
 // مزودون أُزيلوا من الإصدارات السابقة ويجب تنظيفهم تلقائياً من أي تخزين محلي قديم:
@@ -1669,8 +1735,67 @@ var DEPRECATED_PROVIDER_IDS = ['nvidia', 'huggingface'];
 /* ---------- State ---------- */
 var LS_KEY = 'MatrixAI_State_V100';
 var LS_DEAD = 'MatrixAI_DeadMap_V100';
+var LS_ROUTES = 'MatrixAI_AutoRoutes_V100';
 var state = null;
 var deadMap = {};
+
+/* ---------- الفحص التلقائي لمسار الاتصال (مباشر / بروكسي) ----------
+   يفحص التطبيق كل مزوّد تلقائياً: إن نجح النداء المباشر يُسجَّل "direct"،
+   وإن اكتشف حجب CORS يجرّب قائمة بروكسيات عامة واحداً تلو الآخر ويحفظ
+   أول بروكسي ناجح لهذا المزوّد — كل ذلك أوتوماتيكياً وبدون تدخل المستخدم. */
+var PUBLIC_CORS_PROXIES = [
+  'https://corsproxy.io/?url=',
+  'https://api.codetabs.com/v1/proxy?quest=',
+  'https://cors.eu.org/',
+  'https://api.allorigins.win/raw?url='
+];
+var autoProxyMap = {}; // { providerId: '' (مباشر) أو بادئة بروكسي ناجحة }
+
+function loadAutoRoutes(){
+  try{ return JSON.parse(localStorage.getItem(LS_ROUTES) || '{}'); }catch(e){ return {}; }
+}
+function saveAutoRoutes(){
+  try{ localStorage.setItem(LS_ROUTES, JSON.stringify(autoProxyMap)); }catch(e){}
+}
+
+// يكتشف تلقائياً أفضل مسار اتصال لمزوّد: مباشر أولاً، ثم البروكسيات العامة
+async function autoDetectRoute(provider){
+  var testPath = provider.modelsPath || '';
+  var rawBase = provider.baseUrl || '';
+  if (provider.baseUrlTemplate){
+    rawBase = provider.baseUrlTemplate.replace(/\{(\w+)\}/g, function(m, key){
+      return (provider.extraFieldValues && provider.extraFieldValues[key]) || m;
+    });
+  }
+  if (!rawBase) return '';
+  var headers = {};
+  if (provider.apiKey) headers['Authorization'] = 'Bearer ' + provider.apiKey;
+
+  // 1) محاولة مباشرة
+  try{
+    var ctrl = new AbortController(); var t = setTimeout(function(){ ctrl.abort(); }, 7000);
+    var res = await fetch(rawBase + testPath, {headers:headers, signal:ctrl.signal});
+    clearTimeout(t);
+    if (res.status < 500){ autoProxyMap[provider.id] = ''; saveAutoRoutes(); return ''; }
+  }catch(e){ /* CORS أو شبكة — نجرب البروكسيات */ }
+
+  // 2) تجربة البروكسيات العامة بالترتيب
+  for (var i = 0; i < PUBLIC_CORS_PROXIES.length; i++){
+    var proxy = PUBLIC_CORS_PROXIES[i];
+    try{
+      var ctrl2 = new AbortController(); var t2 = setTimeout(function(){ ctrl2.abort(); }, 8000);
+      var res2 = await fetch(proxy + rawBase + testPath, {headers:headers, signal:ctrl2.signal});
+      clearTimeout(t2);
+      if (res2.status < 500){
+        autoProxyMap[provider.id] = proxy;
+        saveAutoRoutes();
+        toast('🔀 ' + provider.name + ': تم تفعيل بروكسي تلقائي لتخطي حجب CORS');
+        return proxy;
+      }
+    }catch(e){ /* البروكسي التالي */ }
+  }
+  return null; // لا مسار ناجح
+}
 
 function freshState(){
   var s = {
@@ -1791,6 +1916,9 @@ function getEffectiveBaseUrl(provider){
   if (proxy && provider.corsMode !== 'direct-forced'){
     return proxy.replace(/\/$/, '') + '?url=' + encodeURIComponent(base);
   }
+  // مسار مكتشَف تلقائياً (فحص CORS الأوتوماتيكي): بادئة بروكسي عامة ناجحة
+  var autoRoute = autoProxyMap[provider.id];
+  if (autoRoute) return autoRoute + base;
   return base;
 }
 // يميّز فشل CORS/الشبكة (TypeError عام من fetch بلا حالة HTTP) عن خطأ HTTP
@@ -1900,16 +2028,52 @@ async function testProvider(provider){
     setProviderStatus(provider.id, 'error'); 
     return false;
   }catch(e){
-    // fetch يرمي TypeError عام لكل من حجب CORS وانقطاع الشبكة — لا توجد طريقة
-    // برمجية للتفريق بينهما بيقين من داخل المتصفح، فنعرض الحالة الأرجح بصياغة تحوطية
-    setProviderStatus(provider.id, looksLikeCorsOrNetworkFailure(e) ? 'cors-blocked' : 'error');
+    // فشل مباشر (CORS/شبكة) — يفحص التطبيق تلقائياً إن كان المزوّد يحتاج بروكسي
+    // ويجرّب البروكسيات العامة واحداً تلو الآخر، ثم يعيد الاختبار عبر المسار الناجح
+    if (looksLikeCorsOrNetworkFailure(e)){
+      var route = await autoDetectRoute(provider);
+      if (route !== null && route !== undefined && route !== ''){
+        try{
+          var headers2 = {};
+          if (provider.apiKey) headers2['Authorization'] = 'Bearer ' + provider.apiKey;
+          var ctrl3 = new AbortController();
+          var t3 = setTimeout(function(){ ctrl3.abort(); }, 8000);
+          var res3 = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers2, signal:ctrl3.signal});
+          clearTimeout(t3);
+          if (res3.ok){ setProviderStatus(provider.id, 'alive'); fetchModels(provider, true); return true; }
+          if (res3.status === 401 || res3.status === 403){ setProviderStatus(provider.id, 'needs-key'); return false; }
+        }catch(e2){ /* حتى البروكسي فشل */ }
+      }
+      setProviderStatus(provider.id, 'cors-blocked');
+      return false;
+    }
+    setProviderStatus(provider.id, 'error');
     return false;
+  }
+}
+
+// الاختيار التلقائي للمزوّد الشغال: بعد كل فحص، إن كان مزوّد الجلسة الحالية
+// معطّلاً/محجوباً يبدّل التطبيق تلقائياً لأول مزوّد "يعمل ✓"
+function autoSelectBestProvider(){
+  var session = getCurrentSession();
+  if (!session) return;
+  var current = getProvider(session.providerId);
+  var currentOk = current && current.enabled && (current.apiKey || current.keyless) && current.status !== 'error' && current.status !== 'cors-blocked' && current.status !== 'needs-key';
+  if (currentOk) return;
+  var best = enabledProviders().find(function(p){ return p.status === 'alive'; }) || enabledProviders()[0];
+  if (best && best.id !== session.providerId){
+    session.providerId = best.id;
+    session.model = best.defaultModel || session.model;
+    saveState();
+    populateChatSelectors();
+    toast('⚡ تم التبديل تلقائياً إلى المزوّد الشغال: ' + best.name);
   }
 }
 
 async function runPeriodicChecks(){
   if (!state.periodicCheck) return;
   for (var p of enabledProviders()) { await testProvider(p); }
+  autoSelectBestProvider();
 }
 
 /* ---------- Token estimation & usage ---------- */
@@ -2649,7 +2813,7 @@ function renderGallery(type){
   var el = $(type==='image'?'imgGallery':'vidGallery');
   
   if (!items.length){ 
-      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'لا توجد فيديوهات بعد ✨')+'</div>'; 
+      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��ا توجد فيديوهات بعد ✨')+'</div>'; 
       return; 
   }
   
