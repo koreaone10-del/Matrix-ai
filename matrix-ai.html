@@ -1316,7 +1316,7 @@ details.settings-block[open] summary:after {
         <div class="progress-wrap" id="vidProgressWrap"><div class="progress-track"><div class="progress-fill" id="vidProgressFill"></div></div><span id="vidProgressLabel">0%</span></div>
         <div class="provider-note">⚠️ الفيديوهات لا تُحفظ محلياً بعد إغلاق التطبيق — نزّلها إذا أردت الاحتفاظ بها. ملاحظة: نموذج wan يولّد صوتاً دائماً بغض النظر عن هذا المفتاح.</div>
       </div>
-      <div id="vidGallery" class="gallery"><div class="gallery-empty">للا توجد فيديوهات بعد ✨</div></div>
+      <div id="vidGallery" class="gallery"><div class="gallery-empty">لا توجد فيديوهات بعد ✨</div></div>
       <input type="file" id="vidRefStartInput" accept="image/*" style="display:none;">
       <input type="file" id="vidRefEndInput" accept="image/*" style="display:none;">
     </section>
@@ -1899,13 +1899,12 @@ function getProvider(id){
 }
 
 function enabledProviders(){
-    return allProviders().filter(function(p){ return p.enabled && (p.apiKey || p.keyless); });
+    return allProviders().filter(function(p){ return p.enabled; });
 }
 
 // يبني الرابط الأساسي الفعلي لمزوّد: يستبدل {placeholders} من extraFieldValues
 // (مثال: Cloudflare يحتاج {accountId})، ثم يمر عبر بروكسي شخصي إن كان مفعّلاً
 // لهذا المزوّد تحديداً أو بروكسي عام في الإعدادات — بدون أي بروكسي عام مشترك مدمج.
-
 function getEffectiveBaseUrl(provider){
   var base = provider.baseUrl || '';
   if (provider.baseUrlTemplate){
@@ -1915,19 +1914,16 @@ function getEffectiveBaseUrl(provider){
   }
   var proxy = provider.proxyUrl || state.globalProxyUrl;
   if (proxy && provider.corsMode !== 'direct-forced'){
-    if (/\?url=|\?quest=/.test(proxy)) {
-      return proxy + encodeURIComponent(base);
-    }
     return proxy.replace(/\/$/, '') + '?url=' + encodeURIComponent(base);
   }
+  // مسار مكتشَف تلقائياً (فحص CORS الأوتوماتيكي): بادئة بروكسي عامة ناجحة
   var autoRoute = autoProxyMap[provider.id];
-  if (autoRoute) {
-    if (/\?url=|\?quest=/.test(autoRoute)) return autoRoute + encodeURIComponent(base);
-    return autoRoute + base;
-  }
+  if (autoRoute) return autoRoute + base;
   return base;
 }
-
+// يميّز فشل CORS/الشبكة (TypeError عام من fetch بلا حالة HTTP) عن خطأ HTTP
+// حقيقي أرسله الخادم فعلاً؛ هذا هو أقصى ما يستطيعه أي كود يعمل من المتصفح لأن
+// المواصفة تُخفي تفاصيل خطأ CORS عن جافاسكربت عمداً لأسباب أمنية.
 function looksLikeCorsOrNetworkFailure(err){
   return err instanceof TypeError;
 }
@@ -2287,49 +2283,49 @@ function updateContextBar(){
 // للمحادثة — النسخ يبقى دائماً للنص الكامل بغض النظر عن حالة الطي.
 var CODE_COLLAPSE_LINE_THRESHOLD = 60;
 
-
 function renderMarkdown(text){
   // إخفاء التفكير في العرض النهائي
-  var cleaned = text.replace(/<think>([\s\S]*?)(?:<\/think>|$)/g, '').trim();
-
-  // معالجة كتل الكود أولاً (قبل escapeHtml)
-  var codeBlocks = [];
-  cleaned = cleaned.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
+  var html = text.replace(/<think>([\s\S]*?)(?:<\/think>|$)/g, '').trim();
+  html = escapeHtml(html);
+  
+  html = html.replace(/```(\w+)?\n?([\s\S]*?)```/g, function(m, lang, code){
     var id = 'code_' + Math.random().toString(36).slice(2,8);
     var lineCount = code.split('\n').length;
     var collapsed = lineCount > CODE_COLLAPSE_LINE_THRESHOLD;
     var expandBtn = collapsed ? '<button class="expand-btn" data-expand-target="'+id+'-block">عرض الكل ('+lineCount+' سطر)</button>' : '';
-    var placeholder = '___CODE_BLOCK_'+codeBlocks.length+'___';
-    codeBlocks.push({
-      placeholder: placeholder,
-      html: '<div class="code-block'+(collapsed?' collapsed':'')+'" id="'+id+'-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
-             '<span class="cb-lines">'+lineCount+' سطر</span>'+expandBtn+
-             '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
-             '<pre><code id="'+id+'" dir="ltr">'+escapeHtml(code)+'</code></pre></div>'
-    });
-    return placeholder;
+    return '<div class="code-block'+(collapsed?' collapsed':'')+'" id="'+id+'-block"><div class="code-head"><span>'+(lang||'code')+'</span>'+
+           '<span class="cb-lines">'+lineCount+' سطر</span>'+expandBtn+
+           '<button class="copy-btn" data-target="'+id+'">نسخ</button></div>'+
+           '<pre><code id="'+id+'" dir="ltr">'+code+'</code></pre></div>';
   });
-
-  // تهريب HTML للنص المتبقي
-  cleaned = escapeHtml(cleaned);
-
-  // معالجة inline code
-  cleaned = cleaned.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
-
-  // معالجة bold و italic
-  cleaned = cleaned.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  cleaned = cleaned.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-
-  // فقرات
-  cleaned = cleaned.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
-
-  // استعادة كتل الكود
-  codeBlocks.forEach(function(cb){
-    cleaned = cleaned.replace(cb.placeholder, cb.html);
-  });
-
-  return cleaned;
+  
+  html = html.replace(/`([^`]+)`/g, '<code dir="ltr">$1</code>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  html = html.split(/\n{2,}/).map(function(p){ return '<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
+  
+  return html;
 }
+
+document.addEventListener('click', function(e){
+  if (e.target.classList && e.target.classList.contains('expand-btn')){
+    var block = $(e.target.getAttribute('data-expand-target'));
+    if (block){ block.classList.remove('collapsed'); e.target.remove(); }
+  }
+  if (e.target.classList && e.target.classList.contains('copy-btn')){
+    var codeEl = $(e.target.getAttribute('data-target'));
+    if (codeEl && navigator.clipboard){
+      navigator.clipboard.writeText(codeEl.textContent).then(function(){
+        e.target.textContent = 'تم!'; 
+        setTimeout(function(){ e.target.textContent='نسخ'; }, 1500);
+      });
+    }
+  }
+});
+
+/* ---------- Request engine ---------- */
+var currentAbortController = null; 
+var isStreaming = false;
 
 function buildFallbackChain(primaryId, primaryModel){
   var chain = []; 
@@ -2817,7 +2813,7 @@ function renderGallery(type){
   var el = $(type==='image'?'imgGallery':'vidGallery');
   
   if (!items.length){ 
-      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��لا توجد فيديوهات بعد ✨')+'</div>'; 
+      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��ا توجد فيديوهات بعد ✨')+'</div>'; 
       return; 
   }
   
@@ -3097,7 +3093,6 @@ function renderProvidersList(){
     el.appendChild(card);
   });
 }
-
 
 function renderFallbackOrder(){
   var el = $('fallbackOrderList'); 
@@ -3384,29 +3379,27 @@ function renderArenaLeaderboard(){
   el.innerHTML = html;
 }
 
-function openUsageModal(){
-  var html = '';
-  var totalIn = 0, totalOut = 0;
-  Object.keys(state.usageByProvider||{}).forEach(function(pid){
-    var u = state.usageByProvider[pid];
-    var p = getProvider(pid);
-    var name = p ? p.name : pid;
-    var cost = costFor(pid, u.in, u.out);
-    html += '<div class="usage-row"><span>'+name+'</span><span><b>'+fmtNum(u.in+u.out)+'</b> توكن · $'+cost.toFixed(4)+'</span></div>';
-    totalIn += u.in; totalOut += u.out;
-  });
-  if (!html) html = '<p style="color:var(--mint-faint)">لا يوجد استخدام مسجّل بعد.</p>';
-  html = '<div style="margin-bottom:10px;font-size:13px;color:var(--mint-dim)">إجمالي: <b>'+fmtNum(totalIn+totalOut)+'</b> توكن · $'+costFor(null,totalIn,totalOut).toFixed(4)+'</div>' + html;
-  $('usageContent').innerHTML = html;
-  $('usageModal').classList.add('show');
-}
-
 function bindEvents(){
   // Topbar
   $('btnSessions').addEventListener('click', openDrawer);
   $('btnCloseSessions').addEventListener('click', closeDrawer);
   $('btnNewSession').addEventListener('click', createSession);
-  $('btnUsage').addEventListener('click', openUsageModal);
+  $('btnUsage').addEventListener('click', function(){
+    var html = '';
+    var totalIn = 0, totalOut = 0;
+    Object.keys(state.usageByProvider||{}).forEach(function(pid){
+      var u = state.usageByProvider[pid];
+      var p = getProvider(pid);
+      var name = p ? p.name : pid;
+      var cost = costFor(pid, u.in, u.out);
+      html += '<div class="usage-row"><span>'+name+'</span><span><b>'+fmtNum(u.in+u.out)+'</b> توكن · $'+cost.toFixed(4)+'</span></div>';
+      totalIn += u.in; totalOut += u.out;
+    });
+    if (!html) html = '<p style="color:var(--mint-faint)">لا يوجد استخدام مسجّل بعد.</p>';
+    html = '<div style="margin-bottom:10px;font-size:13px;color:var(--mint-dim)">إجمالي: <b>'+fmtNum(totalIn+totalOut)+'</b> توكن · $'+costFor(null,totalIn,totalOut).toFixed(4)+'</div>' + html;
+    $('usageContent').innerHTML = html;
+    $('usageModal').classList.add('show');
+  });
   $('btnCloseUsage').addEventListener('click', function(){ $('usageModal').classList.remove('show'); });
   $('btnSyncRealBalance').addEventListener('click', syncPollinationsBalance);
   $('btnSupport').addEventListener('click', function(){ $('supportModal').classList.add('show'); });
@@ -3591,7 +3584,6 @@ function init(){
   renderArenaProviderGrid();
   updateTokenPill();
 
-  // تهيئة القيم
   $('autoFallback').checked = state.autoFallback;
   $('thinkToggle').checked = state.thinkMode;
   $('settingsAutoFallback').checked = state.autoFallback;
@@ -3599,18 +3591,15 @@ function init(){
   $('remoteManifestUrl').value = state.remoteManifestUrl || '';
   $('globalProxyUrl').value = state.globalProxyUrl || '';
 
-  // إظهار الترحيب إذا لزم
   if (state.firstRun !== false) {
     $('welcomeModal').classList.add('show');
   }
 
-  // بدء الفحص الدوري
   if (state.periodicCheck) {
     setInterval(runPeriodicChecks, 10*60*1000);
     setTimeout(runPeriodicChecks, 3000);
   }
 
-  // تحميل selectors الصور/الفيديو
   populateImageVideoSelectors();
 }
 
