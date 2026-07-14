@@ -1671,7 +1671,7 @@ var DEFAULT_PROVIDERS = [
     chatPath:'/chat/completions', modelsPath:'',
     keyless:false, corsMode:'direct',
     signupUrl:'https://dash.cloudflare.com/?to=/:account/ai/workers-ai',
-    signupNote:'تسجيل بالإيميل — بدون بطاقة. 10,000 "نيورون" مجانياً يومياً. يحتاج API Token + Account ID (تجدهما في لوحة Cloudflare).',
+    signupNote:'تسجيل بالإيميل — بدون بطاقة. 10,000 "نيورون" مجاناً يومياً. يحتاج API Token + Account ID (تجدهما في لوحة Cloudflare).',
     defaultModel:'@cf/meta/llama-3.3-70b-instruct-fp8-fast',
     staticModels:['@cf/meta/llama-3.3-70b-instruct-fp8-fast','@cf/openai/gpt-oss-120b','@cf/google/gemma-3-12b-it','@cf/qwen/qwen2.5-coder-32b-instruct'],
     extraFields:[{key:'accountId', label:'Cloudflare Account ID'}]
@@ -1744,7 +1744,7 @@ var deadMap = {};
    وإن اكتشف حجب CORS يجرّب قائمة بروكسيات عامة واحداً تلو الآخر ويحفظ
    أول بروكسي ناجح لهذا المزوّد — كل ذلك أوتوماتيكياً وبدون تدخل المستخدم. */
 var PUBLIC_CORS_PROXIES = [
-  'https://corsproxy.io/?',
+  'https://corsproxy.io/?url=',
   'https://api.codetabs.com/v1/proxy?quest=',
   'https://cors.eu.org/',
   'https://api.allorigins.win/raw?url='
@@ -1774,7 +1774,7 @@ async function autoDetectRoute(provider){
   // 1) محاولة مباشرة
   try{
     var ctrl = new AbortController(); var t = setTimeout(function(){ ctrl.abort(); }, 7000);
-    var res = await fetch(rawBase + testPath, {headers:headers, signal:ctrl.signal, mode:'cors', credentials:'omit'});
+    var res = await fetch(rawBase + testPath, {headers:headers, signal:ctrl.signal});
     clearTimeout(t);
     if (res.status < 500){ autoProxyMap[provider.id] = ''; saveAutoRoutes(); return ''; }
   }catch(e){ /* CORS أو شبكة — نجرب البروكسيات */ }
@@ -1784,7 +1784,7 @@ async function autoDetectRoute(provider){
     var proxy = PUBLIC_CORS_PROXIES[i];
     try{
       var ctrl2 = new AbortController(); var t2 = setTimeout(function(){ ctrl2.abort(); }, 8000);
-      var res2 = await fetch(proxy + encodeURIComponent(rawBase + testPath), {headers:headers, signal:ctrl2.signal, mode:'cors', credentials:'omit'});
+      var res2 = await fetch(proxy + rawBase + testPath, {headers:headers, signal:ctrl2.signal});
       clearTimeout(t2);
       if (res2.status < 500){
         autoProxyMap[provider.id] = proxy;
@@ -1914,15 +1914,11 @@ function getEffectiveBaseUrl(provider){
   }
   var proxy = provider.proxyUrl || state.globalProxyUrl;
   if (proxy && provider.corsMode !== 'direct-forced'){
-    // تعديل: نستخدم encodeURIComponent دائماً للبروكسي الشخصي
     return proxy.replace(/\/$/, '') + '?url=' + encodeURIComponent(base);
   }
   // مسار مكتشَف تلقائياً (فحص CORS الأوتوماتيكي): بادئة بروكسي عامة ناجحة
   var autoRoute = autoProxyMap[provider.id];
-  if (autoRoute) {
-    // تعديل: encodeURIComponent للمسار التلقائي أيضاً
-    return autoRoute + encodeURIComponent(base);
-  }
+  if (autoRoute) return autoRoute + base;
   return base;
 }
 // يميّز فشل CORS/الشبكة (TypeError عام من fetch بلا حالة HTTP) عن خطأ HTTP
@@ -1978,7 +1974,7 @@ async function fetchModels(provider, forceRefresh){
       var ctrl = new AbortController();
       var t = setTimeout(function(){ ctrl.abort(); }, 9000);
 
-      var res = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers, signal:ctrl.signal, mode:'cors', credentials:'omit'});
+      var res = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers, signal:ctrl.signal});
       clearTimeout(t);
 
       if (res.ok){
@@ -2023,7 +2019,7 @@ async function testProvider(provider){
     var ctrl = new AbortController();
     var t = setTimeout(function(){ ctrl.abort(); }, 8000);
 
-    var res = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers, signal:ctrl.signal, mode:'cors', credentials:'omit'});
+    var res = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers, signal:ctrl.signal});
     clearTimeout(t);
 
     if (res.ok){ setProviderStatus(provider.id, 'alive'); fetchModels(provider, true); return true; }
@@ -2042,7 +2038,7 @@ async function testProvider(provider){
           if (provider.apiKey) headers2['Authorization'] = 'Bearer ' + provider.apiKey;
           var ctrl3 = new AbortController();
           var t3 = setTimeout(function(){ ctrl3.abort(); }, 8000);
-          var res3 = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers2, signal:ctrl3.signal, mode:'cors', credentials:'omit'});
+          var res3 = await fetch(getEffectiveBaseUrl(provider) + provider.modelsPath, {headers:headers2, signal:ctrl3.signal});
           clearTimeout(t3);
           if (res3.ok){ setProviderStatus(provider.id, 'alive'); fetchModels(provider, true); return true; }
           if (res3.status === 401 || res3.status === 403){ setProviderStatus(provider.id, 'needs-key'); return false; }
@@ -2067,7 +2063,7 @@ function autoSelectBestProvider(){
   var best = enabledProviders().find(function(p){ return p.status === 'alive'; }) || enabledProviders()[0];
   if (best && best.id !== session.providerId){
     session.providerId = best.id;
-    session.model = best.defaultModel || session.model;
+    session.model = effectiveModelFor(best);
     saveState();
     populateChatSelectors();
     toast('⚡ تم التبديل تلقائياً إلى المزوّد الشغال: ' + best.name);
@@ -2331,17 +2327,28 @@ document.addEventListener('click', function(e){
 var currentAbortController = null; 
 var isStreaming = false;
 
+// بعض المزودين (OpenRouter، Hugging Face Router) بلا defaultModel ثابت لأن
+// قائمة نماذجهم ضخمة ومتغيّرة باستمرار — إرسال حقل model فارغ للـ API يفشل
+// دائماً. هذه الدالة تضمن الحصول على اسم نموذج حقيقي: النموذج المفضَّل إن
+// وُجد، وإلا defaultModel، وإلا أول نموذج مخزَّن مؤقتاً من آخر جلب لهذا المزوّد.
+function effectiveModelFor(provider, preferredModel){
+  if (preferredModel) return preferredModel;
+  if (provider.defaultModel) return provider.defaultModel;
+  if (provider.modelsCache && provider.modelsCache.length) return provider.modelsCache[0].id;
+  return '';
+}
+
 function buildFallbackChain(primaryId, primaryModel){
   var chain = []; 
   var primary = getProvider(primaryId);
   
-  if (primary) chain.push({provider:primary, model: primaryModel || primary.defaultModel});
+  if (primary) chain.push({provider:primary, model: effectiveModelFor(primary, primaryModel)});
   
   if (state.autoFallback){
     state.fallbackOrder.forEach(function(pid){
       if (pid === primaryId) return;
       var p = getProvider(pid);
-      if (p && p.enabled && (p.apiKey || p.keyless)) chain.push({provider:p, model:p.defaultModel});
+      if (p && p.enabled && (p.apiKey || p.keyless)) chain.push({provider:p, model: effectiveModelFor(p)});
     });
   }
   return chain;
@@ -2376,9 +2383,7 @@ async function streamFromProvider(provider, model, messages, promptText, onDelta
       method:'POST', 
       headers:req.headers, 
       body:JSON.stringify(req.body), 
-      signal:currentAbortController.signal,
-      mode: 'cors',
-      credentials: 'omit'
+      signal:currentAbortController.signal 
   });
   
   if (!res.ok){
@@ -2686,14 +2691,14 @@ async function generateImage(){
       form.append('prompt', prompt);
       form.append('model', model);
       form.append('image', imgRefFile, imgRefFile.name);
-      res = await fetch(base + '/v1/images/edits', {method:'POST', headers:headers, body:form, mode:'cors', credentials:'omit'});
+      res = await fetch(base + '/v1/images/edits', {method:'POST', headers:headers, body:form});
     } else {
       var params = new URLSearchParams({model:model, width:w, height:h, seed:String(Math.floor(Math.random()*1e9)), nologo:'true'});
       if (IMG_QUALITY_MODELS.indexOf(model)!==-1){
         params.set('quality', $('imgQuality').value);
         if ($('imgTransparent').checked) params.set('transparent','true');
       }
-      res = await fetch(base + '/image/' + encodeURIComponent(prompt) + '?' + params.toString(), {headers:headers, mode:'cors', credentials:'omit'});
+      res = await fetch(base + '/image/' + encodeURIComponent(prompt) + '?' + params.toString(), {headers:headers});
     }
     if (!res.ok){ var et=''; try{et=(await res.text()).slice(0,150);}catch(e){} throw new Error('HTTP '+res.status+(et?(' — '+et):'')); }
     var blob = await res.blob();
@@ -2756,12 +2761,12 @@ async function generateVideo(){
       if (audio) form.append('audio','true');
       form.append('image', vidRefStartFile, vidRefStartFile.name);
       if (vidRefEndFile && VIDEO_END_FRAME_MODELS.indexOf(model)!==-1) form.append('image_end', vidRefEndFile, vidRefEndFile.name);
-      res = await fetch(base + '/video/' + encodeURIComponent(prompt), {method:'POST', headers:headers, body:form, mode:'cors', credentials:'omit'});
+      res = await fetch(base + '/video/' + encodeURIComponent(prompt), {method:'POST', headers:headers, body:form});
       if (!res.ok) throw new Error('فشل التوليد بصورة مرجعية (HTTP '+res.status+') — جرّب توليد فيديو من نص فقط بدون صورة مرجعية');
     } else {
       var params = new URLSearchParams({model:model, width:dims[0], height:dims[1], duration:String(duration), aspectRatio:aspect, seed:String(Math.floor(Math.random()*1e9))});
       if (audio) params.set('audio','true');
-      res = await fetch(base + '/video/' + encodeURIComponent(prompt) + '?' + params.toString(), {headers:headers, mode:'cors', credentials:'omit'});
+      res = await fetch(base + '/video/' + encodeURIComponent(prompt) + '?' + params.toString(), {headers:headers});
       if (!res.ok){ var et=''; try{et=(await res.text()).slice(0,150);}catch(e){} throw new Error('HTTP '+res.status+(et?(' — '+et):'')); }
     }
     var blob = await res.blob();
@@ -2819,7 +2824,7 @@ function renderGallery(type){
   var el = $(type==='image'?'imgGallery':'vidGallery');
   
   if (!items.length){ 
-      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'لا توجد فيديوهات بعد ✨')+'</div>'; 
+      el.innerHTML = '<div class="gallery-empty">'+(type==='image'?'لا توجد صور بعد ✨':'��ا توجد فيديوهات بعد ✨')+'</div>'; 
       return; 
   }
   
@@ -2857,7 +2862,7 @@ async function syncPollinationsBalance(){
   var provider = getProvider('pollinations');
   if (!provider || !provider.apiKey){ toast('❌ أضف مفتاح Pollinations أولاً'); return; }
   try{
-    var res = await fetch(getEffectiveBaseUrl(provider) + provider.balancePath, {headers:{'Authorization':'Bearer '+provider.apiKey}, mode:'cors', credentials:'omit'});
+    var res = await fetch(getEffectiveBaseUrl(provider) + provider.balancePath, {headers:{'Authorization':'Bearer '+provider.apiKey}});
     if (!res.ok) throw new Error('HTTP '+res.status);
     var json = await res.json();
     var val = json.balance ?? json.pollen ?? json.usd ?? json.credits ?? null;
@@ -2888,6 +2893,13 @@ async function populateChatSelectors(){
   session.providerId = provSel.value || session.providerId; 
   saveState();
   await populateModelSelect($('chatModelSelect'), session.providerId, session.model);
+  // القائمة قد تختار أول نموذج تلقائياً (مثلاً عند مزوّد بلا defaultModel
+  // ثابت) دون أن يُحدَّث session.model — هذا يضمن تطابق ما يُرسَل فعلياً مع
+  // ما يظهر في الواجهة.
+  if ($('chatModelSelect').value && $('chatModelSelect').value !== session.model){
+    session.model = $('chatModelSelect').value;
+    saveState();
+  }
 }
 
 async function populateModelSelect(selectEl, providerId, currentModel){
@@ -2927,7 +2939,7 @@ async function populateImageVideoSelectors(){
     try{
       var ctrl = new AbortController(); var t = setTimeout(function(){ ctrl.abort(); }, 7000);
       var res = await fetch(getEffectiveBaseUrl(pollinations) + pollinations.imageModelsPath, {
-        headers:{'Authorization':'Bearer '+pollinations.apiKey}, signal:ctrl.signal, mode:'cors', credentials:'omit'
+        headers:{'Authorization':'Bearer '+pollinations.apiKey}, signal:ctrl.signal
       });
       clearTimeout(t);
       if (res.ok){
@@ -3279,7 +3291,7 @@ function fetchRemoteManifest(){
   var url = $('remoteManifestUrl').value.trim();
   if (!url){ toast('❌ أدخل الرابط أولاً'); return; }
   toast('⏳ جارِ الجلب...');
-  fetch(url, {mode:'cors', credentials:'omit'}).then(function(res){
+  fetch(url).then(function(res){
     if (!res.ok) throw new Error('HTTP '+res.status);
     return res.json();
   }).then(function(json){
@@ -3340,9 +3352,7 @@ function startArena(){
     fetch(req.url, {
       method:'POST',
       headers:req.headers,
-      body:JSON.stringify(req.body),
-      mode:'cors',
-      credentials:'omit'
+      body:JSON.stringify(req.body)
     }).then(function(res){
       if (!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
@@ -3438,7 +3448,7 @@ function bindEvents(){
     var session = getCurrentSession();
     session.providerId = this.value;
     var p = getProvider(this.value);
-    session.model = p ? (p.defaultModel || '') : '';
+    session.model = p ? effectiveModelFor(p) : '';
     saveState();
     populateModelSelect($('chatModelSelect'), session.providerId, session.model);
   });
