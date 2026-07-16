@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-15 02:43:52",
+  "last_updated": "2026-07-16 02:50:35",
   "providers": [
     {
       "id": "pollinations",
@@ -271,7 +271,6 @@
         "mistralai/mistral-medium-3",
         "google/gemini-2.5-pro-preview-05-06",
         "arcee-ai/virtuoso-large",
-        "arcee-ai/coder-large",
         "meta-llama/llama-guard-4-12b",
         "qwen/qwen3-30b-a3b",
         "qwen/qwen3-8b",
