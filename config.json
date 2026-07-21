@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-20 03:48:31",
+  "last_updated": "2026-07-21 02:55:55",
   "providers": [
     {
       "id": "pollinations",
@@ -18,9 +18,8 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "tencent/hy3:free",
+      "defaultModel": "poolside/laguna-xs-2.1:free",
       "staticModels": [
-        "tencent/hy3:free",
         "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
         "nvidia/nemotron-3.5-content-safety:free",
@@ -37,6 +36,7 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "meituan/longcat-2.0",
         "thinkingmachines/inkling",
         "openrouter/auto-beta",
         "moonshotai/kimi-k3",
