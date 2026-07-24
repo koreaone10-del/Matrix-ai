@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-23 03:15:06",
+  "last_updated": "2026-07-24 02:54:06",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "poolside/laguna-s-2.1:free",
+      "defaultModel": "inclusionai/ling-3.0-flash:free",
       "staticModels": [
+        "inclusionai/ling-3.0-flash:free",
         "poolside/laguna-s-2.1:free",
         "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
