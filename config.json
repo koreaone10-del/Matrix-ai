@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-24 02:54:06",
+  "last_updated": "2026-07-25 02:54:01",
   "providers": [
     {
       "id": "pollinations",
@@ -38,6 +38,8 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "anthropic/claude-opus-5-fast",
+        "anthropic/claude-opus-5",
         "poolside/laguna-s-2.1",
         "google/gemini-3.6-flash",
         "google/gemini-3.5-flash-lite",
