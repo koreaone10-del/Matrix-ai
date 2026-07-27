@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-07-26 03:19:19",
+  "last_updated": "2026-07-27 03:29:28",
   "providers": [
     {
       "id": "pollinations",
@@ -295,7 +295,6 @@
         "google/gemma-3-4b-it",
         "google/gemma-3-12b-it",
         "cohere/command-a",
-        "openai/gpt-4o-mini-search-preview",
         "openai/gpt-4o-search-preview",
         "rekaai/reka-flash-3",
         "google/gemma-3-27b-it",
@@ -329,8 +328,6 @@
         "thedrummer/unslopnemo-12b",
         "anthracite-org/magnum-v4-72b",
         "qwen/qwen-2.5-7b-instruct",
-        "inflection/inflection-3-pi",
-        "inflection/inflection-3-productivity",
         "thedrummer/rocinante-12b",
         "meta-llama/llama-3.2-1b-instruct",
         "meta-llama/llama-3.2-3b-instruct",
