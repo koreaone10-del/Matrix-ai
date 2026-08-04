@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-03 03:19:33",
+  "last_updated": "2026-08-04 02:48:55",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,7 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "qwen/qwen3.8-max",
         "~deepseek/deepseek-v4-flash-latest",
         "deepseek/deepseek-v4-flash-0731",
         "thinkingmachines/inkling-small",
