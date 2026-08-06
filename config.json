@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-05 02:46:12",
+  "last_updated": "2026-08-06 02:49:03",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,7 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "meta/muse-spark-1.2",
         "qwen/qwen3.8-max",
         "~deepseek/deepseek-v4-flash-latest",
         "deepseek/deepseek-v4-flash-0731",
@@ -44,6 +45,7 @@
         "qwen/qwen3.7-flash",
         "anthropic/claude-opus-5-fast",
         "anthropic/claude-opus-5",
+        "inclusionai/ling-3.0-flash",
         "poolside/laguna-s-2.1",
         "google/gemini-3.6-flash",
         "google/gemini-3.5-flash-lite",
