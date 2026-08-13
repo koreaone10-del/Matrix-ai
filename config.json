@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-12 02:10:19",
+  "last_updated": "2026-08-13 02:12:21",
   "providers": [
     {
       "id": "pollinations",
@@ -39,6 +39,11 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "bytedance-seed/seed-2-1-turbo",
+        "qwen/qwen3.8-2.4t-a95b",
+        "bytedance-seed/seed-2.0-code",
+        "deepseek/deepseek-v4-pro-0813",
+        "x-ai/grok-4.6",
         "nvidia/nemotron-3.5-lightning",
         "sakana/sakana-namazu",
         "upstage/solar-pro4",
@@ -47,7 +52,6 @@
         "qwen/qwen3.8-max",
         "~deepseek/deepseek-v4-flash-latest",
         "deepseek/deepseek-v4-flash-0731",
-        "bytedance-seed/seed-2.0-code",
         "thinkingmachines/inkling-small",
         "qwen/qwen3.7-flash",
         "anthropic/claude-opus-5-fast",
