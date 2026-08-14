@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-13 02:12:21",
+  "last_updated": "2026-08-14 02:10:59",
   "providers": [
     {
       "id": "pollinations",
@@ -22,7 +22,6 @@
       "staticModels": [
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
-        "inclusionai/ling-3.0-tiny:free",
         "poolside/laguna-s-2.1:free",
         "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
@@ -39,6 +38,8 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "google/gemini-3.7-flash",
+        "google/gemini-3.7-flash:batch",
         "bytedance-seed/seed-2-1-turbo",
         "qwen/qwen3.8-2.4t-a95b",
         "bytedance-seed/seed-2.0-code",
