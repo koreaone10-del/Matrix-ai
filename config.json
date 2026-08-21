@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-20 01:23:13",
+  "last_updated": "2026-08-21 01:27:41",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "dots-studio/dots-3-note-preview:free",
+      "defaultModel": "stealth/ox-alpha",
       "staticModels": [
+        "stealth/ox-alpha",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
@@ -40,6 +41,8 @@
         "nvidia/nemotron-nano-12b-v2-vl:free",
         "nvidia/nemotron-nano-9b-v2:free",
         "openai/gpt-oss-20b:free",
+        "tencent/hy-mt2-1.8b",
+        "tencent/hy-mt2-30b-a3b",
         "~z-ai/glm-latest",
         "z-ai/glm-5.3",
         "qwen/qwen3.8-27b",
@@ -396,6 +399,7 @@
         "qwen/qwen-2.5-coder-32b-instruct",
         "thedrummer/unslopnemo-12b",
         "anthracite-org/magnum-v4-72b",
+        "mistralai/ministral-8b",
         "qwen/qwen-2.5-7b-instruct",
         "thedrummer/rocinante-12b",
         "meta-llama/llama-3.2-1b-instruct",
@@ -429,6 +433,7 @@
         "openrouter/auto",
         "openai/gpt-3.5-turbo-instruct",
         "openai/gpt-3.5-turbo-16k",
+        "mancer/weaver",
         "undi95/remm-slerp-l2-13b",
         "gryphe/mythomax-l2-13b",
         "openai/gpt-3.5-turbo",
