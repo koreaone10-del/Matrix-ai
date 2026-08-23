@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-22 01:22:48",
+  "last_updated": "2026-08-23 01:36:21",
   "providers": [
     {
       "id": "pollinations",
@@ -47,6 +47,7 @@
         "tencent/hy-mt2-1.8b",
         "tencent/hy-mt2-30b-a3b",
         "~z-ai/glm-latest",
+        "tencent/hy-mt2-7b",
         "z-ai/glm-5.3",
         "qwen/qwen3.8-27b",
         "google/gemini-3.7-flash",
