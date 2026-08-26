@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-25 01:24:37",
+  "last_updated": "2026-08-26 01:28:27",
   "providers": [
     {
       "id": "pollinations",
@@ -32,11 +32,13 @@
         "z-ai/glm-5.2:free",
         "nvidia/nemotron-3.5-content-safety:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "minimax/minimax-m3:free",
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
         "google/gemma-4-26b-a4b-it:free",
         "google/gemma-4-31b-it:free",
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
+        "minimax/minimax-m2.7:free",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
         "meta/muse-spark-1.2-contributor",
@@ -285,7 +287,6 @@
         "qwen/qwen3-next-80b-a3b-thinking",
         "qwen/qwen3-next-80b-a3b-instruct",
         "qwen/qwen-plus-2025-07-28",
-        "qwen/qwen-plus-2025-07-28:thinking",
         "moonshotai/kimi-k2-0905",
         "qwen/qwen3-30b-a3b-thinking-2507",
         "nousresearch/hermes-4-70b",
@@ -332,7 +333,6 @@
         "deepseek/deepseek-r1-0528",
         "anthropic/claude-opus-4",
         "anthropic/claude-sonnet-4",
-        "google/gemma-3n-e4b-it",
         "mistralai/mistral-medium-3",
         "google/gemini-2.5-pro-preview-05-06",
         "arcee-ai/virtuoso-large",
