@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-08-26 01:28:27",
+  "last_updated": "2026-08-27 08:19:13",
   "providers": [
     {
       "id": "pollinations",
@@ -18,9 +18,8 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "stealth/ox-alpha",
+      "defaultModel": "dots-studio/dots-3-note-preview:free",
       "staticModels": [
-        "stealth/ox-alpha",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
@@ -41,6 +40,8 @@
         "minimax/minimax-m2.7:free",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "qwen/qwen3.8-flash",
+        "z-ai/glm-5.3-flash",
         "meta/muse-spark-1.2-contributor",
         "deepseek/deepseek-v4-flash-vision-exp",
         "tencent/hy-mt2-1.8b",
@@ -109,7 +110,6 @@
         "google/gemini-3.1-flash-image",
         "google/gemini-3-pro-image",
         "z-ai/glm-5.2",
-        "z-ai/glm-5.2:batch",
         "openrouter/fusion",
         "moonshotai/kimi-k2.7-code",
         "moonshotai/kimi-k2.7-code:batch",
