@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-02 03:39:07",
+  "last_updated": "2026-09-03 03:38:44",
   "providers": [
     {
       "id": "pollinations",
@@ -41,7 +41,12 @@
         "minimax/minimax-m2.7:free",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "meta/muse-spark-1.3-contributor",
+        "meta/muse-spark-1.3",
+        "google/gemini-3.8-flash",
+        "google/gemini-3.8-flash:batch",
         "anthropic/claude-fable-5.1",
+        "anthropic/claude-fable-5.1:batch",
         "inception/mercury-2.5-preview",
         "ibm-granite/granite-4.2-8b",
         "tencent/hy4-preview",
@@ -128,7 +133,6 @@
         "anthropic/claude-fable-5:batch",
         "nex-agi/nex-n2-pro",
         "nvidia/nemotron-3-ultra-550b-a55b",
-        "nvidia/nemotron-3-ultra-550b-a55b:batch",
         "qwen/qwen3.7-plus",
         "minimax/minimax-m3",
         "minimax/minimax-m3:batch",
