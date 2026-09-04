@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-03 03:38:44",
+  "last_updated": "2026-09-04 03:39:36",
   "providers": [
     {
       "id": "pollinations",
@@ -50,6 +50,7 @@
         "inception/mercury-2.5-preview",
         "ibm-granite/granite-4.2-8b",
         "tencent/hy4-preview",
+        "inclusionai/ling-3.0-flash-fin",
         "~z-ai/glm-flash-latest",
         "qwen/qwen3.8-flash",
         "z-ai/glm-5.3-flash",
@@ -132,6 +133,7 @@
         "anthropic/claude-fable-5",
         "anthropic/claude-fable-5:batch",
         "nex-agi/nex-n2-pro",
+        "nvidia/nemotron-3.5-content-safety",
         "nvidia/nemotron-3-ultra-550b-a55b",
         "qwen/qwen3.7-plus",
         "minimax/minimax-m3",
@@ -148,6 +150,7 @@
         "google/gemini-3.1-flash-lite:batch",
         "openai/gpt-chat-latest",
         "x-ai/grok-4.3",
+        "x-ai/grok-4.3:batch",
         "ibm-granite/granite-4.1-8b",
         "mistralai/mistral-medium-3-5",
         "mistralai/mistral-medium-3-5:batch",
