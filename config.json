@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-05 03:39:08",
+  "last_updated": "2026-09-06 03:40:57",
   "providers": [
     {
       "id": "pollinations",
@@ -46,6 +46,7 @@
         "openai/gpt-6-astra:batch",
         "openai/gpt-6-astra-pro",
         "openai/gpt-6-astra-pro:batch",
+        "qwen/qwen3.8-max-0902",
         "meta/muse-spark-1.3-contributor",
         "meta/muse-spark-1.3",
         "google/gemini-3.8-flash",
@@ -83,7 +84,6 @@
         "meta/muse-glimmer-30b",
         "meta/muse-glimmer-30b:batch",
         "meta/muse-spark-1.2",
-        "qwen/qwen3.8-max",
         "~deepseek/deepseek-v4-flash-latest",
         "deepseek/deepseek-v4-flash-0731",
         "deepseek/deepseek-v4-flash-0731:batch",
