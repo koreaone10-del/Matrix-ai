@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-06 03:40:57",
+  "last_updated": "2026-09-07 03:40:26",
   "providers": [
     {
       "id": "pollinations",
@@ -30,7 +30,6 @@
         "thinkingmachines/inkling:free",
         "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
-        "z-ai/glm-5.2:free",
         "nvidia/nemotron-3.5-content-safety:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
         "minimax/minimax-m3:free",
