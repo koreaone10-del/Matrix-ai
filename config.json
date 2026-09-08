@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-07 03:40:26",
+  "last_updated": "2026-09-08 03:45:24",
   "providers": [
     {
       "id": "pollinations",
@@ -32,13 +32,11 @@
         "cohere/north-mini-code:free",
         "nvidia/nemotron-3.5-content-safety:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
-        "minimax/minimax-m3:free",
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
         "google/gemma-4-26b-a4b-it:free",
         "google/gemma-4-31b-it:free",
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
-        "minimax/minimax-m2.7:free",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
         "openai/gpt-6-astra",
