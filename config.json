@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-10 03:49:14",
+  "last_updated": "2026-09-11 03:45:58",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "nex-agi/nex-n2.5-mini:free",
+      "defaultModel": "inclusionai/ling-3.0-flash-vl:free",
       "staticModels": [
+        "inclusionai/ling-3.0-flash-vl:free",
         "nex-agi/nex-n2.5-mini:free",
         "nex-agi/nex-n2.5-pro:free",
         "inclusionai/ling-3.0-flash-sante:free",
@@ -41,6 +42,7 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "deepseek/deepseek-v4.1-flash",
         "inception/mercury-2.5",
         "openai/gpt-6-astra",
         "openai/gpt-6-astra:batch",
