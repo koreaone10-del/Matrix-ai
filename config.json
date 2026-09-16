@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-15 04:04:11",
+  "last_updated": "2026-09-16 04:00:44",
   "providers": [
     {
       "id": "pollinations",
@@ -33,6 +33,7 @@
         "thinkingmachines/inkling:free",
         "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
+        "z-ai/glm-5.2:free",
         "nvidia/nemotron-3.5-content-safety:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
@@ -102,7 +103,6 @@
         "deepseek/deepseek-v4-flash-0731",
         "deepseek/deepseek-v4-flash-0731:batch",
         "thinkingmachines/inkling-small",
-        "thinkingmachines/inkling-small:batch",
         "qwen/qwen3.7-flash",
         "anthropic/claude-opus-5",
         "anthropic/claude-opus-5:batch",
@@ -200,7 +200,6 @@
         "z-ai/glm-5.1",
         "google/gemma-4-26b-a4b-it",
         "google/gemma-4-31b-it",
-        "google/gemma-4-31b-it:batch",
         "qwen/qwen3.6-plus",
         "z-ai/glm-5v-turbo",
         "arcee-ai/trinity-large-thinking",
@@ -338,7 +337,6 @@
         "openai/gpt-oss-120b",
         "openai/gpt-oss-120b:batch",
         "openai/gpt-oss-20b",
-        "openai/gpt-oss-20b:batch",
         "anthropic/claude-opus-4.1",
         "anthropic/claude-opus-4.1:batch",
         "mistralai/codestral-2508",
