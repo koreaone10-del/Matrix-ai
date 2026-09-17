@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-16 04:00:44",
+  "last_updated": "2026-09-17 04:07:59",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "inclusionai/ling-3.0-flash-vl:free",
+      "defaultModel": "stealth/union-alpha",
       "staticModels": [
+        "stealth/union-alpha",
         "inclusionai/ling-3.0-flash-vl:free",
         "nex-agi/nex-n2.5-mini:free",
         "nex-agi/nex-n2.5-pro:free",
