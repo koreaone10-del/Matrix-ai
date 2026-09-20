@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-19 03:50:27",
+  "last_updated": "2026-09-20 04:07:07",
   "providers": [
     {
       "id": "pollinations",
@@ -29,7 +29,6 @@
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
-        "deepseek/deepseek-v4-flash-0731:free",
         "thinkingmachines/inkling-small:free",
         "poolside/laguna-s-2.1:free",
         "thinkingmachines/inkling:free",
