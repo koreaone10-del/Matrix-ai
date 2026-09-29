@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-09-28 04:28:53",
+  "last_updated": "2026-09-29 04:58:09",
   "providers": [
     {
       "id": "pollinations",
@@ -22,7 +22,6 @@
       "staticModels": [
         "stealth/space-bunny-alpha",
         "inclusionai/ling-3.0-flash-sante:free",
-        "inclusionai/ling-3.0-flash-fin:free",
         "qwen/qwen3.8-27b:free",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
@@ -41,6 +40,8 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "anthropic/claude-sonnet-5.5",
+        "anthropic/claude-sonnet-5.5:batch",
         "typesafe/jev-router",
         "perceptron/perceptron-mk1.5",
         "fireworks/ember-1",
@@ -82,6 +83,8 @@
         "deepseek/deepseek-v4.1-flash",
         "deepseek/deepseek-v4.1-flash:batch",
         "inception/mercury-2.5",
+        "nex-agi/nex-n2.5-mini",
+        "nex-agi/nex-n2.5-pro",
         "openai/gpt-6-astra",
         "openai/gpt-6-astra:batch",
         "openai/gpt-6-astra-pro",
@@ -425,7 +428,6 @@
         "openai/o3-mini:batch",
         "mistralai/mistral-small-24b-instruct-2501",
         "perplexity/sonar",
-        "deepseek/deepseek-r1-distill-llama-70b",
         "deepseek/deepseek-r1",
         "minimax/minimax-01",
         "microsoft/phi-4",
