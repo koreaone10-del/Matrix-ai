@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-01 04:57:04",
+  "last_updated": "2026-10-02 04:47:15",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "stealth/space-bunny-alpha",
+      "defaultModel": "apodex/apodex-1.1-mini:free",
       "staticModels": [
+        "apodex/apodex-1.1-mini:free",
         "stealth/space-bunny-alpha",
         "inclusionai/ling-3.0-flash-sante:free",
         "qwen/qwen3.8-27b:free",
@@ -40,6 +41,7 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "unbiased/pareto-26.10-preview",
         "openai/gpt-6.1-sol-pro",
         "openai/gpt-6.1-sol",
         "anthropic/claude-sonnet-5.5",
