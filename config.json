@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-05 04:47:26",
+  "last_updated": "2026-10-06 05:34:19",
   "providers": [
     {
       "id": "pollinations",
@@ -22,9 +22,7 @@
       "staticModels": [
         "inclusionai/ling-3.1-flash",
         "apodex/apodex-1.1-mini:free",
-        "stealth/space-bunny-alpha",
         "inclusionai/ling-3.0-flash-sante:free",
-        "qwen/qwen3.8-27b:free",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
