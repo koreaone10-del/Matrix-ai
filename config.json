@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-06 05:34:19",
+  "last_updated": "2026-10-07 05:04:22",
   "providers": [
     {
       "id": "pollinations",
@@ -40,6 +40,8 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "google/gemini-nano-banana-2.1",
+        "mistralai/mistral-large-4-0",
         "unbiased/pareto-26.10-preview",
         "openai/gpt-6.1-sol-pro",
         "openai/gpt-6.1-sol",
@@ -146,7 +148,6 @@
         "moonshotai/kimi-k3",
         "moonshotai/kimi-k3:batch",
         "meta/muse-spark-1.1",
-        "kwaipilot/kat-coder-pro-v2.5",
         "openai/gpt-5.6-luna-pro",
         "openai/gpt-5.6-luna-pro:batch",
         "openai/gpt-5.6-luna",
