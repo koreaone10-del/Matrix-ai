@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-07 05:04:22",
+  "last_updated": "2026-10-08 05:14:57",
   "providers": [
     {
       "id": "pollinations",
@@ -40,6 +40,8 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "anthropic/claude-haiku-5.5",
+        "anthropic/claude-haiku-5.5:batch",
         "google/gemini-nano-banana-2.1",
         "mistralai/mistral-large-4-0",
         "unbiased/pareto-26.10-preview",
