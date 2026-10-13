@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-12 05:06:10",
+  "last_updated": "2026-10-13 06:05:54",
   "providers": [
     {
       "id": "pollinations",
@@ -39,6 +39,7 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "meta/muse-wonder",
         "stepfun/step-5-preview",
         "anthropic/claude-haiku-5.5",
         "anthropic/claude-haiku-5.5:batch",
