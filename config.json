@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-15 03:51:37",
+  "last_updated": "2026-10-16 03:47:10",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "dots-studio/dots-3-note-preview:free",
+      "defaultModel": "nvidia/nemotron-3.5-super-vl:free",
       "staticModels": [
+        "nvidia/nemotron-3.5-super-vl:free",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
@@ -37,6 +38,10 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "moondream/moondream3-preview",
+        "moondream/moondream3.1-9b-a2b",
+        "meta/muse-spark-open",
+        "nvidia/nemotron-3.5-super-vl",
         "~unbiased/pareto-latest",
         "unbiased/pareto-26.9",
         "liquid/lfm-2.5-24b-a2b",
@@ -51,7 +56,6 @@
         "google/gemini-nano-banana-2.1",
         "mistralai/mistral-large-4-0",
         "inclusionai/ling-3.1-flash",
-        "unbiased/pareto-26.10-preview",
         "openai/gpt-6.1-sol-pro",
         "openai/gpt-6.1-sol-pro:batch",
         "openai/gpt-6.1-sol",
@@ -390,7 +394,6 @@
         "openai/o3-pro",
         "google/gemini-2.5-pro-preview",
         "deepseek/deepseek-r1-0528",
-        "anthropic/claude-sonnet-4",
         "mistralai/mistral-medium-3",
         "meta-llama/llama-guard-4-12b",
         "qwen/qwen3-30b-a3b",
