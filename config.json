@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-16 03:47:10",
+  "last_updated": "2026-10-17 03:37:10",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "nvidia/nemotron-3.5-super-vl:free",
+      "defaultModel": "xingchen-agi/xing4.0-29b-a4b:free",
       "staticModels": [
+        "xingchen-agi/xing4.0-29b-a4b:free",
         "nvidia/nemotron-3.5-super-vl:free",
         "dots-studio/dots-3-note-preview:free",
         "liquid/lfm-2.5-2.6b:free",
@@ -38,6 +39,8 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "elorian/glimpse",
+        "reflection/beam-1.0-501b-a23b",
         "moondream/moondream3-preview",
         "moondream/moondream3.1-9b-a2b",
         "meta/muse-spark-open",
@@ -194,6 +197,7 @@
         "nvidia/nemotron-3.5-content-safety",
         "nvidia/nemotron-3-ultra-550b-a55b",
         "qwen/qwen3.7-plus",
+        "qwen/qwen3.7-plus:batch",
         "minimax/minimax-m3",
         "stepfun/step-3.7-flash",
         "anthropic/claude-opus-4.8",
