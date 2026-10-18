@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-17 03:37:10",
+  "last_updated": "2026-10-18 03:43:42",
   "providers": [
     {
       "id": "pollinations",
@@ -39,12 +39,14 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "deepseek/deepseek-v4.1-flash-1017",
         "elorian/glimpse",
         "reflection/beam-1.0-501b-a23b",
         "moondream/moondream3-preview",
         "moondream/moondream3.1-9b-a2b",
         "meta/muse-spark-open",
         "nvidia/nemotron-3.5-super-vl",
+        "unbiased/pareto-26.10",
         "~unbiased/pareto-latest",
         "unbiased/pareto-26.9",
         "liquid/lfm-2.5-24b-a2b",
