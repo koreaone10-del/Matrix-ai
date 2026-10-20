@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-19 03:53:22",
+  "last_updated": "2026-10-20 04:05:30",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "xingchen-agi/xing4.0-29b-a4b:free",
+      "defaultModel": "minimax/minimax-m3.1-flash:free",
       "staticModels": [
+        "minimax/minimax-m3.1-flash:free",
         "xingchen-agi/xing4.0-29b-a4b:free",
         "nvidia/nemotron-3.5-super-vl:free",
         "dots-studio/dots-3-note-preview:free",
@@ -42,6 +43,7 @@
         "deepseek/deepseek-v4.1-flash-1017",
         "elorian/glimpse",
         "reflection/beam-1.0-501b-a23b",
+        "inception/mercury-3",
         "moondream/moondream3-preview",
         "moondream/moondream3.1-9b-a2b",
         "meta/muse-spark-open",
@@ -439,11 +441,9 @@
         "openai/o3-mini:batch",
         "mistralai/mistral-small-24b-instruct-2501",
         "perplexity/sonar",
-        "deepseek/deepseek-r1",
         "minimax/minimax-01",
         "microsoft/phi-4",
         "deepseek/deepseek-chat",
-        "sao10k/l3.3-euryale-70b",
         "openai/o1",
         "cohere/command-r7b-12-2024",
         "meta-llama/llama-3.3-70b-instruct",
@@ -477,7 +477,6 @@
         "openai/gpt-4o-2024-05-13",
         "openai/gpt-4o:batch",
         "mistralai/mixtral-8x22b-instruct",
-        "microsoft/wizardlm-2-8x22b",
         "openai/gpt-4-turbo",
         "openai/gpt-4-turbo:batch",
         "mistralai/mistral-large",
