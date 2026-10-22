@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-21 03:54:25",
+  "last_updated": "2026-10-22 03:54:22",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "minimax/minimax-m3.1-flash:free",
+      "defaultModel": "recursive/flint-v1.0:free",
       "staticModels": [
+        "recursive/flint-v1.0:free",
         "minimax/minimax-m3.1-flash:free",
         "xingchen-agi/xing4.0-29b-a4b:free",
         "nvidia/nemotron-3.5-super-vl:free",
@@ -386,7 +387,6 @@
         "qwen/qwen3-coder",
         "bytedance/ui-tars-1.5-7b",
         "google/gemini-2.5-flash-lite",
-        "google/gemini-2.5-flash-lite:batch",
         "qwen/qwen3-235b-a22b-2507",
         "moonshotai/kimi-k2",
         "cognitivecomputations/dolphin-mistral-24b-venice-edition",
