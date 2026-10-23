@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-22 03:54:22",
+  "last_updated": "2026-10-23 03:58:12",
   "providers": [
     {
       "id": "pollinations",
@@ -21,7 +21,6 @@
       "defaultModel": "recursive/flint-v1.0:free",
       "staticModels": [
         "recursive/flint-v1.0:free",
-        "minimax/minimax-m3.1-flash:free",
         "xingchen-agi/xing4.0-29b-a4b:free",
         "nvidia/nemotron-3.5-super-vl:free",
         "dots-studio/dots-3-note-preview:free",
@@ -41,6 +40,7 @@
         "google/lyria-3-clip-preview",
         "nvidia/nemotron-3-super-120b-a12b:free",
         "openrouter/free",
+        "minimax/minimax-m3.1-flash",
         "deepseek/deepseek-v4.1-flash-1017",
         "elorian/glimpse",
         "reflection/beam-1.0-501b-a23b",
