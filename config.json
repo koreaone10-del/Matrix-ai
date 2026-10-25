@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-24 03:52:33",
+  "last_updated": "2026-10-25 03:51:28",
   "providers": [
     {
       "id": "pollinations",
@@ -147,6 +147,7 @@
         "bytedance-seed/seed-2.0-code",
         "deepseek/deepseek-v4-pro-0813",
         "x-ai/grok-4.6",
+        "liquid/lfm-2.5-2.6b",
         "nvidia/nemotron-3.5-lightning",
         "sakana/sakana-namazu",
         "upstage/solar-pro4",
@@ -481,13 +482,10 @@
         "mistralai/mistral-large",
         "openai/gpt-3.5-turbo-0613",
         "openrouter/auto",
-        "openai/gpt-3.5-turbo-instruct",
         "openai/gpt-3.5-turbo-16k",
         "mancer/weaver",
         "undi95/remm-slerp-l2-13b",
         "gryphe/mythomax-l2-13b",
-        "openai/gpt-3.5-turbo",
-        "openai/gpt-3.5-turbo:batch",
         "openai/gpt-4"
       ]
     },
