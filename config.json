@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-29 04:58:02",
+  "last_updated": "2026-10-30 04:57:38",
   "providers": [
     {
       "id": "pollinations",
@@ -297,7 +297,6 @@
         "qwen/qwen3-coder-next",
         "stepfun/step-3.5-flash",
         "moonshotai/kimi-k2.5",
-        "upstage/solar-pro-3",
         "minimax/minimax-m2-her",
         "writer/palmyra-x5",
         "openai/gpt-audio",
