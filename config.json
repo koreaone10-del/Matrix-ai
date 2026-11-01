@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-10-31 04:44:28",
+  "last_updated": "2026-11-01 05:06:23",
   "providers": [
     {
       "id": "pollinations",
@@ -27,9 +27,7 @@
         "liquid/lfm-2.5-2.6b:free",
         "nvidia/nemotron-3.5-lightning:free",
         "thinkingmachines/inkling-small:free",
-        "poolside/laguna-s-2.1:free",
         "thinkingmachines/inkling:free",
-        "poolside/laguna-xs-2.1:free",
         "cohere/north-mini-code:free",
         "nvidia/nemotron-3.5-content-safety:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -163,7 +161,6 @@
         "anthropic/claude-opus-5",
         "anthropic/claude-opus-5:batch",
         "inclusionai/ling-3.0-flash",
-        "poolside/laguna-s-2.1",
         "google/gemini-3.6-flash",
         "google/gemini-3.6-flash:batch",
         "google/gemini-3.5-flash-lite",
@@ -190,7 +187,6 @@
         "aion-labs/aion-3.0-mini",
         "aion-labs/aion-3.0",
         "tencent/hy3",
-        "poolside/laguna-xs-2.1",
         "anthropic/claude-sonnet-5",
         "anthropic/claude-sonnet-5:batch",
         "google/gemini-3.1-flash-lite-image",
