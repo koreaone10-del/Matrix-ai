@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-02 05:07:09",
+  "last_updated": "2026-11-03 05:52:55",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,7 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "z-ai/glm-5.3-flashx-legal",
         "particle-ai/particle-1",
         "openai/gpt-6.1-terra-pro",
         "openai/gpt-6.1-terra-pro:batch",
@@ -442,8 +443,6 @@
         "cohere/command-r-08-2024",
         "cohere/command-r-plus-08-2024",
         "sao10k/l3.1-euryale-70b",
-        "nousresearch/hermes-3-llama-3.1-70b",
-        "nousresearch/hermes-3-llama-3.1-405b",
         "sao10k/l3-lunaris-8b",
         "openai/gpt-4o-2024-08-06",
         "meta-llama/llama-3.1-70b-instruct",
