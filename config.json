@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-03 05:52:55",
+  "last_updated": "2026-11-04 05:28:52",
   "providers": [
     {
       "id": "pollinations",
@@ -18,8 +18,9 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "recursive/flint-v1.0:free",
+      "defaultModel": "stealth/crouton-alpha",
       "staticModels": [
+        "stealth/crouton-alpha",
         "recursive/flint-v1.0:free",
         "xingchen-agi/xing4.0-29b-a4b:free",
         "nvidia/nemotron-3.5-super-vl:free",
@@ -37,6 +38,7 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "tencent/hy4",
         "z-ai/glm-5.3-flashx-legal",
         "particle-ai/particle-1",
         "openai/gpt-6.1-terra-pro",
@@ -97,6 +99,7 @@
         "xiaomi/mimo-v2.6-flash",
         "xiaomi/mimo-v2.6-pro",
         "x-ai/grok-4.7",
+        "x-ai/grok-4.7:batch",
         "qwen/qwen3.8-omni-flash",
         "prism-ml/ternary-bonsai-2-27b",
         "z-ai/glm-5.3-flashx",
@@ -149,6 +152,7 @@
         "bytedance-seed/seed-2.0-code",
         "deepseek/deepseek-v4-pro-0813",
         "x-ai/grok-4.6",
+        "x-ai/grok-4.6:batch",
         "liquid/lfm-2.5-2.6b",
         "nvidia/nemotron-3.5-lightning",
         "sakana/sakana-namazu",
