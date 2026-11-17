@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-16 05:33:22",
+  "last_updated": "2026-11-17 07:11:04",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,7 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "tencent/hy4-flash",
         "qwen/qwen4-max",
         "google/gemini-4-hydrogen",
         "google/gemini-4-hydrogen:batch",
@@ -220,6 +221,7 @@
         "google/gemini-3.1-flash-image",
         "google/gemini-3-pro-image",
         "z-ai/glm-5.2",
+        "z-ai/glm-5.2:batch",
         "moonshotai/kimi-k2.7-code",
         "~anthropic/claude-fable-latest",
         "anthropic/claude-fable-5",
