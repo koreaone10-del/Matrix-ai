@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-17 07:11:04",
+  "last_updated": "2026-11-18 06:35:39",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,14 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "openai/gpt-6.2-astra-pro",
+        "openai/gpt-6.2-astra-pro:batch",
+        "openai/gpt-6.2-astra",
+        "openai/gpt-6.2-astra:batch",
+        "openai/gpt-6.2-sol-pro",
+        "openai/gpt-6.2-sol-pro:batch",
+        "openai/gpt-6.2-sol",
+        "openai/gpt-6.2-sol:batch",
         "tencent/hy4-flash",
         "qwen/qwen4-max",
         "google/gemini-4-hydrogen",
