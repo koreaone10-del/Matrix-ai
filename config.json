@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-18 06:35:39",
+  "last_updated": "2026-11-19 06:37:07",
   "providers": [
     {
       "id": "pollinations",
@@ -37,6 +37,8 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "google/gemini-4-neon",
+        "google/gemini-4-neon:batch",
         "openai/gpt-6.2-astra-pro",
         "openai/gpt-6.2-astra-pro:batch",
         "openai/gpt-6.2-astra",
