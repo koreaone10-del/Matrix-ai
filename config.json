@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-19 06:37:07",
+  "last_updated": "2026-11-20 06:24:28",
   "providers": [
     {
       "id": "pollinations",
@@ -22,14 +22,12 @@
       "staticModels": [
         "inclusionai/ling-3.2-flash:free",
         "baidu/ernie-5.5-flash-preview:free",
-        "thinkingmachines/inkling-2-small:free",
         "liquid/lfm-3-1.7b:free",
         "particle-ai/particle-1:free",
         "recursive/flint-v1.0:free",
         "nvidia/nemotron-3.5-super-vl:free",
         "dots-studio/dots-3-note-preview:free",
         "nvidia/nemotron-3.5-lightning:free",
-        "cohere/north-mini-code:free",
         "nvidia/nemotron-3-ultra-550b-a55b:free",
         "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
         "google/gemma-4-26b-a4b-it:free",
@@ -37,6 +35,7 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "mistralai/pixtral-large-2502",
         "google/gemini-4-neon",
         "google/gemini-4-neon:batch",
         "openai/gpt-6.2-astra-pro",
@@ -246,7 +245,6 @@
         "anthropic/claude-opus-4.8",
         "anthropic/claude-opus-4.8:batch",
         "qwen/qwen3.7-max",
-        "x-ai/grok-build-0.1",
         "google/gemini-3.5-flash",
         "google/gemini-3.5-flash:batch",
         "perceptron/perceptron-mk1",
@@ -465,7 +463,6 @@
         "qwen/qwen-2.5-coder-32b-instruct",
         "thedrummer/unslopnemo-12b",
         "anthracite-org/magnum-v4-72b",
-        "meta-llama/llama-3.2-1b-instruct",
         "meta-llama/llama-3.2-3b-instruct",
         "qwen/qwen-2.5-72b-instruct",
         "cohere/command-r-08-2024",
