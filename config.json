@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-26 07:31:14",
+  "last_updated": "2026-11-27 07:28:30",
   "providers": [
     {
       "id": "pollinations",
@@ -34,6 +34,7 @@
         "google/lyria-3-pro-preview",
         "google/lyria-3-clip-preview",
         "openrouter/free",
+        "inclusionai/lingsante-3.1-air-vl",
         "upstage/solar-mini-4-5",
         "upstage/solar-pro-4-contributor",
         "xiaomi/mimo-v2.6-flash-mopd",
@@ -377,6 +378,7 @@
         "deepseek/deepseek-v3.1-terminus",
         "qwen/qwen3-coder-flash",
         "qwen/qwen3-next-80b-a3b-instruct",
+        "moonshotai/kimi-k2-0905",
         "nousresearch/hermes-4-405b",
         "deepseek/deepseek-chat-v3.1",
         "z-ai/glm-4.5v",
@@ -403,6 +405,7 @@
         "bytedance/ui-tars-1.5-7b",
         "google/gemini-2.5-flash-lite",
         "qwen/qwen3-235b-a22b-2507",
+        "moonshotai/kimi-k2",
         "cognitivecomputations/dolphin-mistral-24b-venice-edition",
         "tngtech/deepseek-r1t2-chimera",
         "morph/morph-v3-large",
