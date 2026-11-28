@@ -1,6 +1,6 @@
 {
   "version": "3.0",
-  "last_updated": "2026-11-27 07:28:30",
+  "last_updated": "2026-11-28 06:57:40",
   "providers": [
     {
       "id": "pollinations",
@@ -18,9 +18,8 @@
     },
     {
       "id": "openrouter",
-      "defaultModel": "inclusionai/ling-3.2-flash:free",
+      "defaultModel": "baidu/ernie-5.5-flash-preview:free",
       "staticModels": [
-        "inclusionai/ling-3.2-flash:free",
         "baidu/ernie-5.5-flash-preview:free",
         "liquid/lfm-3-1.7b:free",
         "particle-ai/particle-1:free",
@@ -53,6 +52,7 @@
         "openai/gpt-6.2-sol:batch",
         "tencent/hy4-flash",
         "qwen/qwen4-max",
+        "inclusionai/ling-3.2-flash",
         "google/gemini-4-hydrogen",
         "google/gemini-4-hydrogen:batch",
         "baidu/ernie-light-dt-1.0-intl",
@@ -400,7 +400,6 @@
         "qwen/qwen3-30b-a3b-instruct-2507",
         "z-ai/glm-4.5",
         "z-ai/glm-4.5-air",
-        "qwen/qwen3-235b-a22b-thinking-2507",
         "qwen/qwen3-coder",
         "bytedance/ui-tars-1.5-7b",
         "google/gemini-2.5-flash-lite",
